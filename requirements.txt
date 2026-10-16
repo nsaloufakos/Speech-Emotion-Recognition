@@ -3,3 +3,4 @@ scikit-learn
 librosa
 torch
 transformers
+soundfile
