@@ -2,10 +2,12 @@ from pathlib import Path
 
 import librosa
 import torch
+import sys
 
 from torch import nn
 from transformers import AutoFeatureExtractor, Wav2Vec2Model
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from run_experiments import DATA_DIR, EMOTIONS, run_experiment
 
 OUTPUT_DIR = Path("output/wav2vec_finetuned")

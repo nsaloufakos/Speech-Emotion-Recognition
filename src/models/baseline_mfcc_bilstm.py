@@ -1,11 +1,13 @@
 from pathlib import Path
 import pandas as pd
 import librosa
+import sys
 
 import torch
 from torch import nn
 from torch.nn.utils.rnn import pack_padded_sequence
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from run_experiments import DATA_DIR, EMOTIONS, run_experiment
 
 CONFIG = {
@@ -17,7 +19,7 @@ CONFIG = {
     "epochs": 30
 }
 
-OUTPUT_DIR = Path("output/baseline")
+OUTPUT_DIR = Path("output/mfcc_baseline")
 
 class BiLSTM(nn.Module):
     def __init__(self):

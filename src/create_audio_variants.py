@@ -247,6 +247,10 @@ def main():
 
     noise_files = sorted(NOISE_DIR.rglob("*.wav"))
     for name in ACTIVE_SETTINGS:
+        if (OUTPUT_DIR / name).exists():
+            print(f"Skipping {name}: folder already exists")
+            continue
+
         create_files(df, name, noise_files)
 
 if __name__ == "__main__":

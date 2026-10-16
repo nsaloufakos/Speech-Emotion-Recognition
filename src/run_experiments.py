@@ -1,4 +1,5 @@
 from pathlib import Path
+from time import perf_counter
 import pandas as pd
 import torch
 import json
@@ -8,7 +9,7 @@ from torch.nn.utils.rnn import pad_sequence
 from torch.utils.data import DataLoader
 
 from sklearn.model_selection import GroupShuffleSplit, LeaveOneGroupOut
-from sklearn.metrics import accuracy_score, recall_score, confusion_matrix
+from sklearn.metrics import accuracy_score, recall_score, confusion_matrix, precision_recall_fscore_support
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -109,8 +110,12 @@ def run_fold(fold, features, seed, model_class, config, output_dir):
     torch.manual_seed(seed)
 
     fold_id = int(fold["fold"].iloc[0])
-    run_dir = output_dir / f"seed_{seed}" / f"fold_{fold_id:02d}"
-    run_dir.mkdir(parents = True, exist_ok = True)
+    started = perf_counter()
+
+    checkpoint_dir = output_dir / "checkpoints"
+    checkpoint_dir.mkdir(parents = True, exist_ok = True)
+
+    checkpoint_path = checkpoint_dir / f"seed_{seed}_fold_{fold_id:02d}.pt"
 
     train = fold[fold["split"] == "train"]
     val = fold[fold["split"] == "val"]
@@ -128,12 +133,15 @@ def run_fold(fold, features, seed, model_class, config, output_dir):
 
     history = []
     best_uar = -1
+    best_epoch = 0
 
     for epoch in range(1, config["epochs"] + 1):
         train_metrics, _ = run_epoch(model, train_loader, optimizer)
         val_metrics, _ = run_epoch(model, val_loader)
 
         history.append({
+            "seed": seed,
+            "fold": fold_id,
             "epoch": epoch,
             "train_loss": train_metrics["loss"],
             "val_loss": val_metrics["loss"],
@@ -143,46 +151,35 @@ def run_fold(fold, features, seed, model_class, config, output_dir):
 
         if val_metrics["uar"] > best_uar:
             best_uar = val_metrics["uar"]
-            with (run_dir / "best_model.pt").open("wb") as file:
-                torch.save(model.state_dict(), file)
+            best_epoch = epoch
 
-        print(
-            f"Seed {seed} | Fold {fold_id} | Epoch {epoch} | "
-            f"Train loss {train_metrics['loss']:.3f} | "
-            f"Validation UAR {val_metrics['uar']:.3f}"
-        )
+            torch.save(model.state_dict(), checkpoint_path)
 
-    pd.DataFrame(history).to_csv(run_dir / "history.csv", index = False)
-
-    model.load_state_dict(
-        torch.load(
-            run_dir / "best_model.pt",
-            map_location = DEVICE,
-            weights_only = True
-        )
-    )
-
+    model.load_state_dict(torch.load(checkpoint_path, map_location = DEVICE, weights_only = True))
     test_metrics, predictions = run_epoch(model, test_loader)
 
     result = test[["file", "actor_id", "emotion", "label"]].copy()
     result["predicted_label"] = predictions
-    result["predicted_emotion"] = [
-        EMOTIONS[label] for label in predictions
-    ]
+    result["predicted_emotion"] = [EMOTIONS[label] for label in predictions]
     result["fold"] = fold_id
     result["seed"] = seed
 
-    result.to_csv(run_dir / "predictions.csv", index = False)
+    fold_metrics = {
+        "seed": seed,
+        "fold": fold_id,
+        "best_epoch": best_epoch,
+        "train_recordings": len(train),
+        "val_recordings": len(val),
+        "test_recordings": len(test),
+        "val_uar": best_uar,
+        "val_loss": history[best_epoch - 1]["val_loss"],
+        **test_metrics,
+        "seconds": round(perf_counter() - started, 2)
+    }
 
-    with (run_dir / "metrics.json").open("w") as file:
-        json.dump(test_metrics, file, indent = 2)
+    print(f"{output_dir.name} | Seed {seed} | Fold {fold_id:02d} complete | val uar: {fold_metrics['val_uar']:.3f}")
 
-    print(
-        f"Test UAR: {test_metrics['uar']:.3f} | "
-        f"Test WAR: {test_metrics['war']:.3f}"
-    )
-
-    return result
+    return result, pd.DataFrame(history), fold_metrics
 
 def calculate_metrics(labels, predictions):
     return {
@@ -194,6 +191,47 @@ def calculate_metrics(labels, predictions):
             zero_division = 0
         ),
         "war": accuracy_score(labels, predictions)
+    }
+
+def evaluate_predictions(labels, predictions):
+    class_ids = range(len(EMOTIONS))
+
+    precision, recall, f1, support = precision_recall_fscore_support(
+        labels,
+        predictions,
+        labels = class_ids,
+        zero_division = 0
+    )
+
+    matrix = confusion_matrix(
+        labels,
+        predictions,
+        labels = class_ids
+    )
+
+    normalized = confusion_matrix(
+        labels,
+        predictions,
+        labels = class_ids,
+        normalize = "true"
+    )
+
+    return {
+        **calculate_metrics(labels, predictions),
+        "macro_f1": float(f1.mean()),
+        "weighted_f1": float((f1 * support).sum() / support.sum()),
+        "recordings_evaluated": int(support.sum()),
+        "per_emotion": {
+            emotion: {
+                "precision": float(precision[i]),
+                "recall": float(recall[i]),
+                "f1": float(f1[i]),
+                "support": int(support[i])
+            }
+            for i, emotion in enumerate(EMOTIONS)
+        },
+        "confusion_matrix": matrix.tolist(),
+        "confusion_matrix_normalized": normalized.tolist()
     }
 
 def collate_batch(batch):
@@ -228,13 +266,18 @@ def run_experiment(model_class, extract_features, config, output_dir):
     df = pd.read_csv(DATA_DIR / "index.csv")
     df["label"] = df["emotion"].map({emotion: i for i, emotion in enumerate(EMOTIONS)})
 
-    features = extract_features(df)
     splits = load_splits(df)
-    splits.to_csv(output_dir / "splits.csv", index = False)
 
     with (output_dir / "config.json").open("w") as file:
-        json.dump(config, file, indent = 2)
+        json.dump({**config, "splits_path": str(SPLITS_PATH)}, file, indent = 2)
 
+
+    features = extract_features(df)
+    print(f"Starting {output_dir.name}")
+
+    predictions = []
+    histories = []
+    fold_results = []
     seed_results = []
 
     for seed in config["seeds"]:
@@ -242,37 +285,57 @@ def run_experiment(model_class, extract_features, config, output_dir):
 
         for fold_id in config["folds"]:
             fold = splits[splits["fold"] == fold_id]
-            results.append(run_fold(fold, features, seed, model_class, config, output_dir))
 
-        predictions = pd.concat(results, ignore_index = True)
-        predictions.to_csv(output_dir / f"predictions_seed_{seed}.csv", index = False)
+            if fold.empty:
+                raise ValueError(f"Fold {fold_id} is missing from {SPLITS_PATH}.")
 
-        metrics = calculate_metrics(
-            predictions["label"],
-            predictions["predicted_label"]
-        )
+            result, history, metrics = run_fold(fold, features, seed, model_class, config, output_dir)
+
+            results.append(result)
+            predictions.append(result)
+            histories.append(history)
+            fold_results.append(metrics)
+
+            pd.concat(predictions, ignore_index = True).to_csv(output_dir / "predictions.csv", index = False)
+            pd.concat(histories, ignore_index = True).to_csv(output_dir / "history.csv", index = False)
+
+        seed_predictions = pd.concat(results, ignore_index = True)
+        metrics = evaluate_predictions(seed_predictions["label"], seed_predictions["predicted_label"])
+        seed_folds = [row for row in fold_results if row["seed"] == seed]
 
         seed_results.append({
             "seed": seed,
             "folds_completed": len(config["folds"]),
+            "val_uar": (sum(row["val_uar"] for row in seed_folds) / len(seed_folds)),
             **metrics
         })
 
-        matrix = confusion_matrix(
-            predictions["label"],
-            predictions["predicted_label"],
-            labels = range(len(EMOTIONS))
-        )
+        print(f"{output_dir.name} | Seed {seed} complete")
 
-        pd.DataFrame(
-            matrix,
-            index = EMOTIONS,
-            columns = EMOTIONS,
-        ).to_csv(output_dir / f"confusion_seed_{seed}.csv")
+    scores = pd.DataFrame(seed_results)
+    summary = {}
 
-    summary = pd.DataFrame(seed_results)
-    summary.to_csv(output_dir / "seed_results.csv", index = False)
-    print(summary.to_string(index = False))
+    for metric in ["val_uar", "uar", "war", "macro_f1", "weighted_f1"]:
+        summary[f"{metric}_mean"] = scores[metric].mean()
+        summary[f"{metric}_std"] = scores[metric].std()
 
-    if len(config["seeds"]) > 1:
-        print(summary[["uar", "war"]].agg(["mean", "std"]))
+    summary = pd.DataFrame([summary])
+
+    evaluation = {
+        "seeds_completed": len(scores),
+        "folds_per_seed": len(config["folds"]),
+        "emotion_order": EMOTIONS,
+        "fold_results": fold_results,
+        "seed_results": seed_results,
+        "summary": {
+            name: None if pd.isna(value) else float(value)
+            for name, value in summary.iloc[0].items()
+        }
+    }
+
+    with (output_dir / "evaluation.json").open("w") as file:
+        json.dump(evaluation, file, indent = 2, allow_nan = False)
+
+    print(f"{output_dir.name} complete | Results saved to {output_dir}\n")
+
+    return summary

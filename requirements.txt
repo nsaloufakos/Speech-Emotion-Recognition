@@ -4,3 +4,4 @@ librosa
 torch
 transformers
 soundfile
+matplotlib
