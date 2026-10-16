@@ -1,6 +1,5 @@
 import pandas as pd
 from pathlib import Path
-from collections import Counter
 import wave
 import re
 
