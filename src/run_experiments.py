@@ -27,7 +27,7 @@ CONFIG = {
 
 #DATA_DIR = Path("data/RAVDESS")
 DATA_DIR = Path("data/audio_variants/normalized_only")
-DATASET = "original" if DATA_DIR.name == "RAVDESS" else DATA_DIR.name.title()
+DATASET = "original" if DATA_DIR.name == "RAVDESS" else DATA_DIR.name.lower()
 SPLITS_PATH = Path("output/splits.csv")
 
 def create_splits(df: pd.DataFrame):
