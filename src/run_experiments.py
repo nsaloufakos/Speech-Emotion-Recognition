@@ -25,8 +25,15 @@ CONFIG = {
     "seeds": [42, 123, 999]
 }
 
-DATA_DIR = Path("data/RAVDESS")
-SPLITS_PATH = Path("output/splits.csv")
+#DATA_DIR = Path("data/RAVDESS")
+DATA_DIR = Path("data/audio_variants/normalized_only")
+DATASET = "original" if DATA_DIR.name == "RAVDESS" else DATA_DIR.name
+
+SPLITS_PATH = (
+    Path("output/splits.csv")
+    if DATASET == "original"
+    else Path("output/splits") / f"{DATASET}.csv"
+)
 
 def create_splits(df: pd.DataFrame):
     loso = LeaveOneGroupOut()
@@ -261,6 +268,10 @@ def create_loader(df, features, batch_size, shuffle = False):
 
 def run_experiment(model_class, extract_features, config, output_dir):
     config = {**CONFIG, **config}
+
+    if DATASET != "original":
+        output_dir = output_dir / DATASET
+
     output_dir.mkdir(parents = True, exist_ok = True)
 
     df = pd.read_csv(DATA_DIR / "index.csv")
