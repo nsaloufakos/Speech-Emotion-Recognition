@@ -27,13 +27,8 @@ CONFIG = {
 
 #DATA_DIR = Path("data/RAVDESS")
 DATA_DIR = Path("data/audio_variants/normalized_only")
-DATASET = "original" if DATA_DIR.name == "RAVDESS" else DATA_DIR.name
-
-SPLITS_PATH = (
-    Path("output/splits.csv")
-    if DATASET == "original"
-    else Path("output/splits") / f"{DATASET}.csv"
-)
+DATASET = "original" if DATA_DIR.name == "RAVDESS" else DATA_DIR.name.title()
+SPLITS_PATH = Path("output/splits.csv")
 
 def create_splits(df: pd.DataFrame):
     loso = LeaveOneGroupOut()
@@ -74,8 +69,10 @@ def load_splits(df):
     if SPLITS_PATH.exists():
         return pd.read_csv(SPLITS_PATH)
 
-    splits = create_splits(df)
+    original = pd.read_csv(Path("data/RAVDESS/index.csv"))
+    original["label"] = original["emotion"].map({emotion: i for i, emotion in enumerate(EMOTIONS)})
 
+    splits = create_splits(original)
     SPLITS_PATH.parent.mkdir(parents = True, exist_ok = True)
     splits.to_csv(SPLITS_PATH, index = False)
 
@@ -269,15 +266,14 @@ def create_loader(df, features, batch_size, shuffle = False):
 def run_experiment(model_class, extract_features, config, output_dir):
     config = {**CONFIG, **config}
 
-    if DATASET != "original":
-        output_dir = output_dir / DATASET
-
+    output_dir = Path("output") / DATASET / output_dir.name
     output_dir.mkdir(parents = True, exist_ok = True)
 
     df = pd.read_csv(DATA_DIR / "index.csv")
     df["label"] = df["emotion"].map({emotion: i for i, emotion in enumerate(EMOTIONS)})
 
     splits = load_splits(df)
+    splits = splits[splits["file"].isin(df["file"])].copy()
 
     with (output_dir / "config.json").open("w") as file:
         json.dump({**config, "splits_path": str(SPLITS_PATH)}, file, indent = 2)
