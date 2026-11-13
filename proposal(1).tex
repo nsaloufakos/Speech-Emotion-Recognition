@@ -1,0 +1,185 @@
+\documentclass[11pt, letterpaper]{article}
+\usepackage{amsmath, amssymb}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{tcolorbox}
+\usepackage{parskip}
+\usepackage{array}
+\usepackage{longtable}
+\geometry{margin=1in}
+\usepackage[textsize=scriptsize,textwidth=1cm]{todonotes}
+
+\definecolor{courseblue}{HTML}{002452}
+\definecolor{coursegold}{HTML}{FABD0F}
+\definecolor{coursered}{HTML}{B90E31}
+\definecolor{lightblue}{HTML}{E8EEF7}
+
+\hypersetup{colorlinks=true,linkcolor=courseblue,urlcolor=coursered}
+
+\tcbuselibrary{skins}
+\newtcolorbox{guidancebox}{enhanced,colback=lightblue,colframe=courseblue,
+  sharp corners,leftrule=4pt,left=6pt,right=6pt,top=4pt,bottom=4pt}
+
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\textcolor{courseblue}{\textbf{CISC 473 --- Deep Learning | Fall 2026}}}
+\fancyhead[R]{\small\textcolor{courseblue}{Project Proposal}}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\titleformat{\section}{\large\bfseries\color{courseblue}}{}{0em}{}[\titlerule]
+\titleformat{\subsection}{\normalsize\bfseries\color{courseblue}}{}{0em}{}
+
+%% ════════════════════════════════════════════════════════════════
+%% INSTRUCTIONS FOR STUDENTS
+%% Replace every [PLACEHOLDER] with your actual content.
+%% Delete all \guidancebox blocks before submitting.
+%% Submit as a compiled PDF + .tex source in a .zip archive.
+%% ════════════════════════════════════════════════════════════════
+\newcommand{\ns}[1]{\vspace{0.5em}\todo[author=\textbf{Nicholas},inline,color=red!30!white]{#1}}
+
+\begin{document}
+
+{\centering
+  {\Large\textbf{CISC 473: Deep Learning --- Project Proposal}}\\[0.5em]
+  {\large\textit{P20: Speech Emotion Recognition with Self-Supervised Pre-Trained Features}}\\[0.4em]
+  \textbf{Group Members:}\\{}
+  Nicholas Saloufakos \quad 20398428 \quad Project Lead\\{}
+  Connor Zakary \quad 20419228 \quad Research Lead \\{}
+  Kaan Sun \quad 20346401 \quad Engineering Lead \\{}
+  \url{https://github.com/nsaloufakos/Speech-Emotion-Recognition}\\[0.3em]
+  \today\\[0.4em]
+  \rule{\linewidth}{0.4pt}
+}
+
+\section{Problem Statement and Motivation}
+
+Speech Emotion Recognition (SER) is the task of identifying the emotional state of a human speaker from vocal characteristics such as pitch, rhythm, stress, and intensity. SER has applications in many areas such as human-computer interaction, conversational assistants, accessibility technologies, and affect-aware systems. In these applications accurately recognizing emotions can allow the system to respond not just to what the user is saying, but how they are saying it and therefore provide more useful responses. 
+
+SER systems work by converting an audio recording into a numerical representation that captures information about the speech signal (such as frequency, pitch, timing, and changes in these properties over time) and then using these features to classify the speaker's emotion. One of the main differences between different SER approaches is how these representations are constructed. Traditional approaches calculate handcrafted acoustic features such as Mel-Frequency Cepstral Coefficients (MFCCs) and more recent self-supervised models such as HuBERT and wav2vec 2.0 instead learn speech representations automatically from large amounts of unlabeled audio data.
+
+Building a SER system presents an interesting challenge because vocal characteristics often vary substantially between speakers. Differences in pitch range, speaking rate, accent, vocal intensity, and other speaker-specific characteristics can cause a model to associate features of a particular speaker with an emotion instead of learning features that actually represent that emotion. As a result, it is often particularly difficult for SER models to generalize well to voices outside of their training data. Developing models that generalize across speakers is therefore an important problem for SER systems, since real world applications require the ability to recognize the emotions of speakers never seen before by the model.
+
+Our project will investigate the current ability of both modern self-supervised speech representations and traditional handcrafted audio features to recognize emotions in unseen speakers. We will compare an MFCC based BiLSTM model against models using representations learned by HuBERT and wav2vec 2.0, evaluating each using Leave-One-Speaker-Out cross-validation (LOSO). We will then investigate whether fine-tuning and audio data augmentation can improve speaker-independent emotion recognition by encouraging the models to learn features that are more closely associated with emotion itself. We will also test a new normalization method we call Mean-F0 Semitone Normalization, where we pitch shift each file so its average pitch matches a fixed target while keeping the pitch changes within the file the same, and apply this before feeding the audio into both HuBERT and wav2vec 2.0. We will also check which Transformer layers benefit most from this normalization to see if it helps more with speaker-specific layers or emotion-specific layers.
+
+\section{Literature Survey}
+
+
+\subsection{Related Works}
+
+
+\textbf{HuBERT: Self-Supervised Speech Representation Learning by Masked Prediction of Hidden Units (Hsu et al., 2021, IEEE/ACM TASLP).} HuBERT learns speech representations by masking portions of an audio sequence and predicting hidden-unit labels generated through k-means clustering. Pretrained on large unlabeled speech datasets, it matches or outperforms wav2vec 2.0 across several speech-recognition settings, demonstrating that useful representations can be learned with limited labeled data. Our project will apply a pretrained HuBERT model to emotion recognition rather than speech transcription. We will also investigate which Transformer layers contain the most useful emotional information and evaluate whether these representations generalize to unseen speakers. Since the original paper focuses on recognizing spoken content, the separation of emotion from speaker-specific characteristics remains an open problem motivating our approach.
+
+\textbf{wav2vec 2.0: A Framework for Self-Supervised Learning of Speech Representations (Baevski et al., 2020, NeurIPS).} wav2vec 2.0 learns speech representations by masking portions of a raw audio signal and training a Transformer to identify the correct quantized representation among distractors. After pretraining on unlabelled audio, the model achieved strong speech-recognition results with very little labelled data, including word error rates of 4.8 percent and 8.2 percent on the LibriSpeech test-clean and test-other sets using only ten minutes of labelled speech. Our project will use wav2vec 2.0 as a pretrained feature extractor for emotion recognition rather than speech transcription and compare its performance with HuBERT and an MFCC-BiLSTM baseline. Since the paper primarily evaluates linguistic content recognition, our work examines whether its representations also capture emotional information that generalizes across unseen speakers.
+
+\textbf{SUPERB: Speech processing Universal PERformance Benchmark (Yang et al., 2021, Interspeech).} SUPERB introduces a standardized benchmark for evaluating how effectively frozen self-supervised speech models transfer to ten downstream tasks using lightweight prediction heads. For emotion recognition, the authors mean-pool the learned representations and train a linear classifier on four emotion classes from IEMOCAP. HuBERT Large achieved the highest reported emotion-recognition accuracy of 67.62 percent, while wav2vec 2.0 and HuBERT performed competitively across several other tasks. Our project follows SUPERB’s use of pretrained representations and lightweight classifiers but uses all eight RAVDESS emotions and reports UAR and WAR under leave-one-speaker-out evaluation. We will also probe each HuBERT layer separately, examining layer selection and generalization to unseen speakers more directly than the original benchmark.
+
+\textbf{SpeechFormer: A Hierarchical Efficient Framework Incorporating the Characteristics of Speech (Chen et al., 2022, Interspeech).} SpeechFormer models audio hierarchically through successive frame-, phoneme-, word-, and utterance-level stages, using local attention to reflect the natural structure of speech while reducing computation. On IEMOCAP, its small model using wav2vec features achieved 62.9 percent weighted accuracy and 64.5 percent unweighted accuracy while requiring substantially fewer computations than a standard Transformer. It also produced competitive results on emotion recognition, depression classification, and Alzheimer’s disease detection datasets. Our project will not implement a new hierarchical Transformer; instead, we will compare pretrained HuBERT and wav2vec 2.0 representations with an MFCC-BiLSTM baseline. However, SpeechFormer demonstrates the importance of temporal information at different speech scales, supporting our investigation of which HuBERT layers best represent emotion. Unlike SpeechFormer, we will focus specifically on generalization to unseen speakers using RAVDESS and leave-one-speaker-out evaluation.
+
+\textbf{Emotion Recognition from Speech Using Wav2vec 2.0 Embeddings (Pepino et al. 2021, Interspeech).} Pepino et al. apply frozen wav2vec 2.0 representations to speech emotion recognition and combine information from multiple Transformer layers using a learned weighted average. On RAVDESS, their pretrained model achieved an average recall of 84.3 percent with speaker normalization, substantially outperforming traditional spectrogram and eGeMAPS features. They also found that combining all layers performed better than using only the final layer and that ASR fine-tuning could remove information useful for recognizing emotion. Our project extends this direction by comparing wav2vec 2.0 with HuBERT, probing HuBERT layers individually, retaining all eight RAVDESS emotions, and using leave-one-speaker-out cross-validation. We will also investigate normalization or augmentation strategies that do not depend on having multiple test recordings from an unseen speaker.
+
+\textbf{Speaker Normalization for Self-Supervised Speech Emotion Recognition (Gat et al., 2022, ICASSP).} Gat et al. remove speaker-identifying information from HuBERT representations using a gradient-reversal adversarial training setup, jointly training the model on emotion recognition and speaker identification while negating the gradients from the speaker identification task during the backward pass. This forces the upstream model to learn representations useful for emotion recognition while becoming less useful for identifying the speaker, achieving state-of-the-art results on IEMOCAP and reducing a downstream speaker-ID classifier's accuracy from 60.7 percent to 45.9 percent. Unlike our project, their normalization is learned during training and operates on the model's internal representations rather than the raw audio. Our project instead applies a deterministic, non-learned pitch normalization directly to the audio signal before feature extraction, and evaluates it on RAVDESS under leave-one-speaker-out cross-validation rather than IEMOCAP's standard five-fold split.
+
+\subsection{Open Problem}
+
+Most prior work that removes speaker identity from speech emotion recognition works on the model's learned features, not the raw audio. Pepino et al. (2021) normalize wav2vec 2.0 features per speaker and get a big accuracy boost on RAVDESS, but their method needs multiple recordings from the same speaker to compute the normalization stats, even at test time. Gat et al. (2022) remove speaker information from HuBERT features using an adversarial training setup instead of a simple preprocessing step. Neither one tests normalizing the raw audio itself before it reaches the model. This is also an open question because arousal is known to change vocal tract shape and pitch variability, so aggressively normalizing pitch could end up removing some of the same cues that signal emotion. We address this by proposing Mean-F0 Semitone Normalization: a deterministic, per-utterance (per continuous voice recording) pitch shift that moves each recording's mean fundamental frequency to a fixed target while keeping its pitch contour and variance unchanged. We apply this directly to the raw audio before feeding it into HuBERT and wav2vec 2.0, and since it only needs one utterance to compute, it works even with a single, isolated recording from an unseen speaker.
+
+\section{Proposed Methodology}
+
+\subsection{Baseline}
+
+Our first baseline model will be built using the traditional SER method of extracting MFCCs for each of the audio files in the RAVDESS data set using librosa and then training a Bidirectional Long Short-Term Memory (BiLSTM) neural network using PyTorch to classify the emotion present in each recording based on its MFCC values. The RAVDESS data contains 1440 audio recordings of 12 male actors and 12 female actors repeating the same statements with different emotions and emotional intensities.
+
+We will also use pre-trained HuBERT and wav2vec 2.0 models. These models learn their own speech representations that will then be passed to simple linear classifiers we train for each model that will produce emotion probabilities for the audio recordings.
+
+Lastly, we then perform LOSO cross validation on each model, calculating Unweighted Average Recall (UAR) and Weighted Average Recall (WAR) on each fold to evaluate our baseline model's abilities to generalize to unseen speakers.
+
+\subsection{Proposed Extension}
+
+Our first extension to these baseline models will be to fine-tune the HuBERT and wav2vec models on the RAVDESS data. Naturally, we will then perform the same LOSO cross validation as before to determine the increase in speaker-independent generalization brought by the fine-tuning. 
+
+We will also perform layer-wise probing of HuBERT by extracting representations from individual transformer layers, training a linear classifier on each representation, and then evaluating the performance of each layer using UAR and WAR. This experiment will determine which layers encode the most useful information for emotion classification.
+
+The heart of our extension is Mean-F0 Semitone Normalization, our proposed method for reducing reliance on speaker-specific vocal characteristics. For each audio file, we shift the pitch by a fixed number of semitones so the file's mean fundamental frequency matches a shared target, while leaving the pitch contour and variance within the file untouched. We apply this directly to the raw audio before it reaches HuBERT or wav2vec 2.0, and compare LOSO performance with and without this normalization. We also repeat our layer-wise probing under normalization to check whether the effect is concentrated in shallow, speaker-characteristic layers or deeper, emotion-related layers.
+
+
+\subsection{Evaluation Plan}
+
+\begin{itemize}[noitemsep]
+  \item RAVDESS will be the primary data set for training or fine-tuning all of our models. We will use an 80/20 training testing split.
+  \item LOSO cross validation with UAR and WAR metrics will be the primary method of evaluating each iteration / version of our model's abilities to generalize.
+  \item MFCC + BiLSTM classifier, HuBERT + linear classifier, and wav2vec + linear classifier will be our three baseline models.
+  \item Random seeds will be fixed for reproducibility and we will conduct three independent runs of every test (being sure to report mean $\pm$ standard deviation).
+  \item We will compare LOSO performance with and without Mean-F0 Semitone Normalization applied, for both HuBERT and wav2vec 2.0, to test whether the normalization improves speaker-independent generalization.
+    
+    \item We will repeat layer-wise probing under normalized and unnormalized conditions to see whether the normalization's effect is concentrated in shallow or deep Transformer layers.
+\end{itemize}
+
+\subsection{Early Novel Contribution (Optional Bonus)}
+
+
+Our novel contribution is Mean-F0 Semitone Normalization, a deterministic, per-utterance pitch normalization that shifts each recording's mean fundamental frequency to a fixed target while keeping its pitch contour and variance unchanged. We apply this directly to the raw audio before feature extraction with HuBERT and wav2vec 2.0, and compare LOSO performance with and without it. Unlike prior speaker-normalization approaches, which operate on extracted features and require multiple recordings from the same speaker, our method works on a single isolated utterance (that is in a continuous voice recording file), making it usable in realistic deployment settings.
+
+As a secondary comparison, we will also perform an ablation study on standard data augmentation, adding different combinations of pitch shifting, time stretching, and background noise to the training data to see if they improve the model's ability to generalize to unseen speakers. We will analyze which augmentations produce the largest improvements and which models benefit most, and compare these results directly against our normalization method to determine which strategy is more effective for speaker-independent generalization.
+\section{Project Timeline and Roles}
+
+\begin{center}
+\begin{longtable}{l>{\raggedright\arraybackslash}p{7cm}l}
+\toprule
+\textbf{Week} & \textbf{Tasks} & \textbf{Responsible} \\
+\midrule
+1 & Set up our Repository, download RAVDESS.  & Nicholas \& Kaan \\
+1 & Read core papers. & Connor \\
+2 & \textbf{Write proposal}. & Nicholas, Connor, \& Kaan \\
+3 & Extract MFCC features from the RAVDESS audio recordings, train baseline BiLSTM model using MFCC features.  & Kaan \\
+3 & Fine-tune pre-trained HuBERT and wav2vec models on the RAVDESS audio recordings, train a linear classification head for each model to produce per-model emotion predictions, report UAR and WAR of each model. & Connor \\
+4 & Compare models on their ability to generalize to unseen speakers by performing speaker independent evaluation on each of the three models using LOSO cross validation and calculating UAR and WAR for each fold. & Nicholas \\
+4 & Determine which HuBERT layers contain the most emotion information by performing layer-wise probing on the HuBERT model by training a simple linear classifier and then calculating UAR and WAR on the output of each individual layer. Create the workflow for Mean-F0 Semitone Normalization.& Kaan \\
+5 & Investigate how audio augmentation strategies affect speaker-independent generalization by re-training each of the three models on RAVDESS data that includes audio files augmented with pitch shifting, time stretching, and background noise. & Nicholas \\
+5 & Perform an ablation study to evalaute and compare the different augmentation strategies by calculating UAR and WAR on each fold of LOSO cross validation. & Connor \\
+6 & \textbf{Write Midterm Report}. & Nicholas, Connor, \& Kaan \\
+7 & Identify the best-performing augmentation strategy for each model and compare the augmented models against their original non-augmented baselines. & Kaan \\
+8 & Perform error analysis using per-emotion recall and confusion matrices. Analyze whether the augmentation strategies affect different emotion classes differently. & Connor \\
+9 & Consolidate experiment results and generate tables and figures for the model comparison, HuBERT layer-wise probing, and augmentation ablation study. & Nicholas \\
+10 & \textbf{Write Final Report \& Presentation}. & Nicholas, Connor \& Kaan \\
+\bottomrule
+\end{longtable}
+\end{center}
+
+\subsection{Contribution Declaration}
+
+\begin{tabular}{lcc}
+\toprule
+\textbf{Member} & \textbf{Primary Responsibilities} & \textbf{Estimated \%} \\
+\midrule
+Nicholas & Model implementation, Report Writing & 33.$\bar{3}$\%  \\
+Connor & Literature review, README, Report Writing & 33.$\bar{3}$\%  \\
+Kaan & Data Pipeline, Evaluation Code, Report Writing & 33.$\bar{3}$\%  \\
+\bottomrule
+\end{tabular}
+
+\section{AI Usage}
+
+As described by the instructor in the syllabus (CISC\_473\_ Syllabus-F26), the team will collectively use GenAI tools for idea generation, editing, and learning. The team will refrain from submitting AI generated content for the submitted work for the course.
+\section{References}
+
+
+
+\begin{enumerate}[label={[\arabic*]},leftmargin=*]
+  \item Wei-Ning Hsu, Benjamin Bolte, Yao-Hung Hubert Tsai, Kushal Lakhotia,
+Ruslan Salakhutdinov, Abdelrahman Mohamed, 2021. ``HuBERT: Self-Supervised Speech Representation
+Learning by Masked Prediction of Hidden Units'' \textit{IEEE/ACM TASLP}. arXiv:2106.07447
+  \item Alexi Baevski, Henry Zhou, Abdelrahman Mohamed, Michael Audi, 2020. ``wav2vec 2.0: A Framework for Self-Supervised Learning of Speech Representations.'' \textit{NeurIPS}. arXiv:2006.11477
+  \item Shu-wen Yang, Po-Han Chi, Yung-Sung Chuang1, Cheng-I Jeff Lai2, Kushal Lakhotia,Yist Y. Lin, Andy T. Liu, Jiatong Shi, Xuankai Chang, Guan-Ting Lin, Tzu-Hsien Huang, Wei-Cheng Tseng, Ko-tik Lee, Da-Rong Liu, Zili Huang, Shuyan Dong, Shang-Wen Li, Shinji Watanabe, Abdelrahman Mohamed, Hung-yi Lee, 2021. ``SUPERB: Speech processing Universal PERformance Benchmark'' \textit{Interspeech}. arXiv:2105.01051
+  \item Weidong Chen, Xiaofen Xing, Xiangmin Xu, Jianxin Pang, Lan Du, 2022. ``SpeechFormer: A Hierarchical Efficient Framework Incorporating the Characteristics of Speech'' \textit{Interspeech}. arXiv:2302.14638
+  \item Leonardo Pepino, Pablo Riera, Luciana Ferrer, 2021. ``Emotion Recognition from Speech Using Wav2vec 2.0 Embeddings'' \textit{Interspeech}. arXiv:2104.03502
+  
+
+  \item Itai Gat, Hagai Aronowitz, Weizhong Zhu, Edmilson Morais, Ron Hoory, 2022. "Speaker Normalization for Self-supervised Speech Emotion Recognition." ICASSP. arXiv:2202.01252
+\end{enumerate}
+
+\end{document}

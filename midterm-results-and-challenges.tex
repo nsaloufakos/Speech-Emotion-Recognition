@@ -1,0 +1,104 @@
+% Replacement text for the Preliminary Results and Challenges and Adaptations
+% sections of midterm(1).tex. Requires the existing booktabs, caption and
+% hyperref packages. Replace those two sections with this file's contents,
+% or replace them with: \input{midterm-results-and-challenges}
+
+\section{Preliminary Results}
+
+\subsection{Baseline Comparison}
+
+We completed experiments for all three baseline models on original audio and on audio processed using Mean-F0 Semitone Normalization with a target of 200~Hz. Each experiment used leave-one-speaker-out evaluation across 24 actors and three training seeds (42, 123, and 999). For each seed, test predictions from all folds were pooled before calculating UAR and WAR. Table~\ref{tab:midterm-baselines} reports the mean and sample standard deviation across the three seed-level scores.
+
+\begin{center}
+\small
+\begin{tabular}{llcc}
+\toprule
+\textbf{Model} & \textbf{Audio condition} & \textbf{UAR (\%)} & \textbf{WAR (\%)} \\
+\midrule
+MFCC--BiLSTM & Original & $35.07 \pm 1.14$ & $37.31 \pm 1.25$ \\
+MFCC--BiLSTM & F0-normalized & $34.51 \pm 2.16$ & $36.57 \pm 1.99$ \\
+HuBERT + linear & Original & $59.92 \pm 0.95$ & $60.81 \pm 0.91$ \\
+HuBERT + linear & F0-normalized & $42.99 \pm 0.71$ & $44.13 \pm 0.74$ \\
+wav2vec 2.0 + linear & Original & $44.10 \pm 0.14$ & $45.23 \pm 0.04$ \\
+wav2vec 2.0 + linear & F0-normalized & $35.47 \pm 0.52$ & $36.41 \pm 0.35$ \\
+\bottomrule
+\end{tabular}
+\captionof{table}{Baseline performance on eight-class RAVDESS under 24-fold LOSO evaluation. Values are mean $\pm$ sample standard deviation over three seeds. Original-audio experiments contain 1,440 recordings; the normalized condition contains 1,432 because eight recordings were excluded during preprocessing.}
+\label{tab:midterm-baselines}
+\end{center}
+
+HuBERT achieved the highest UAR and WAR among the three original-audio baselines. Normalization reduced mean UAR by 16.93 percentage points for HuBERT and 8.63 points for wav2vec~2.0. The MFCC--BiLSTM decrease was much smaller, at 0.56 points, relative to its variation across seeds. These results do not support an improvement from the current normalization procedure.
+
+For published context, Pepino et al.\ (2021) reported $84.3 \pm 1.7\%$ average recall on RAVDESS using combined wav2vec~2.0 layers, a dense classifier, and per-speaker feature normalization.\footnote{L. Pepino, P. Riera, and L. Ferrer, ``Emotion Recognition from Speech Using Wav2vec 2.0 Embeddings,'' Interspeech, 2021. \url{https://arxiv.org/abs/2104.03502}.} Their experiment merged neutral and calm into seven classes and used a fixed actor split, whereas ours retains eight classes and uses LOSO. Their model and normalization also differ from ours. The published score therefore provides context rather than a matched reproduction target. A matched reproduction remains outstanding.
+
+\subsection{HuBERT Layer-wise Probing}
+
+Probing all 12 HuBERT Transformer layers on original audio showed that the final layer was not the strongest representation for our linear classifier. Selected results are shown in Table~\ref{tab:midterm-layers}.
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Transformer layer} & \textbf{UAR (\%)} & \textbf{WAR (\%)} \\
+\midrule
+1 & $48.16 \pm 0.98$ & $50.28 \pm 0.84$ \\
+6 & $69.38 \pm 0.31$ & $70.14 \pm 0.24$ \\
+7 & $68.45 \pm 0.48$ & $69.10 \pm 0.43$ \\
+12 & $59.92 \pm 0.95$ & $60.81 \pm 0.91$ \\
+\bottomrule
+\end{tabular}
+\captionof{table}{Selected frozen HuBERT probing results on original recordings, using the same LOSO protocol and three seeds. Layer 6 had the highest observed test UAR across the 12 layers.}
+\label{tab:midterm-layers}
+\end{center}
+
+Layer 6 exceeded the final layer by 9.46 UAR points, suggesting that emotion information is more accessible to a linear classifier at intermediate depths in this setting. This is a descriptive probing result, rather than a validation-selected improvement: layer 7 had the highest mean validation UAR. Probing under normalization remains future work.
+
+\subsection{Qualitative Analysis}
+
+The saved predictions provide examples of the errors introduced in the normalized condition. Table~\ref{tab:midterm-examples} shows two recordings classified correctly by original-audio HuBERT but incorrectly by its normalized-audio counterpart. These examples illustrate individual failures and were selected for inspection; they do not represent all predictions.
+
+\begin{center}
+\small
+\begin{tabular}{lccc}
+\toprule
+\textbf{Recording ID} & \textbf{True emotion} & \textbf{Original prediction} & \textbf{Normalized prediction} \\
+\midrule
+\texttt{03-01-03-01-01-01-01} & Happy & Happy & Surprised \\
+\texttt{03-01-04-01-01-01-16} & Sad & Sad & Disgust \\
+\bottomrule
+\end{tabular}
+\captionof{table}{Illustrative HuBERT test predictions for seed 42. Each prediction comes from the fold holding out the recording's actor.}
+\label{tab:midterm-examples}
+\end{center}
+
+Across all three seeds, mean HuBERT recall for happy recordings fell from 44.97\% to 17.88\% after normalization. Sad was already difficult on original audio, with 29.34\% recall, compared with 82.47\% for calm; the most frequent original-audio error was sad being classified as calm. This indicates that aggregate performance hides substantial differences between emotions.
+
+\subsection{Discussion}
+
+The current results establish a working comparison pipeline and show that frozen pretrained representations, especially HuBERT's intermediate layers, can outperform our handcrafted-feature baseline. However, the proposed pitch normalization has not improved performance. Possible explanations include removing emotion-related differences in average pitch, unreliable F0 estimates, and artifacts introduced by pitch shifting. We have not isolated these causes, so we treat them as hypotheses. The unequal recording sets also limit the comparison. Further preprocessing validation and controlled experiments are needed before drawing broader conclusions about pitch normalization.
+
+\section{Challenges and Adaptations}
+
+The main conceptual challenge is separating speaker-related pitch differences from emotion-related pitch differences. Normalizing each utterance independently may remove both. Our initial hypothesis was that reducing average-pitch differences would help generalization to unseen speakers, but the present results do not support that hypothesis for the current implementation and target frequency.
+
+A related technical challenge is validating the preprocessing. The implementation estimates F0 using pYIN, averages valid voiced frames, and applies a constant semitone shift. It does not save per-recording F0 estimates, confidence values, or applied shifts, and it does not check the resulting pitch after saving. Listening and sample re-estimation motivate further inspection, but re-estimation alone cannot establish a processing error: the estimator can classify different frames as voiced before and after transformation. We plan to inspect corresponding voiced frames, record confidence and shift diagnostics, and review audio quality before changing the method.
+
+The normalization script also excludes recordings with fewer than three valid voiced F0 estimates. This reduced the dataset from 1,440 to 1,432 recordings, so the normalized experiments do not have identical recording counts to the original-audio experiments. We will document the exclusions and use matched recording sets in follow-up comparisons.
+
+Relative to the proposal, baseline evaluation, original-audio layer probing, and an initial normalization comparison are complete. Fine-tuning scripts and augmentation code have been implemented, but evaluated fine-tuning and augmentation-ablation results are not yet available in the repository. We have therefore revised the remaining plan to prioritize preprocessing validation, followed by these outstanding comparisons. Any alternative pitch estimator, shift limit, or normalization statistic will be evaluated as a separate condition rather than presented as an already completed improvement.
+
+\subsection{Updated Week 7--10 Plan}
+
+\begin{center}
+\begin{tabular}{lp{11.5cm}}
+\toprule
+\textbf{Week} & \textbf{Planned tasks} \\
+\midrule
+7 & Validate pitch estimates and processed audio; record preprocessing diagnostics and exclusions; prepare matched original/normalized recording sets. \\
+8 & Evaluate fine-tuning and begin controlled augmentation comparisons, applying training augmentations only to training recordings. \\
+9 & Complete prioritized comparisons and normalized HuBERT probing; analyze per-emotion errors and consolidate tables and figures. \\
+10 & Finalize interpretation and limitations; complete the final report and presentation. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The team will confirm task ownership and prioritize experiments according to available training time. Model settings will be chosen using validation data, with the same speaker-disjoint evaluation protocol retained for the final comparisons.
