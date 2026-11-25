@@ -1,0 +1,93 @@
+{
+  "date": "2026-11-24",
+  "retained_audio_variant": "normalized_psola_actor_praat_median_cap4",
+  "removed_variant_wav_counts": {
+    "normalized_psola_actor_mean": 1440,
+    "normalized_psola": 1436,
+    "normalized_only": 1432,
+    "normalized_psola_actor_praat_median": 1440,
+    "normalized_psola_actor_mean_cap4": 1440
+  },
+  "removed_source_files": [
+    "investigate_pitch.py",
+    "compare_shift_quality.py",
+    "compare_pitch_engines.py",
+    "audit_pitch_outputs.py",
+    "build_gpu_handoff.py",
+    "summarize_praat_median_experiment.py",
+    "project_requirements_audit.py"
+  ],
+  "removed_file_count": 21543,
+  "freed_bytes": 2649224613,
+  "preserved": "Original recordings, best WAV variant, variant generation metadata and diagnostics, predictions, metrics, configs, histories, split/cohort tables, pitch audit data, all local checkpoints and remaining feature caches.",
+  "git_status": "Cleanup verified; publication authorized to the existing default branch master. See Git history for final commit.",
+  "verification": {
+    "retained_wavs_verified": 1440,
+    "original_source_hashes_verified": 1440,
+    "sample_identical_regeneration_actors": [
+      3,
+      5,
+      21
+    ],
+    "completed_model_results_recomputed": [
+      "hubert",
+      "wav2vec"
+    ],
+    "mfcc_status": "incomplete; preserved partial histories/predictions and checkpoints",
+    "removed_module_dependencies_remaining": 0,
+    "CLI_entry_points_checked": 10,
+    "uncapped_regeneration_CLI_records_checked": 2,
+    "clean_checkout_smoke": {
+      "models": [
+        "mfcc",
+        "wav2vec",
+        "hubert"
+      ],
+      "conditions": [
+        "original",
+        "normalized_psola_actor_praat_median_cap4"
+      ],
+      "recordings": 8,
+      "seeds": [
+        42
+      ],
+      "folds": [
+        1
+      ],
+      "device": "cpu",
+      "epochs": {
+        "mfcc": 1,
+        "wav2vec": 1,
+        "hubert": 30
+      },
+      "checks": [
+        "feature extraction",
+        "training",
+        "checkpoint save and reload",
+        "held-out predictions",
+        "evaluation and history outputs"
+      ],
+      "CUDA_tested": false
+    }
+  },
+  "retained_python_rationale": {
+    "training": "All baseline/fine-tuning models, shared execution, and layer probing remain.",
+    "regeneration": "Older generators remain because they reproduce reported conditions and supply current shared synthesis/configuration helpers.",
+    "pitch_validation": "Original detector audit, sensitivity summary, current generation and output validation remain.",
+    "results": "The current matched-model summarizer supersedes the removed one-off HuBERT summary. Three archived Mac source files preserve the exact completed execution versions."
+  },
+  "lfs": {
+    "scope": "Only retained capped WAV files; CSV/JSON are ordinary Git; checkpoints ignored",
+    "account_usage_verified": false,
+    "reason": "Authenticated account KaanSun has push permission; owner billing API is unavailable (HTTP 404).",
+    "planned_new_files": 1440,
+    "planned_new_bytes": 341170352
+  },
+  "additional_cleanup": {
+    "completed_feature_array_and_latex_cache_files": 14293,
+    "bytes": 45770153,
+    "unfinished_MFCC_features_preserved": true
+  },
+  "local_branch": "kaan-robust-pitch-cleanup",
+  "publication_branch": "master"
+}

@@ -1,3 +1,88 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:0b7b534e58f274efa9299acc0f831fcbafd2609957813801bb5706e19772a400
-size 3120
+{
+  "file": "03-01-03-01-01-01-03.wav",
+  "python": "3.11.17",
+  "packages": {
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "librosa": "0.11.0",
+    "soundfile": "0.14.0",
+    "soxr": "1.1.0",
+    "numba": "0.68.0",
+    "pandas": "3.0.6",
+    "matplotlib": "3.11.2"
+  },
+  "config": {
+    "sample_rate": 16000,
+    "seed": 42,
+    "target_f0": 200.0,
+    "f0_min": 50.0,
+    "f0_max": 800.0,
+    "pitch_steps": [
+      -1.0,
+      1.0
+    ],
+    "stretch_rates": [
+      0.9,
+      1.1
+    ],
+    "noise_snr_db": [
+      20.0,
+      30.0
+    ]
+  },
+  "frame_length": 2048,
+  "hop_length": 512,
+  "input_paths": {
+    "original": "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/RAVDESS/Actor_03/03-01-03-01-01-01-03.wav",
+    "saved": "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_only/Actor_03/03-01-03-01-01-01-03.wav"
+  },
+  "duration_seconds": 3.7704375,
+  "current_formula_shift_semitones": 2.2875183763870726,
+  "historical_applied_shift": "Unknown; current formula is not a recovered historical shift",
+  "comparisons": {
+    "saved": {
+      "original_voiced_frames": 36,
+      "processed_voiced_frames": 56,
+      "shared_voiced_frames": 35,
+      "new_voiced_frames": 21,
+      "lost_voiced_frames": 1,
+      "original_mean_hz": 175.24502259869152,
+      "processed_mean_hz": 272.55086547758384,
+      "shared_original_mean_hz": 175.9711458818636,
+      "shared_processed_mean_hz": 205.41024094512196,
+      "new_processed_mean_hz": 384.4519063650202,
+      "new_processed_mean_voicing_probability": 0.010189575728819048,
+      "shared_processed_mean_voicing_probability": 0.11566101439150668,
+      "shared_original_mean_voicing_probability": 0.14683060896918415,
+      "shared_shift_median_semitones": 2.4000000000000012,
+      "shared_shift_10th_90th_percentiles": [
+        2.3000000000000003,
+        2.7
+      ],
+      "shared_shift_median_error_semitones": 0.11248162361292868
+    },
+    "fresh": {
+      "original_voiced_frames": 36,
+      "processed_voiced_frames": 44,
+      "shared_voiced_frames": 28,
+      "new_voiced_frames": 16,
+      "lost_voiced_frames": 8,
+      "original_mean_hz": 175.24502259869152,
+      "processed_mean_hz": 411.9036713764679,
+      "shared_original_mean_hz": 180.21091003532533,
+      "shared_processed_mean_hz": 239.29178884030694,
+      "new_processed_mean_hz": 713.9744658147497,
+      "new_processed_mean_voicing_probability": 0.010074011896931096,
+      "shared_processed_mean_voicing_probability": 0.1798499286348609,
+      "shared_original_mean_voicing_probability": 0.16355396643438005,
+      "shared_shift_median_semitones": 2.3000000000000016,
+      "shared_shift_10th_90th_percentiles": [
+        2.0999999999999988,
+        14.300000000000002
+      ],
+      "shared_shift_median_error_semitones": 0.01248162361292926
+    }
+  },
+  "saved_vs_fresh_waveform_max_absolute_difference": 0.11712755262851715,
+  "limits": "pYIN estimates and shared voiced frames are not independent ground truth. Frame centers assume sample alignment; windows overlap."
+}

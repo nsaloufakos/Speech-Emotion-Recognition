@@ -1,0 +1,60 @@
+{
+  "cohort_size": 1429,
+  "seeds": [
+    42,
+    123,
+    999
+  ],
+  "folds": 24,
+  "held_out_predictions_per_condition": 4287,
+  "all_saved_metrics_independently_reproduced": true,
+  "all_conditions_match_test_splits": true,
+  "all_comparison_settings_match": true,
+  "all_evaluation_audio_matches_feature_manifests": true,
+  "provenance": {
+    "original": {
+      "predictions_sha256": "b5a45f9547299814a380d6bb1a06738b6550a7f88270189f4f8c64db0da6e88f",
+      "evaluation_sha256": "acb3f2731c1a7c304343fcb57468097014fa60070fd1f313a625489d1a44e27a",
+      "comparison_config_sha256": "c96d41d5ac8551d66c92dbc3d137a0de712aee06ccee9fd2d20c03451a49b79f"
+    },
+    "normalized_only": {
+      "predictions_sha256": "df9cbb7a3c9e80957839a5190131d57433f929a0f58bf534abe576369498c49b",
+      "evaluation_sha256": "ace4634a4a7abc3e1c6b4baa69ce24e52b97aba76a8b4342cbe9cf8a9b06eb8e",
+      "comparison_config_sha256": "c96d41d5ac8551d66c92dbc3d137a0de712aee06ccee9fd2d20c03451a49b79f"
+    },
+    "normalized_psola": {
+      "predictions_sha256": "d865b84fb0bce93c0a3131d006540207633149c6e3a24f380a06991aefa8babb",
+      "evaluation_sha256": "dd78107e108d3fdc83f244f6c564eb91241589ae4d0d0c4c8dca796abcac2269",
+      "comparison_config_sha256": "c96d41d5ac8551d66c92dbc3d137a0de712aee06ccee9fd2d20c03451a49b79f"
+    },
+    "normalized_psola_actor_mean": {
+      "predictions_sha256": "742da2e5b7346fe70f581be3b096fbe67421defe13637521dbd7d5002263f775",
+      "evaluation_sha256": "e770b3c80b57b8c79c48ca41cdef02128ae39c3ae1199d019e775c720e0e6ec3",
+      "comparison_config_sha256": "62b68cf8ec37e9322c077e6fadb2d9a05f81f7eee7cd33316da03850ace15f72"
+    },
+    "normalized_psola_actor_mean_cap4": {
+      "predictions_sha256": "5fa9cf3bf55479733be90c306ba4f1ee133877a29520f7025052d53ffc2e644e",
+      "evaluation_sha256": "17d4963be526e99705a36dc3cb62d400dc9164e2ae36dd7af734d9e764f6d9bd",
+      "comparison_config_sha256": "62b68cf8ec37e9322c077e6fadb2d9a05f81f7eee7cd33316da03850ace15f72"
+    },
+    "normalized_psola_actor_praat_median": {
+      "predictions_sha256": "9b28012015b53487525e864fd1a7cc400317161bdeed8ce1810b82c3fa845e51",
+      "evaluation_sha256": "105c30d1f64c757751379d448cf8024e55e8020e79c5ff4a781ba611298e12c7",
+      "comparison_config_sha256": "33028f8721875dec3999c0e0c5771ea84bd500e70bc80095fc749fc123e90101"
+    },
+    "normalized_psola_actor_praat_median_cap4": {
+      "predictions_sha256": "759fec0b4b9d5096ae442c84de3e07f4b0d7e124b26bd7abb2602af6efa307e6",
+      "evaluation_sha256": "89033a0e32f960ccae5a1933feaa213a7c6356cdaeb1673872e73c589558d0ba",
+      "comparison_config_sha256": "33028f8721875dec3999c0e0c5771ea84bd500e70bc80095fc749fc123e90101"
+    }
+  },
+  "source_code_sha256": {
+    "create_praat_median_variants.py": "f52a869211ae961e161eb89183a9acfd2c85428a8ad5f360e55db4638d1e3c27",
+    "pitch_processing.py": "aff330830cff5fdeb87f8e30a5497f8dc2a92c41b45b19f58bd2c63e60085b35",
+    "evaluate_pitch_conditions.py": "4c2f0b44cc711d363b4070369d47dd45a4d87312d281b10e7cbcd2a09c8b2234",
+    "run_experiments.py": "3391fbcba48fa123fc0cd01c1fdb8688a1b3788d8a952d1b81de9fc8258a1440",
+    "models/baseline_hubert_linear.py": "ce21269780dd960c150c801390c2234739dcf2cda8461fb390443c92cd22adc2",
+    "summarize_praat_median_experiment.py": "7855d9a346b4038c28f353335b0e1ca7a34c2ca2a356a62aca5bc4e0269ffcef"
+  },
+  "interpretation": "Observed paired differences over three training seeds; no significance claim or test-set tuning. Historical comparisons reuse completed matched evaluations."
+}

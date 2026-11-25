@@ -1,3 +1,80 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:146a3bdfc49557439ae1f77c7c3244191274e0a7cb9d164529f6fc20593b833e
-size 2956
+[
+  {
+    "actor": 1,
+    "common_voiced_frames": 65,
+    "original_voiced_frames": 71,
+    "normalized_voiced_frames": 78,
+    "original_f0_mean": 117.05795057728216,
+    "normalized_f0_mean": 149.39638999296324,
+    "matched_frame_original_mean": 112.58209952633521,
+    "matched_frame_normalized_mean": 164.60432187333686,
+    "median_frame_pitch_shift_semitones": 6.500000000000001,
+    "frame_shift_10th_percentile": 5.9,
+    "frame_shift_90th_percentile": 7.199999999999998
+  },
+  {
+    "actor": 2,
+    "common_voiced_frames": 43,
+    "original_voiced_frames": 48,
+    "normalized_voiced_frames": 48,
+    "original_f0_mean": 242.60882229741742,
+    "normalized_f0_mean": 197.2574152343875,
+    "matched_frame_original_mean": 264.4733187221019,
+    "matched_frame_normalized_mean": 199.30113202568768,
+    "median_frame_pitch_shift_semitones": -4.799999999999998,
+    "frame_shift_10th_percentile": -5.000000000000002,
+    "frame_shift_90th_percentile": -4.599999999999999
+  },
+  {
+    "actor": 3,
+    "common_voiced_frames": 35,
+    "original_voiced_frames": 36,
+    "normalized_voiced_frames": 56,
+    "original_f0_mean": 175.24502259869152,
+    "normalized_f0_mean": 272.55086547758384,
+    "matched_frame_original_mean": 175.9711458818636,
+    "matched_frame_normalized_mean": 205.41024094512196,
+    "median_frame_pitch_shift_semitones": 2.4000000000000012,
+    "frame_shift_10th_percentile": 2.3000000000000003,
+    "frame_shift_90th_percentile": 2.7
+  },
+  {
+    "actor": 5,
+    "common_voiced_frames": 50,
+    "original_voiced_frames": 71,
+    "normalized_voiced_frames": 63,
+    "original_f0_mean": 289.17072082681534,
+    "normalized_f0_mean": 294.83956961335844,
+    "matched_frame_original_mean": 145.39876654236383,
+    "matched_frame_normalized_mean": 206.7739785043077,
+    "median_frame_pitch_shift_semitones": 6.100000000000001,
+    "frame_shift_10th_percentile": 5.989999999999998,
+    "frame_shift_90th_percentile": 6.499999999999998
+  },
+  {
+    "actor": 11,
+    "common_voiced_frames": 48,
+    "original_voiced_frames": 60,
+    "normalized_voiced_frames": 51,
+    "original_f0_mean": 114.37193624331218,
+    "normalized_f0_mean": 199.07627762863544,
+    "matched_frame_original_mean": 124.5680650959866,
+    "matched_frame_normalized_mean": 191.07333050098148,
+    "median_frame_pitch_shift_semitones": 7.849999999999998,
+    "frame_shift_10th_percentile": 3.0999999999999988,
+    "frame_shift_90th_percentile": 8.000000000000002
+  },
+  {
+    "actor": 21,
+    "common_voiced_frames": 72,
+    "original_voiced_frames": 74,
+    "normalized_voiced_frames": 93,
+    "original_f0_mean": 90.98148617385324,
+    "normalized_f0_mean": 132.303492684876,
+    "matched_frame_original_mean": 90.43957148211159,
+    "matched_frame_normalized_mean": 144.28494107341052,
+    "median_frame_pitch_shift_semitones": 9.399999999999999,
+    "frame_shift_10th_percentile": 0.6000000000000013,
+    "frame_shift_90th_percentile": 9.589999999999998
+  }
+]

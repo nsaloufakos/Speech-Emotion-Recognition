@@ -1,0 +1,2 @@
+# Optional speech-normalization engine used by the PSOLA experiment.
+praat-parselmouth==0.4.7

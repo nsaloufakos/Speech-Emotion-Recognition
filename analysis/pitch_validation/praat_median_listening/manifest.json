@@ -1,0 +1,158 @@
+{
+  "conditions_in_order": [
+    "original",
+    "actor_psola",
+    "praat_actor_psola",
+    "actor_psola_cap4",
+    "praat_actor_psola_cap4"
+  ],
+  "emotions_in_each_condition": [
+    "neutral",
+    "happy",
+    "angry"
+  ],
+  "listening_sample_rate": 16000,
+  "matching": "RMS matched over the concatenated three utterances within each condition; preserves between-utterance gain differences within a condition",
+  "utterance_gap_seconds": 0.4,
+  "condition_gap_seconds": 1.0,
+  "actors": {
+    "3": {
+      "conditions": {
+        "original": {
+          "paths": [
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/RAVDESS/Actor_03/03-01-01-01-01-01-03.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/RAVDESS/Actor_03/03-01-03-01-01-01-03.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/RAVDESS/Actor_03/03-01-05-01-01-01-03.wav"
+          ],
+          "listening_gain": 1.0
+        },
+        "actor_psola": {
+          "paths": [
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_mean/Actor_03/03-01-01-01-01-01-03.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_mean/Actor_03/03-01-03-01-01-01-03.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_mean/Actor_03/03-01-05-01-01-01-03.wav"
+          ],
+          "listening_gain": 1.1955468348863045
+        },
+        "praat_actor_psola": {
+          "paths": [
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_praat_median/Actor_03/03-01-01-01-01-01-03.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_praat_median/Actor_03/03-01-03-01-01-01-03.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_praat_median/Actor_03/03-01-05-01-01-01-03.wav"
+          ],
+          "listening_gain": 1.0916520088839414
+        },
+        "actor_psola_cap4": {
+          "paths": [
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_mean_cap4/Actor_03/03-01-01-01-01-01-03.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_mean_cap4/Actor_03/03-01-03-01-01-01-03.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_mean_cap4/Actor_03/03-01-05-01-01-01-03.wav"
+          ],
+          "listening_gain": 1.1955468348863045
+        },
+        "praat_actor_psola_cap4": {
+          "paths": [
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_praat_median_cap4/Actor_03/03-01-01-01-01-01-03.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_praat_median_cap4/Actor_03/03-01-03-01-01-01-03.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_praat_median_cap4/Actor_03/03-01-05-01-01-01-03.wav"
+          ],
+          "listening_gain": 1.0916520088839414
+        }
+      },
+      "file": "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/analysis/pitch_validation/praat_median_listening/actor_03_listening_sequence.wav",
+      "duration_seconds": 67.05625
+    },
+    "5": {
+      "conditions": {
+        "original": {
+          "paths": [
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/RAVDESS/Actor_05/03-01-01-01-01-01-05.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/RAVDESS/Actor_05/03-01-03-01-01-01-05.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/RAVDESS/Actor_05/03-01-05-01-01-01-05.wav"
+          ],
+          "listening_gain": 1.0
+        },
+        "actor_psola": {
+          "paths": [
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_mean/Actor_05/03-01-01-01-01-01-05.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_mean/Actor_05/03-01-03-01-01-01-05.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_mean/Actor_05/03-01-05-01-01-01-05.wav"
+          ],
+          "listening_gain": 1.5562597193503114
+        },
+        "praat_actor_psola": {
+          "paths": [
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_praat_median/Actor_05/03-01-01-01-01-01-05.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_praat_median/Actor_05/03-01-03-01-01-01-05.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_praat_median/Actor_05/03-01-05-01-01-01-05.wav"
+          ],
+          "listening_gain": 1.0138469873367444
+        },
+        "actor_psola_cap4": {
+          "paths": [
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_mean_cap4/Actor_05/03-01-01-01-01-01-05.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_mean_cap4/Actor_05/03-01-03-01-01-01-05.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_mean_cap4/Actor_05/03-01-05-01-01-01-05.wav"
+          ],
+          "listening_gain": 1.2040839842332858
+        },
+        "praat_actor_psola_cap4": {
+          "paths": [
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_praat_median_cap4/Actor_05/03-01-01-01-01-01-05.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_praat_median_cap4/Actor_05/03-01-03-01-01-01-05.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_praat_median_cap4/Actor_05/03-01-05-01-01-01-05.wav"
+          ],
+          "listening_gain": 1.0409399211544006
+        }
+      },
+      "file": "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/analysis/pitch_validation/praat_median_listening/actor_05_listening_sequence.wav",
+      "duration_seconds": 68.3909375
+    },
+    "21": {
+      "conditions": {
+        "original": {
+          "paths": [
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/RAVDESS/Actor_21/03-01-01-01-01-01-21.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/RAVDESS/Actor_21/03-01-03-01-01-01-21.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/RAVDESS/Actor_21/03-01-05-01-01-01-21.wav"
+          ],
+          "listening_gain": 1.0
+        },
+        "actor_psola": {
+          "paths": [
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_mean/Actor_21/03-01-01-01-01-01-21.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_mean/Actor_21/03-01-03-01-01-01-21.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_mean/Actor_21/03-01-05-01-01-01-21.wav"
+          ],
+          "listening_gain": 0.9577919883173702
+        },
+        "praat_actor_psola": {
+          "paths": [
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_praat_median/Actor_21/03-01-01-01-01-01-21.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_praat_median/Actor_21/03-01-03-01-01-01-21.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_praat_median/Actor_21/03-01-05-01-01-01-21.wav"
+          ],
+          "listening_gain": 0.996353127054067
+        },
+        "actor_psola_cap4": {
+          "paths": [
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_mean_cap4/Actor_21/03-01-01-01-01-01-21.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_mean_cap4/Actor_21/03-01-03-01-01-01-21.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_mean_cap4/Actor_21/03-01-05-01-01-01-21.wav"
+          ],
+          "listening_gain": 1.0486326464509297
+        },
+        "praat_actor_psola_cap4": {
+          "paths": [
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_praat_median_cap4/Actor_21/03-01-01-01-01-01-21.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_praat_median_cap4/Actor_21/03-01-03-01-01-01-21.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/audio_variants/normalized_psola_actor_praat_median_cap4/Actor_21/03-01-05-01-01-01-21.wav"
+          ],
+          "listening_gain": 1.0486326464509297
+        }
+      },
+      "file": "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/analysis/pitch_validation/praat_median_listening/actor_21_listening_sequence.wav",
+      "duration_seconds": 70.059375
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "status": "interrupted_at_user_request_for_CUDA_rerun",
+  "date": "2026-11-24",
+  "complete_comparison": false,
+  "progress": {
+    "original": {
+      "completed_seed_fold_pairs": 19,
+      "folds_per_seed": {
+        "42": 19
+      },
+      "predictions_sha256": "1ae6afbcc1643638da548a56e783df279fd7b7f4e75bed09772dc38a92d5792b"
+    },
+    "normalized_psola_actor_praat_median": {
+      "completed_seed_fold_pairs": 18,
+      "folds_per_seed": {
+        "42": 18
+      },
+      "predictions_sha256": "05d0e1c161a90228178a9d1311cf29c14d984657dfbdcc6a59f5baa9a76b401d"
+    },
+    "normalized_psola_actor_praat_median_cap4": {
+      "completed_seed_fold_pairs": 28,
+      "folds_per_seed": {
+        "42": 24,
+        "123": 4
+      },
+      "predictions_sha256": "ddf661339adc93e32775e93fd4575e78209490cd76baf2cd33cd2c6ff4cef84f"
+    }
+  },
+  "source_snapshots": "analysis/model_comparison/mac_execution_sources",
+  "policy": "Preserve partial Mac results; run the full original/full/capped comparison in a separate CUDA output root, without mixing partial Mac and CUDA predictions."
+}

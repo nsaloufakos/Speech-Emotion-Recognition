@@ -1,0 +1,5 @@
+file,actor_id,emotion,source_sha256,original_voiced_frames,source_sample_rate,original_mean_f0_hz,applied_shift_semitones,original_mean_voicing_probability,status,duration_seconds,output_sha256,output_mean_f0_hz,output_voiced_frames,shared_voiced_frames,output_mean_voicing_probability,shared_median_shift_semitones,output_peak,reason
+03-01-04-02-01-02-09,9,sad,1de7ef2c2cefd9a6ae9d16c8b026c2c73872a0825c3374441435c4a077f4351e,0,48000,,,,excluded,,,,,,,,,fewer_than_three_pyin_voiced_frames
+03-01-07-02-01-01-03,3,disgust,a2cc154fad57b61dbe8d07c28b2d363ddb6b932842343e71b8cfad0513cc36b7,0,48000,,,,excluded,,,,,,,,,fewer_than_three_pyin_voiced_frames
+03-01-07-02-01-02-03,3,disgust,55034a0e4cceb4ffecceac0daf53bae04ca4949fe347b21f21a01db8f9d7b2ff,0,48000,,,,excluded,,,,,,,,,fewer_than_three_pyin_voiced_frames
+03-01-07-02-02-02-05,5,disgust,c02ee9aa4798f2aedd7485c9c2b5f16ff96051f22b73423d675a6b17182ec331,0,48000,,,,excluded,,,,,,,,,fewer_than_three_pyin_voiced_frames

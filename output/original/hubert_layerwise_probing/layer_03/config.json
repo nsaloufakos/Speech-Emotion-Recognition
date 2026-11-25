@@ -1,3 +1,58 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:63cd79aa68a54aa7186bc103511eb953453f97d80da6e3ee4e74e89e37fa80ac
-size 704
+{
+  "validation_actors": 2,
+  "split_seed": 42,
+  "folds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24
+  ],
+  "seeds": [
+    42,
+    123,
+    999
+  ],
+  "checkpoint": "facebook/hubert-base-ls960",
+  "sample_rate": 16000,
+  "batch_size": 32,
+  "learning_rate": 0.001,
+  "epochs": 30,
+  "layers": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "frozen_backbone": true,
+  "pooling": "mean_over_time",
+  "feature_layer": 3,
+  "splits_path": "output\\splits.csv"
+}

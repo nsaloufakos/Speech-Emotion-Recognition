@@ -1,0 +1,12 @@
+{
+  "summary_code_sha256": "6c82433571198791722901dd1c82e124ed94e5a55bcb97d55f263663b8799e8e",
+  "audit_config_sha256": "8eb3d131afb0e893154f94a6aa712ceb8366dd50ae76130a12b39bae0b4c2a69",
+  "recordings": 1440,
+  "actors": 24,
+  "all_track_hashes_valid": true,
+  "old_hz_mean_max_reproduction_error_st": 7.993605777301127e-15,
+  "native_rate_max_actor_delta_st": 0.0045872690881765266,
+  "pitch_top_max_actor_delta_st": 0.873356567530498,
+  "actors_without_exploratory_flags": 13,
+  "limits": "Bootstrap intervals describe utterance-sampling stability, not F0 accuracy. Consensus filtering changes frame and utterance coverage. No manual ground-truth contour exists. Neutral and emotion fields are diagnostics, not inputs to proposed baselines."
+}

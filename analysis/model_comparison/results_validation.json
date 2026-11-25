@@ -1,0 +1,57 @@
+{
+  "all_nine_cells_complete": false,
+  "missing": [
+    "mfcc/original",
+    "mfcc/normalized_psola_actor_praat_median",
+    "mfcc/normalized_psola_actor_praat_median_cap4"
+  ],
+  "unique_recordings": 1429,
+  "seeds": [
+    42,
+    123,
+    999
+  ],
+  "folds_per_seed": 24,
+  "metrics_independently_reproduced": true,
+  "held_out_membership_verified": true,
+  "audio_hashes_verified": true,
+  "provenance": {
+    "wav2vec/original": {
+      "evaluation": "output/pitch_comparison_praat_median_wav2vec/original/wav2vec_baseline/evaluation.json",
+      "evaluation_sha256": "35efbdbf01dcbe880014c1a3a4a43827f1764a6c1848cd179ea369d9e8b4dfa2",
+      "predictions_sha256": "72415420c3382f0aa212a66a3e3f7ede5c589b6d86c22c500f5f72b588a99a6f",
+      "configuration_sha256": "53d59c2429d670254d2be94eee4e5e40584aac1a31667c4256a2f803b38237f0"
+    },
+    "wav2vec/normalized_psola_actor_praat_median": {
+      "evaluation": "output/pitch_comparison_praat_median_wav2vec/normalized_psola_actor_praat_median/wav2vec_baseline/evaluation.json",
+      "evaluation_sha256": "0c9a3bb92fda02a2f5c8e919481d24d7a352bdee3367acd11e788a7eee5a242d",
+      "predictions_sha256": "24fed522345df95375f35d5f99b2278f091b8305f7f05f8e96d442fb5d50d3b3",
+      "configuration_sha256": "53d59c2429d670254d2be94eee4e5e40584aac1a31667c4256a2f803b38237f0"
+    },
+    "wav2vec/normalized_psola_actor_praat_median_cap4": {
+      "evaluation": "output/pitch_comparison_praat_median_wav2vec/normalized_psola_actor_praat_median_cap4/wav2vec_baseline/evaluation.json",
+      "evaluation_sha256": "f246bfdbe35d7f8019f983d84061d35fb67946e86689a27860de23514f0ae500",
+      "predictions_sha256": "a3cd5e8577a80b0013e3cdeb998da4626cfce08d260ee267b2ba4b9c55365897",
+      "configuration_sha256": "53d59c2429d670254d2be94eee4e5e40584aac1a31667c4256a2f803b38237f0"
+    },
+    "hubert/original": {
+      "evaluation": "output/pitch_comparison_hubert/original/hubert_baseline/evaluation.json",
+      "evaluation_sha256": "acb3f2731c1a7c304343fcb57468097014fa60070fd1f313a625489d1a44e27a",
+      "predictions_sha256": "b5a45f9547299814a380d6bb1a06738b6550a7f88270189f4f8c64db0da6e88f",
+      "configuration_sha256": "c96d41d5ac8551d66c92dbc3d137a0de712aee06ccee9fd2d20c03451a49b79f"
+    },
+    "hubert/normalized_psola_actor_praat_median": {
+      "evaluation": "output/pitch_comparison_praat_median_hubert/normalized_psola_actor_praat_median/hubert_baseline/evaluation.json",
+      "evaluation_sha256": "105c30d1f64c757751379d448cf8024e55e8020e79c5ff4a781ba611298e12c7",
+      "predictions_sha256": "9b28012015b53487525e864fd1a7cc400317161bdeed8ce1810b82c3fa845e51",
+      "configuration_sha256": "33028f8721875dec3999c0e0c5771ea84bd500e70bc80095fc749fc123e90101"
+    },
+    "hubert/normalized_psola_actor_praat_median_cap4": {
+      "evaluation": "output/pitch_comparison_praat_median_hubert/normalized_psola_actor_praat_median_cap4/hubert_baseline/evaluation.json",
+      "evaluation_sha256": "89033a0e32f960ccae5a1933feaa213a7c6356cdaeb1673872e73c589558d0ba",
+      "predictions_sha256": "759fec0b4b9d5096ae442c84de3e07f4b0d7e124b26bd7abb2602af6efa307e6",
+      "configuration_sha256": "33028f8721875dec3999c0e0c5771ea84bd500e70bc80095fc749fc123e90101"
+    }
+  },
+  "interpretation": "Within-model comparisons control hardware, architecture and hyperparameters. MFCC uses verified equivalent dense BiLSTM execution on MPS; frozen encoder classifier heads train on CPU. Three-seed differences are descriptive, not significance tests."
+}

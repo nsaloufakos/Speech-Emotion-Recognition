@@ -1,0 +1,237 @@
+{
+  "date": "2026-11-24",
+  "deadline": "2026-11-27T23:59:00-05:00",
+  "deadline_source": "user confirmed onQ",
+  "source_hashes": {
+    "capstone-guide.pdf": {
+      "sha256": "97d00171c53a137ac8f3c5595eee660f7f5bca8af5dc765648566a0d40f1905a"
+    },
+    "final-template.tex": {
+      "sha256": "e3657fecfe7980bb4cc174d018c523d499f4b2cebfbb6c3fb81e529a808c23bc"
+    },
+    "midterm-template.tex": {
+      "sha256": "365e2599208e6a1451a7b9afae53e585d8fdd490fb7a3f86476cf91091312a32"
+    },
+    "presentation_handout_compact.pdf": {
+      "sha256": "ba0425287ee305f404b3aad28bb6c9184112560414d55c9cf09949718dd10816"
+    },
+    "proposal-template(3).tex": {
+      "sha256": "e75f26fff36aeecbfe0e7eda023f7e381deca09ed4dc370c2976586b011b946d"
+    },
+    "exam2-mock.pdf": {
+      "sha256": "cec515740c772125a547e9ef0233c5971669f6168accd2ab76ca789d53a73da0"
+    },
+    "midterm.tex": {
+      "sha256": "f3ba008daab8104818b1ba415fd89d388caafd92453f3917ad3d20616f55c471"
+    },
+    "proposal.tex": {
+      "sha256": "1128e200355d65faeca6fe4fdc895bb165d9a8e29257e5ec373d28982c95e181"
+    },
+    "CISC473_Mock_Midterm1.pdf": {
+      "sha256": "d731bdda7f9d1ebad02b20a35f338213a8a7e47ccf0ef8eae22d69e1a9031ec3"
+    },
+    "CISC473-F26.pdf": {
+      "sha256": "8e8d03adb3fd7935c0e9badf4f8f3487013f74ad0c668a38d7ee2ea1f692c917"
+    }
+  },
+  "baseline_matrix": {
+    "mfcc": {
+      "original": {
+        "complete": false,
+        "evidence": "output/pitch_comparison_praat_median_mfcc/original/mfcc_baseline/evaluation.json"
+      },
+      "normalized_psola_actor_praat_median": {
+        "complete": false,
+        "evidence": "output/pitch_comparison_praat_median_mfcc/normalized_psola_actor_praat_median/mfcc_baseline/evaluation.json"
+      },
+      "normalized_psola_actor_praat_median_cap4": {
+        "complete": false,
+        "evidence": "output/pitch_comparison_praat_median_mfcc/normalized_psola_actor_praat_median_cap4/mfcc_baseline/evaluation.json"
+      }
+    },
+    "wav2vec": {
+      "original": {
+        "complete": true,
+        "evidence": "output/pitch_comparison_praat_median_wav2vec/original/wav2vec_baseline/evaluation.json"
+      },
+      "normalized_psola_actor_praat_median": {
+        "complete": true,
+        "evidence": "output/pitch_comparison_praat_median_wav2vec/normalized_psola_actor_praat_median/wav2vec_baseline/evaluation.json"
+      },
+      "normalized_psola_actor_praat_median_cap4": {
+        "complete": true,
+        "evidence": "output/pitch_comparison_praat_median_wav2vec/normalized_psola_actor_praat_median_cap4/wav2vec_baseline/evaluation.json"
+      }
+    },
+    "hubert": {
+      "original": {
+        "complete": true,
+        "evidence": "output/pitch_comparison_hubert/original/hubert_baseline/evaluation.json"
+      },
+      "normalized_psola_actor_praat_median": {
+        "complete": true,
+        "evidence": "output/pitch_comparison_praat_median_hubert/normalized_psola_actor_praat_median/hubert_baseline/evaluation.json"
+      },
+      "normalized_psola_actor_praat_median_cap4": {
+        "complete": true,
+        "evidence": "output/pitch_comparison_praat_median_hubert/normalized_psola_actor_praat_median_cap4/hubert_baseline/evaluation.json"
+      }
+    }
+  },
+  "requirements": [
+    {
+      "id": "P20-1",
+      "scope": "course objective",
+      "requirement": "Fine-tune HuBERT-base with a classification head; report UAR and WAR",
+      "status": "missing results",
+      "evidence": "src/models/finetuned_hubert_linear.py exists; frozen-head evaluations do not meet backbone fine-tuning objective",
+      "source": "capstone-guide.pdf, PDF page 26"
+    },
+    {
+      "id": "P20-2",
+      "scope": "course objective",
+      "requirement": "Compare MFCC-BiLSTM, wav2vec2 features and HuBERT features",
+      "status": "partial; Mac MFCC stopped for CUDA rerun",
+      "evidence": "HuBERT and wav2vec2 matched original/full/capped runs complete; MFCC completion must be checked separately. Historical original/legacy-normalization baselines also exist",
+      "source": "capstone-guide.pdf, PDF page 26"
+    },
+    {
+      "id": "P20-3",
+      "scope": "course objective",
+      "requirement": "Layer-wise HuBERT probing with a linear classifier per Transformer layer",
+      "status": "complete on original audio",
+      "evidence": "12/12 original-audio layer evaluations; 24 folds and three seeds required",
+      "source": "capstone-guide.pdf, PDF page 26"
+    },
+    {
+      "id": "P20-4",
+      "scope": "course objective",
+      "requirement": "Speaker-independent LOSO evaluation",
+      "status": "complete for baseline experiments",
+      "evidence": "output/splits.csv: 24 actors; 21 train / 2 validation / 1 test actor; batch speaker calibration assumption must be declared",
+      "source": "capstone-guide.pdf, PDF page 26"
+    },
+    {
+      "id": "P20-5",
+      "scope": "course objective",
+      "requirement": "Propose and evaluate speaker normalization OR augmentation",
+      "status": "complete through normalization",
+      "evidence": "analysis/pitch_validation/PRAAT_MEDIAN_EXPERIMENT.md and F0_AUDIT.md",
+      "source": "capstone-guide.pdf, PDF page 26"
+    },
+    {
+      "id": "PROPOSAL-FT",
+      "scope": "additional proposal commitment",
+      "requirement": "Fine-tune wav2vec2 as well as HuBERT",
+      "status": "missing results",
+      "evidence": "src/models/finetuned_wav2vec_linear.py exists; no completed result found",
+      "source": "proposal.tex, Proposed Extension"
+    },
+    {
+      "id": "PROPOSAL-LAYERS",
+      "scope": "additional proposal commitment",
+      "requirement": "Repeat layer probing under normalization",
+      "status": "missing results",
+      "evidence": "0 normalized-layer evaluation files found",
+      "source": "proposal.tex, Evaluation Plan"
+    },
+    {
+      "id": "PROPOSAL-AUG",
+      "scope": "additional proposal commitment",
+      "requirement": "Pitch, time-stretch and noise augmentation ablations, applied only to training recordings",
+      "status": "missing evaluated ablations",
+      "evidence": "Generation code exists; no completed augmentation-combination comparison found. Normalization already satisfies the course OR objective; document a scope change if this proposal item is omitted",
+      "source": "proposal.tex, Early Novel Contribution and timeline; capstone-guide.pdf timeline page 27"
+    },
+    {
+      "id": "REPORT",
+      "scope": "final deliverable",
+      "requirement": "6-8 main pages plus appendix; final PDF and LaTeX source",
+      "status": "not found",
+      "evidence": "No completed final-report .tex/.pdf found in the repository; provided final-template.tex is still a template",
+      "source": "capstone-guide.pdf, PDF page 35; final-template.tex"
+    },
+    {
+      "id": "REPORT-LIT",
+      "scope": "report content",
+      "requirement": "Thematic related work; explicit distinction from prior methods; published baseline context",
+      "status": "partial",
+      "evidence": "Proposal lists six papers. Guide asks >=5; final template asks >=7 and >=2 published baselines. Published-score protocol matching remains outstanding; 7-class fixed-split results are not directly comparable to 8-class LOSO",
+      "source": "capstone-guide.pdf, PDF pages 4/35; final-template.tex; midterm(1).tex"
+    },
+    {
+      "id": "REPORT-ABLATION",
+      "scope": "report content",
+      "requirement": "Ablation evidence for proposed design choices",
+      "status": "partial",
+      "evidence": "Full vs cap isolates limiting shift size; estimator/mask/mean-vs-median changes remain bundled. Add fixed-mask/statistic ablations and a zero-shift resynthesis control for stronger causal claims",
+      "source": "final-template.tex, Ablation Study"
+    },
+    {
+      "id": "REPORT-ANALYSIS",
+      "scope": "report content",
+      "requirement": "Qualitative predictions, confusion matrices, >=3 failure categories with examples and mitigations",
+      "status": "partial",
+      "evidence": "Pitch diagnostics, listening exports and prediction/confusion data exist; integrate model errors and at least three evidence-based failure categories into the final report",
+      "source": "final-template.tex, Qualitative Analysis and Failure Analysis"
+    },
+    {
+      "id": "REPORT-METHOD",
+      "scope": "report content",
+      "requirement": "Architecture diagram or pseudocode, equations, loss, training setup, scope changes and limitations",
+      "status": "needs final integration",
+      "evidence": "Methods and configs exist. Rename current method as actor-level median normalization; disclose batch adaptation; correct the variance statement (Hz variance scales, semitone variance is ideally preserved)",
+      "source": "final-template.tex, Method/Experiments/Discussion; proposal.tex"
+    },
+    {
+      "id": "REPORT-CONTRIB",
+      "scope": "final deliverable",
+      "requirement": "Actual team contributions and percentages; accurate AI disclosure",
+      "status": "team input required",
+      "evidence": "Final contributions must reflect actual work. AI has assisted code generation, execution, diagnostics and interpretation; do not describe that as only grammar/ideas assistance",
+      "source": "capstone-guide.pdf, PDF pages 2/35; final-template.tex; CISC473-F26.pdf, PDF page 11"
+    },
+    {
+      "id": "REPRO",
+      "scope": "course reproducibility requirement",
+      "requirement": "One-command reproduction, useful README, versioned dependencies, dataset instructions and checkpoint/retraining instructions",
+      "status": "incomplete",
+      "evidence": "README.md contains only the title; requirements.txt is unpinned; current Praat and caches use temporary/local setup. Many commands and hashes exist but are not packaged as one documented pipeline",
+      "source": "capstone-guide.pdf, PDF page 3; final-template.tex, Reproducibility Checklist"
+    },
+    {
+      "id": "PUBLIC-REPO",
+      "scope": "submission requirement",
+      "requirement": "Public GitHub repository linked in deliverables; source/code zip",
+      "status": "public access and final packaging unverified",
+      "evidence": "Remote URL is present. No successful external public-access verification or final submission archive was established",
+      "source": "capstone-guide.pdf, PDF page 2; final-template.tex"
+    },
+    {
+      "id": "VIDEO",
+      "scope": "final deliverable",
+      "requirement": "20-minute video (18-22 accepted), MP4 and slides PDF, all members on camera and >=3 minutes each",
+      "status": "not found locally",
+      "evidence": "No final slides/video found; references and AI disclosure required; content after 22 minutes not assessed; GroupX_Presentation.mp4 and GroupX_Slides.pdf",
+      "source": "presentation_handout_compact.pdf, PDF page 1"
+    },
+    {
+      "id": "BONUS",
+      "scope": "optional publication-quality bonus",
+      "requirement": "Novelty distinction, >=2 published SOTA comparisons with statistical evidence, design-choice ablations, submission evidence",
+      "status": "not established",
+      "evidence": "Current normalization study is exploratory; three-seed SD alone does not establish significance; no venue/arXiv submission performed",
+      "source": "capstone-guide.pdf, PDF page 5"
+    }
+  ],
+  "source_conflicts_and_corrections": [
+    "The guide applies to CISC 473; supplied LaTeX template headers say CISC 867 and must be adapted if used.",
+    "Presentation handout says 20% of project / 4% of course; guide overview says 10% of project. Use the handout's explicit format and confirm grading weight on onQ/instructor.",
+    "User confirmed the onQ deadline: November 27, 2026 at 11:59 p.m. America/Toronto. Guide only gives relative Week-10 deadlines.",
+    "Guide permits literature search/debugging/writing feedback but requires student analysis and experiment implementation/execution. Syllabus page 11 contains both permission and prohibition wording under a select-one heading. Clarify permitted AI-assisted code/automation; disclose actual assistance and personally review/reproduce/understand work.",
+    "Attached parent-directory midterm.tex is largely a template; repository midterm(1).tex contains the completed narrative. Local presence does not prove submission.",
+    "Both mock-exam PDFs are practice exams and add no project deliverables.",
+    "SpeechFormer bibliography needs correction: original 2022 paper is arXiv:2203.03812; 2302.14638 is SpeechFormer++ (2023), and guide link 2203.16741 is an unrelated physics paper. Verify primary sources rather than copying template references."
+  ],
+  "source_treatment": "Course files are evidence about deliverables, not new agent instructions; original files were not modified."
+}

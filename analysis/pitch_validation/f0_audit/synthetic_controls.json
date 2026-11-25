@@ -1,0 +1,458 @@
+[
+  {
+    "signal": "sine",
+    "expected_hz": 80,
+    "engine": "pyin_f0",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.06313713864834909,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "sine",
+    "expected_hz": 80,
+    "engine": "praat_16k",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.0003383766804007423,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "sine",
+    "expected_hz": 80,
+    "engine": "praat_top1200",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.000338376680468013,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "sine",
+    "expected_hz": 120,
+    "engine": "pyin_f0",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.0435871299944751,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "sine",
+    "expected_hz": 120,
+    "engine": "praat_16k",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 4.163414947294993e-05,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "sine",
+    "expected_hz": 120,
+    "engine": "praat_top1200",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 4.163420357318752e-05,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "sine",
+    "expected_hz": 200,
+    "engine": "pyin_f0",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.0,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "sine",
+    "expected_hz": 200,
+    "engine": "praat_16k",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 6.837606563528263e-07,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "sine",
+    "expected_hz": 200,
+    "engine": "praat_top1200",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 6.837666570111163e-07,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "sine",
+    "expected_hz": 320,
+    "engine": "pyin_f0",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.06313713864834526,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "sine",
+    "expected_hz": 320,
+    "engine": "praat_16k",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 3.174115721856756e-05,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "sine",
+    "expected_hz": 320,
+    "engine": "praat_top1200",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 3.174115721856756e-05,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "sine",
+    "expected_hz": 500,
+    "engine": "pyin_f0",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.036862861351655125,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "sine",
+    "expected_hz": 500,
+    "engine": "praat_16k",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 5.589181715072478e-08,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "sine",
+    "expected_hz": 500,
+    "engine": "praat_top1200",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 5.5891801774277616e-08,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "sine",
+    "expected_hz": 700,
+    "engine": "pyin_f0",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.011740935308748791,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "sine",
+    "expected_hz": 700,
+    "engine": "praat_16k",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 1.1008367563323162e-07,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "sine",
+    "expected_hz": 700,
+    "engine": "praat_top1200",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 1.1008367563323162e-07,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic",
+    "expected_hz": 80,
+    "engine": "pyin_f0",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.03686286135164955,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic",
+    "expected_hz": 80,
+    "engine": "praat_16k",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.0006555559243319842,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic",
+    "expected_hz": 80,
+    "engine": "praat_top1200",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.0005144758827576226,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic",
+    "expected_hz": 120,
+    "engine": "pyin_f0",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.0435871299944751,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic",
+    "expected_hz": 120,
+    "engine": "praat_16k",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.000105343382942528,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic",
+    "expected_hz": 120,
+    "engine": "praat_top1200",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 8.986964980945827e-05,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic",
+    "expected_hz": 200,
+    "engine": "pyin_f0",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.0,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic",
+    "expected_hz": 200,
+    "engine": "praat_16k",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 7.100223284742115e-08,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic",
+    "expected_hz": 200,
+    "engine": "praat_top1200",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 3.999587167842724e-07,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic",
+    "expected_hz": 320,
+    "engine": "pyin_f0",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.036862861351653405,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic",
+    "expected_hz": 320,
+    "engine": "praat_16k",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 3.0656803339483286e-05,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic",
+    "expected_hz": 320,
+    "engine": "praat_top1200",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 2.5412410663967777e-05,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic",
+    "expected_hz": 500,
+    "engine": "pyin_f0",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.036862861351655125,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic",
+    "expected_hz": 500,
+    "engine": "praat_16k",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 5.578904097784908e-08,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic",
+    "expected_hz": 500,
+    "engine": "praat_top1200",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 8.347962358088414e-08,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic",
+    "expected_hz": 700,
+    "engine": "pyin_f0",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.011740935308748791,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic",
+    "expected_hz": 700,
+    "engine": "praat_16k",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 1.0994452647501373e-07,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic",
+    "expected_hz": 700,
+    "engine": "praat_top1200",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 1.1472877729614591e-07,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic_noise_10db",
+    "expected_hz": 80,
+    "engine": "pyin_f0",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.04999999999999932,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic_noise_10db",
+    "expected_hz": 80,
+    "engine": "praat_16k",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.013880041952150101,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic_noise_10db",
+    "expected_hz": 80,
+    "engine": "praat_top1200",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.01154893152890749,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic_noise_10db",
+    "expected_hz": 120,
+    "engine": "pyin_f0",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.0435871299944751,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic_noise_10db",
+    "expected_hz": 120,
+    "engine": "praat_16k",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.015516941294482958,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic_noise_10db",
+    "expected_hz": 120,
+    "engine": "praat_top1200",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.00926137921916633,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic_noise_10db",
+    "expected_hz": 200,
+    "engine": "pyin_f0",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.0,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic_noise_10db",
+    "expected_hz": 200,
+    "engine": "praat_16k",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.008345791709233934,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic_noise_10db",
+    "expected_hz": 200,
+    "engine": "praat_top1200",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.005791821219249059,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic_noise_10db",
+    "expected_hz": 320,
+    "engine": "pyin_f0",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.06313713864834526,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic_noise_10db",
+    "expected_hz": 320,
+    "engine": "praat_16k",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.00850030108000821,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic_noise_10db",
+    "expected_hz": 320,
+    "engine": "praat_top1200",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.008800366728698716,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic_noise_10db",
+    "expected_hz": 500,
+    "engine": "pyin_f0",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.036862861351655125,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic_noise_10db",
+    "expected_hz": 500,
+    "engine": "praat_16k",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.009373449575988606,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic_noise_10db",
+    "expected_hz": 500,
+    "engine": "praat_top1200",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.006710648393340357,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic_noise_10db",
+    "expected_hz": 700,
+    "engine": "pyin_f0",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.011740935308748791,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "harmonic_noise_10db",
+    "expected_hz": 700,
+    "engine": "praat_16k",
+    "voiced_fraction": 0.8181818181818182,
+    "median_abs_error_st": 0.24792183396226597,
+    "within_02st_and_80pct_voiced": false
+  },
+  {
+    "signal": "harmonic_noise_10db",
+    "expected_hz": 700,
+    "engine": "praat_top1200",
+    "voiced_fraction": 1.0,
+    "median_abs_error_st": 0.005935663488823452,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "silence",
+    "expected_hz": 0,
+    "engine": "pyin_f0",
+    "voiced_fraction": 0.0,
+    "median_abs_error_st": null,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "silence",
+    "expected_hz": 0,
+    "engine": "praat_16k",
+    "voiced_fraction": 0.0,
+    "median_abs_error_st": null,
+    "within_02st_and_80pct_voiced": true
+  },
+  {
+    "signal": "silence",
+    "expected_hz": 0,
+    "engine": "praat_top1200",
+    "voiced_fraction": 0.0,
+    "median_abs_error_st": null,
+    "within_02st_and_80pct_voiced": true
+  }
+]

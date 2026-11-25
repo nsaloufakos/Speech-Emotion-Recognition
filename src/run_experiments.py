@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 from time import perf_counter
 import pandas as pd
 import torch
@@ -25,8 +26,7 @@ CONFIG = {
     "seeds": [42, 123, 999]
 }
 
-#DATA_DIR = Path("data/RAVDESS")
-DATA_DIR = Path("data/audio_variants/normalized_only")
+DATA_DIR = Path(os.environ.get("SER_DATA_DIR", "data/audio_variants/normalized_psola_actor_praat_median_cap4"))
 DATASET = "original" if DATA_DIR.name == "RAVDESS" else DATA_DIR.name.lower()
 SPLITS_PATH = Path("output/splits.csv")
 
@@ -263,20 +263,31 @@ def create_loader(df, features, batch_size, shuffle = False):
         collate_fn = collate_batch
     )
 
-def run_experiment(model_class, extract_features, config, output_dir):
+def run_experiment(model_class, extract_features, config, output_dir, *,
+                   data_dir=None, dataset=None, experiment_root=Path("output"),
+                   recording_files=None):
     config = {**CONFIG, **config}
+    data_dir = Path(data_dir) if data_dir is not None else DATA_DIR
+    dataset = dataset if dataset is not None else DATASET
 
-    output_dir = Path("output") / DATASET / output_dir.name
+    output_dir = Path(experiment_root) / dataset / output_dir.name
     output_dir.mkdir(parents = True, exist_ok = True)
 
-    df = pd.read_csv(DATA_DIR / "index.csv")
+    df = pd.read_csv(data_dir / "index.csv")
+    if recording_files is not None:
+        selected = set(recording_files)
+        missing = selected - set(df["file"])
+        if missing:
+            raise ValueError(f"Requested recordings missing from {data_dir}: {sorted(missing)}")
+        df = df[df["file"].isin(selected)].copy()
     df["label"] = df["emotion"].map({emotion: i for i, emotion in enumerate(EMOTIONS)})
 
     splits = load_splits(df)
     splits = splits[splits["file"].isin(df["file"])].copy()
 
     with (output_dir / "config.json").open("w") as file:
-        json.dump({**config, "splits_path": str(SPLITS_PATH)}, file, indent = 2)
+        json.dump({**config, "splits_path": str(SPLITS_PATH),
+                   "data_dir": str(data_dir), "recording_count": len(df)}, file, indent = 2)
 
 
     features = extract_features(df)

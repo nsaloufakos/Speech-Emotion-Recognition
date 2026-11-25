@@ -1,3 +1,581 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:2e1e0648cf4a8aa9d1d9191c63270a977bfd38c77f1c7413f84c5724be43df6b
-size 17721
+{
+  "librosa_version": "0.11.0",
+  "rows": [
+    {
+      "actor": 1,
+      "emotion": "happy",
+      "file": "03-01-03-01-01-01-01.wav",
+      "original_mean_hz": 117.05795057728216,
+      "normalized_mean_hz": 149.39638999296324,
+      "formula_shift_semitones": 9.273324892311786,
+      "original": {
+        "mean_f0": 117.05795057728216,
+        "median_f0": 136.60402567543954,
+        "voiced_frames": 71,
+        "frames": 109,
+        "voiced_probability_mean": 0.027920773623374008,
+        "duration": 3.4701875
+      },
+      "normalized": {
+        "mean_f0": 149.39638999296324,
+        "median_f0": 148.05874472465916,
+        "voiced_frames": 78,
+        "frames": 109,
+        "voiced_probability_mean": 0.01848133399064262,
+        "duration": 3.4701875
+      }
+    },
+    {
+      "actor": 2,
+      "emotion": "happy",
+      "file": "03-01-03-01-01-01-02.wav",
+      "original_mean_hz": 242.60882229741742,
+      "normalized_mean_hz": 197.2574152343875,
+      "formula_shift_semitones": -3.343584167907194,
+      "original": {
+        "mean_f0": 242.60882229741742,
+        "median_f0": 242.69976028898833,
+        "voiced_frames": 48,
+        "frames": 113,
+        "voiced_probability_mean": 0.22616732816710172,
+        "duration": 3.603625
+      },
+      "normalized": {
+        "mean_f0": 197.2574152343875,
+        "median_f0": 184.99753105272487,
+        "voiced_frames": 48,
+        "frames": 113,
+        "voiced_probability_mean": 0.15091355855438646,
+        "duration": 3.603625
+      }
+    },
+    {
+      "actor": 3,
+      "emotion": "happy",
+      "file": "03-01-03-01-01-01-03.wav",
+      "original_mean_hz": 175.24502259869152,
+      "normalized_mean_hz": 272.55086547758384,
+      "formula_shift_semitones": 2.2875183763870726,
+      "original": {
+        "mean_f0": 175.24502259869152,
+        "median_f0": 163.8976090151886,
+        "voiced_frames": 36,
+        "frames": 118,
+        "voiced_probability_mean": 0.14303259134764415,
+        "duration": 3.7704375
+      },
+      "normalized": {
+        "mean_f0": 272.55086547758384,
+        "median_f0": 191.01929599710533,
+        "voiced_frames": 56,
+        "frames": 118,
+        "voiced_probability_mean": 0.07610922489299883,
+        "duration": 3.7704375
+      }
+    },
+    {
+      "actor": 4,
+      "emotion": "happy",
+      "file": "03-01-03-01-01-01-04.wav",
+      "original_mean_hz": 279.41080019683795,
+      "normalized_mean_hz": 209.90941953827294,
+      "formula_shift_semitones": -5.7886534439267425,
+      "original": {
+        "mean_f0": 279.41080019683795,
+        "median_f0": 221.91389441356898,
+        "voiced_frames": 45,
+        "frames": 110,
+        "voiced_probability_mean": 0.1727574859066656,
+        "duration": 3.5035
+      },
+      "normalized": {
+        "mean_f0": 209.90941953827294,
+        "median_f0": 171.61464629269324,
+        "voiced_frames": 44,
+        "frames": 110,
+        "voiced_probability_mean": 0.10410118980195007,
+        "duration": 3.5035
+      }
+    },
+    {
+      "actor": 5,
+      "emotion": "happy",
+      "file": "03-01-03-01-01-01-05.wav",
+      "original_mean_hz": 289.17072082681534,
+      "normalized_mean_hz": 294.83956961335844,
+      "formula_shift_semitones": -6.383057803552363,
+      "original": {
+        "mean_f0": 289.17072082681534,
+        "median_f0": 166.24757922855756,
+        "voiced_frames": 71,
+        "frames": 126,
+        "voiced_probability_mean": 0.10723219281706844,
+        "duration": 4.004
+      },
+      "normalized": {
+        "mean_f0": 294.83956961335844,
+        "median_f0": 211.89261887185907,
+        "voiced_frames": 63,
+        "frames": 126,
+        "voiced_probability_mean": 0.13313312039498407,
+        "duration": 4.004
+      }
+    },
+    {
+      "actor": 6,
+      "emotion": "happy",
+      "file": "03-01-03-01-01-01-06.wav",
+      "original_mean_hz": 384.8363314405111,
+      "normalized_mean_hz": 283.488661745955,
+      "formula_shift_semitones": -11.330940081440431,
+      "original": {
+        "mean_f0": 384.8363314405111,
+        "median_f0": 299.66141537533633,
+        "voiced_frames": 66,
+        "frames": 111,
+        "voiced_probability_mean": 0.2562947592352564,
+        "duration": 3.536875
+      },
+      "normalized": {
+        "mean_f0": 283.488661745955,
+        "median_f0": 198.27544441704435,
+        "voiced_frames": 52,
+        "frames": 111,
+        "voiced_probability_mean": 0.2881600515433243,
+        "duration": 3.536875
+      }
+    },
+    {
+      "actor": 7,
+      "emotion": "happy",
+      "file": "03-01-03-01-01-01-07.wav",
+      "original_mean_hz": 208.2421167538108,
+      "normalized_mean_hz": 136.00348138236097,
+      "formula_shift_semitones": -0.6991425808213407,
+      "original": {
+        "mean_f0": 208.2421167538108,
+        "median_f0": 116.56447271567463,
+        "voiced_frames": 82,
+        "frames": 110,
+        "voiced_probability_mean": 0.04065466529309114,
+        "duration": 3.5035
+      },
+      "normalized": {
+        "mean_f0": 136.00348138236097,
+        "median_f0": 154.22108254079407,
+        "voiced_frames": 84,
+        "frames": 110,
+        "voiced_probability_mean": 0.05790523753717608,
+        "duration": 3.5035
+      }
+    },
+    {
+      "actor": 8,
+      "emotion": "happy",
+      "file": "03-01-03-01-01-01-08.wav",
+      "original_mean_hz": 150.82999115820024,
+      "normalized_mean_hz": 161.23867445658112,
+      "formula_shift_semitones": 4.884920114557475,
+      "original": {
+        "mean_f0": 150.82999115820024,
+        "median_f0": 176.1331747192297,
+        "voiced_frames": 81,
+        "frames": 110,
+        "voiced_probability_mean": 0.11779235565191973,
+        "duration": 3.5035
+      },
+      "normalized": {
+        "mean_f0": 161.23867445658112,
+        "median_f0": 190.41837248609357,
+        "voiced_frames": 72,
+        "frames": 110,
+        "voiced_probability_mean": 0.09920516301479837,
+        "duration": 3.5035
+      }
+    },
+    {
+      "actor": 9,
+      "emotion": "happy",
+      "file": "03-01-03-01-01-01-09.wav",
+      "original_mean_hz": 140.3599271646848,
+      "normalized_mean_hz": 216.29346554912317,
+      "formula_shift_semitones": 6.130426749452944,
+      "original": {
+        "mean_f0": 140.3599271646848,
+        "median_f0": 108.42268703014184,
+        "voiced_frames": 61,
+        "frames": 105,
+        "voiced_probability_mean": 0.04814949795637515,
+        "duration": 3.3366875
+      },
+      "normalized": {
+        "mean_f0": 216.29346554912317,
+        "median_f0": 202.90991324046087,
+        "voiced_frames": 60,
+        "frames": 105,
+        "voiced_probability_mean": 0.06250645146961416,
+        "duration": 3.3366875
+      }
+    },
+    {
+      "actor": 10,
+      "emotion": "happy",
+      "file": "03-01-03-01-01-01-10.wav",
+      "original_mean_hz": 155.39010107145847,
+      "normalized_mean_hz": 158.57388869172587,
+      "formula_shift_semitones": 4.369264780534228,
+      "original": {
+        "mean_f0": 155.39010107145847,
+        "median_f0": 179.21192838239048,
+        "voiced_frames": 94,
+        "frames": 110,
+        "voiced_probability_mean": 0.15329206856000946,
+        "duration": 3.5035
+      },
+      "normalized": {
+        "mean_f0": 158.57388869172587,
+        "median_f0": 180.25009252216606,
+        "voiced_frames": 75,
+        "frames": 110,
+        "voiced_probability_mean": 0.14020313556570801,
+        "duration": 3.5035
+      }
+    },
+    {
+      "actor": 11,
+      "emotion": "happy",
+      "file": "03-01-03-01-01-01-11.wav",
+      "original_mean_hz": 114.37193624331218,
+      "normalized_mean_hz": 199.07627762863544,
+      "formula_shift_semitones": 9.675202830141464,
+      "original": {
+        "mean_f0": 114.37193624331218,
+        "median_f0": 157.8258294677283,
+        "voiced_frames": 60,
+        "frames": 97,
+        "voiced_probability_mean": 0.15874961601323404,
+        "duration": 3.103125
+      },
+      "normalized": {
+        "mean_f0": 199.07627762863544,
+        "median_f0": 253.44393965741244,
+        "voiced_frames": 51,
+        "frames": 97,
+        "voiced_probability_mean": 0.20269305014488723,
+        "duration": 3.103125
+      }
+    },
+    {
+      "actor": 12,
+      "emotion": "happy",
+      "file": "03-01-03-01-01-01-12.wav",
+      "original_mean_hz": 193.7516771751839,
+      "normalized_mean_hz": 196.40097280056509,
+      "formula_shift_semitones": 0.5494944136688587,
+      "original": {
+        "mean_f0": 193.7516771751839,
+        "median_f0": 213.12010032569688,
+        "voiced_frames": 69,
+        "frames": 116,
+        "voiced_probability_mean": 0.19785601394776792,
+        "duration": 3.70375
+      },
+      "normalized": {
+        "mean_f0": 196.40097280056509,
+        "median_f0": 198.8480847635095,
+        "voiced_frames": 57,
+        "frames": 116,
+        "voiced_probability_mean": 0.16025638012711413,
+        "duration": 3.70375
+      }
+    },
+    {
+      "actor": 13,
+      "emotion": "happy",
+      "file": "03-01-03-01-01-01-13.wav",
+      "original_mean_hz": 315.6213552684784,
+      "normalized_mean_hz": 157.97208238622505,
+      "formula_shift_semitones": -7.898337874772274,
+      "original": {
+        "mean_f0": 315.6213552684784,
+        "median_f0": 145.14612101412825,
+        "voiced_frames": 70,
+        "frames": 102,
+        "voiced_probability_mean": 0.032736026384544314,
+        "duration": 3.2365625
+      },
+      "normalized": {
+        "mean_f0": 157.97208238622505,
+        "median_f0": 169.1535357262897,
+        "voiced_frames": 65,
+        "frames": 102,
+        "voiced_probability_mean": 0.03616372642984196,
+        "duration": 3.2365625
+      }
+    },
+    {
+      "actor": 14,
+      "emotion": "happy",
+      "file": "03-01-03-01-01-01-14.wav",
+      "original_mean_hz": 228.12246725077563,
+      "normalized_mean_hz": 179.57853434504955,
+      "formula_shift_semitones": -2.2777024958846512,
+      "original": {
+        "mean_f0": 228.12246725077563,
+        "median_f0": 257.8740616879158,
+        "voiced_frames": 85,
+        "frames": 116,
+        "voiced_probability_mean": 0.062379020463004343,
+        "duration": 3.70375
+      },
+      "normalized": {
+        "mean_f0": 179.57853434504955,
+        "median_f0": 210.0655158775463,
+        "voiced_frames": 68,
+        "frames": 116,
+        "voiced_probability_mean": 0.05114821696727578,
+        "duration": 3.70375
+      }
+    },
+    {
+      "actor": 15,
+      "emotion": "happy",
+      "file": "03-01-03-01-01-01-15.wav",
+      "original_mean_hz": 105.69802347865044,
+      "normalized_mean_hz": 137.5441256370828,
+      "formula_shift_semitones": 11.040619211902742,
+      "original": {
+        "mean_f0": 105.69802347865044,
+        "median_f0": 122.76399370240156,
+        "voiced_frames": 72,
+        "frames": 107,
+        "voiced_probability_mean": 0.0384804029444302,
+        "duration": 3.4034375
+      },
+      "normalized": {
+        "mean_f0": 137.5441256370828,
+        "median_f0": 159.65967727133,
+        "voiced_frames": 91,
+        "frames": 107,
+        "voiced_probability_mean": 0.02809371946258245,
+        "duration": 3.4034375
+      }
+    },
+    {
+      "actor": 16,
+      "emotion": "happy",
+      "file": "03-01-03-01-01-01-16.wav",
+      "original_mean_hz": 216.51804502021199,
+      "normalized_mean_hz": 267.7192360711343,
+      "formula_shift_semitones": -1.3738472024985722,
+      "original": {
+        "mean_f0": 216.51804502021199,
+        "median_f0": 202.9166833064628,
+        "voiced_frames": 54,
+        "frames": 116,
+        "voiced_probability_mean": 0.20046136632314746,
+        "duration": 3.70375
+      },
+      "normalized": {
+        "mean_f0": 267.7192360711343,
+        "median_f0": 192.07458901020084,
+        "voiced_frames": 68,
+        "frames": 116,
+        "voiced_probability_mean": 0.12133287855708369,
+        "duration": 3.70375
+      }
+    },
+    {
+      "actor": 17,
+      "emotion": "happy",
+      "file": "03-01-03-01-01-01-17.wav",
+      "original_mean_hz": 226.88135279121175,
+      "normalized_mean_hz": 164.19532863630383,
+      "formula_shift_semitones": -2.1832564782692057,
+      "original": {
+        "mean_f0": 226.88135279121175,
+        "median_f0": 126.73042602724284,
+        "voiced_frames": 82,
+        "frames": 109,
+        "voiced_probability_mean": 0.09192784512687487,
+        "duration": 3.470125
+      },
+      "normalized": {
+        "mean_f0": 164.19532863630383,
+        "median_f0": 165.2928210728578,
+        "voiced_frames": 76,
+        "frames": 109,
+        "voiced_probability_mean": 0.10482683357174157,
+        "duration": 3.470125
+      }
+    },
+    {
+      "actor": 18,
+      "emotion": "happy",
+      "file": "03-01-03-01-01-01-18.wav",
+      "original_mean_hz": 232.1183307756231,
+      "normalized_mean_hz": 197.04769816509014,
+      "formula_shift_semitones": -2.578325510870075,
+      "original": {
+        "mean_f0": 232.1183307756231,
+        "median_f0": 231.07053937445463,
+        "voiced_frames": 55,
+        "frames": 107,
+        "voiced_probability_mean": 0.2097539441296168,
+        "duration": 3.4034375
+      },
+      "normalized": {
+        "mean_f0": 197.04769816509014,
+        "median_f0": 185.5318233882619,
+        "voiced_frames": 51,
+        "frames": 107,
+        "voiced_probability_mean": 0.1894066186034987,
+        "duration": 3.4034375
+      }
+    },
+    {
+      "actor": 19,
+      "emotion": "happy",
+      "file": "03-01-03-01-01-01-19.wav",
+      "original_mean_hz": 248.43810555694824,
+      "normalized_mean_hz": 257.06819449733655,
+      "formula_shift_semitones": -3.754637661531702,
+      "original": {
+        "mean_f0": 248.43810555694824,
+        "median_f0": 153.33283446696007,
+        "voiced_frames": 81,
+        "frames": 114,
+        "voiced_probability_mean": 0.11300047599594591,
+        "duration": 3.637
+      },
+      "normalized": {
+        "mean_f0": 257.06819449733655,
+        "median_f0": 133.0995798254301,
+        "voiced_frames": 86,
+        "frames": 114,
+        "voiced_probability_mean": 0.06536894981595802,
+        "duration": 3.637
+      }
+    },
+    {
+      "actor": 20,
+      "emotion": "happy",
+      "file": "03-01-03-01-01-01-20.wav",
+      "original_mean_hz": 307.6350619599027,
+      "normalized_mean_hz": 173.42845883163807,
+      "formula_shift_semitones": -7.454639284056737,
+      "original": {
+        "mean_f0": 307.6350619599027,
+        "median_f0": 275.59584765967327,
+        "voiced_frames": 44,
+        "frames": 111,
+        "voiced_probability_mean": 0.20135660759927274,
+        "duration": 3.536875
+      },
+      "normalized": {
+        "mean_f0": 173.42845883163807,
+        "median_f0": 173.60871243022672,
+        "voiced_frames": 54,
+        "frames": 111,
+        "voiced_probability_mean": 0.12874373038141457,
+        "duration": 3.536875
+      }
+    },
+    {
+      "actor": 21,
+      "emotion": "happy",
+      "file": "03-01-03-01-01-01-21.wav",
+      "original_mean_hz": 90.98148617385324,
+      "normalized_mean_hz": 132.303492684876,
+      "formula_shift_semitones": 13.63626112536181,
+      "original": {
+        "mean_f0": 90.98148617385324,
+        "median_f0": 97.71762698494285,
+        "voiced_frames": 74,
+        "frames": 120,
+        "voiced_probability_mean": 0.15679526136383795,
+        "duration": 3.8371875
+      },
+      "normalized": {
+        "mean_f0": 132.303492684876,
+        "median_f0": 162.4504792712471,
+        "voiced_frames": 93,
+        "frames": 120,
+        "voiced_probability_mean": 0.13171876924890813,
+        "duration": 3.8371875
+      }
+    },
+    {
+      "actor": 22,
+      "emotion": "happy",
+      "file": "03-01-03-01-01-01-22.wav",
+      "original_mean_hz": 165.3471474220516,
+      "normalized_mean_hz": 175.58675228614462,
+      "formula_shift_semitones": 3.29402212451173,
+      "original": {
+        "mean_f0": 165.3471474220516,
+        "median_f0": 189.86842419010387,
+        "voiced_frames": 88,
+        "frames": 111,
+        "voiced_probability_mean": 0.15481263536838857,
+        "duration": 3.536875
+      },
+      "normalized": {
+        "mean_f0": 175.58675228614462,
+        "median_f0": 191.52145489614207,
+        "voiced_frames": 86,
+        "frames": 111,
+        "voiced_probability_mean": 0.1584795924269897,
+        "duration": 3.536875
+      }
+    },
+    {
+      "actor": 23,
+      "emotion": "happy",
+      "file": "03-01-03-01-01-01-23.wav",
+      "original_mean_hz": 191.31952306190223,
+      "normalized_mean_hz": 179.36831168981934,
+      "formula_shift_semitones": 0.7681908004256821,
+      "original": {
+        "mean_f0": 191.31952306190223,
+        "median_f0": 203.49593842053727,
+        "voiced_frames": 39,
+        "frames": 105,
+        "voiced_probability_mean": 0.13319140572596813,
+        "duration": 3.3366875
+      },
+      "normalized": {
+        "mean_f0": 179.36831168981934,
+        "median_f0": 201.16194403019225,
+        "voiced_frames": 38,
+        "frames": 105,
+        "voiced_probability_mean": 0.0931205021825476,
+        "duration": 3.3366875
+      }
+    },
+    {
+      "actor": 24,
+      "emotion": "happy",
+      "file": "03-01-03-01-01-01-24.wav",
+      "original_mean_hz": 234.8021607917475,
+      "normalized_mean_hz": 199.01302840836922,
+      "formula_shift_semitones": -2.777348220755199,
+      "original": {
+        "mean_f0": 234.8021607917475,
+        "median_f0": 227.10088581417543,
+        "voiced_frames": 53,
+        "frames": 113,
+        "voiced_probability_mean": 0.28029027117815714,
+        "duration": 3.603625
+      },
+      "normalized": {
+        "mean_f0": 199.01302840836922,
+        "median_f0": 190.9683207820833,
+        "voiced_frames": 55,
+        "frames": 113,
+        "voiced_probability_mean": 0.2222928947656853,
+        "duration": 3.603625
+      }
+    }
+  ]
+}

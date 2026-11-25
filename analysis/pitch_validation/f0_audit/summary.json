@@ -1,0 +1,19 @@
+{
+  "total_frames": 167219,
+  "active_frames": 80590,
+  "pyin_quiet_frames": 28813,
+  "shared_active": {
+    "frames": 48766,
+    "disagree_over_1st": 11402,
+    "octave_like": 119,
+    "two_octave_like": 17
+  },
+  "shared_strong": {
+    "frames": 9044,
+    "disagree_over_1st": 486,
+    "octave_like": 4,
+    "two_octave_like": 0
+  },
+  "recordings": 1440,
+  "actors": 24
+}

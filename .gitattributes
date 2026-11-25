@@ -1,3 +1,7 @@
-*.csv filter=lfs diff=lfs merge=lfs -text
-*.json filter=lfs diff=lfs merge=lfs -text
-*.pt filter=lfs diff=lfs merge=lfs -text
+# Keep source, tables, predictions and configuration in ordinary Git.
+# Preserve hashed metadata bytes across platforms.
+*.csv -text
+*.json -text
+*.jsonl -text
+# Only the selected generated audio is uploaded through LFS.
+data/audio_variants/normalized_psola_actor_praat_median_cap4/**/*.wav filter=lfs diff=lfs merge=lfs -text

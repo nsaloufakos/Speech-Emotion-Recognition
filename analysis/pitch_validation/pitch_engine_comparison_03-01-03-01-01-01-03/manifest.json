@@ -1,0 +1,493 @@
+{
+  "source": "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/RAVDESS/Actor_03/03-01-03-01-01-01-03.wav",
+  "source_sample_rate": 48000,
+  "python": "3.11.17",
+  "librosa": "0.11.0",
+  "parselmouth": "0.4.7",
+  "praat": "6.1.38",
+  "rubberband_version": "4.0.0",
+  "rubberband_binary_sha256": "bffe8a37f204958352e768fc4a751d3dbce18e3b42c2a3427a80498e7d8cee79",
+  "original_pyin_mean_hz": 175.24502259869152,
+  "estimator_config": {
+    "sample_rate": 16000,
+    "seed": 42,
+    "target_f0": 200.0,
+    "f0_min": 50.0,
+    "f0_max": 800.0,
+    "pitch_steps": [
+      -1.0,
+      1.0
+    ],
+    "stretch_rates": [
+      0.9,
+      1.1
+    ],
+    "noise_snr_db": [
+      20.0,
+      30.0
+    ]
+  },
+  "solution_1_feedback": "User preferred the shorter-window and native-rate Librosa examples; retained as candidates, not selected as final preprocessing.",
+  "limits": "No subjective quality score. pYIN and Praat estimates are diagnostics, not ground truth. Shared frames assume nominal time alignment; local timing may change. Same fixed shift across engines, with all listening outputs at 16 kHz.",
+  "groups": {
+    "01_shift_+2p2875_semitones": {
+      "requested_shift_semitones": 2.2875183763870726,
+      "requested_frequency_ratio": 1.1412592325546216,
+      "original_pyin_mean_times_ratio_hz": 200.0,
+      "order": [
+        "01_original_unshifted",
+        "02_solution1_short_window",
+        "03_solution1_native_rate",
+        "04_rubberband_r3_formants_shifted",
+        "05_rubberband_r3_formants_preserved",
+        "06_praat_psola"
+      ],
+      "rubberband_runs": {
+        "04_rubberband_r3_formants_shifted": {
+          "command": [
+            "/private/tmp/rubberband-4.0.0-gpl-executable-macos/rubberband",
+            "-3",
+            "-q",
+            "-p",
+            "2.2875183763870726",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/RAVDESS/Actor_03/03-01-03-01-01-01-03.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/analysis/pitch_validation/pitch_engine_comparison_03-01-03-01-01-01-03/01_shift_+2p2875_semitones/raw/04_rubberband_r3_formants_shifted_native.wav"
+          ],
+          "stdout": "",
+          "stderr": "Using time ratio 1 and frequency ratio 1.14126\n"
+        },
+        "05_rubberband_r3_formants_preserved": {
+          "command": [
+            "/private/tmp/rubberband-4.0.0-gpl-executable-macos/rubberband",
+            "-3",
+            "-q",
+            "-p",
+            "2.2875183763870726",
+            "-F",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/RAVDESS/Actor_03/03-01-03-01-01-01-03.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/analysis/pitch_validation/pitch_engine_comparison_03-01-03-01-01-01-03/01_shift_+2p2875_semitones/raw/05_rubberband_r3_formants_preserved_native.wav"
+          ],
+          "stdout": "",
+          "stderr": "Using time ratio 1 and frequency ratio 1.14126\n"
+        }
+      },
+      "native_sample_count_differences": {
+        "04_rubberband_r3_formants_shifted": 0,
+        "05_rubberband_r3_formants_preserved": 0,
+        "06_praat_psola": 0
+      },
+      "resampled_sample_count_differences_before_trim_or_pad": {
+        "01_original_unshifted": 0,
+        "02_solution1_short_window": 0,
+        "03_solution1_native_rate": 0,
+        "04_rubberband_r3_formants_shifted": 0,
+        "05_rubberband_r3_formants_preserved": 0,
+        "06_praat_psola": 0
+      },
+      "matching_method": "Same original-derived active 20-ms blocks, RMS matching rather than perceptual loudness matching",
+      "common_listening_peak_scale": 1.0,
+      "metrics": {
+        "01_original_unshifted": {
+          "original_voiced_frames": 36,
+          "processed_voiced_frames": 36,
+          "shared_voiced_frames": 36,
+          "new_voiced_frames": 0,
+          "lost_voiced_frames": 0,
+          "original_mean_hz": 175.24502259869152,
+          "processed_mean_hz": 175.24502259869152,
+          "shared_original_mean_hz": 175.24502259869152,
+          "shared_processed_mean_hz": 175.24502259869152,
+          "new_processed_mean_hz": null,
+          "new_processed_mean_voicing_probability": null,
+          "shared_processed_mean_voicing_probability": 0.14303259134764415,
+          "shared_original_mean_voicing_probability": 0.14303259134764415,
+          "shared_shift_median_semitones": 0.0,
+          "shared_shift_10th_90th_percentiles": [
+            0.0,
+            0.0
+          ],
+          "shared_shift_median_error_semitones": 0.0,
+          "praat_autocorrelation_mean_hz": 186.825888073776,
+          "listening_gain": 1.0,
+          "raw_peak": 0.09973829984664917,
+          "raw_rms": 0.012858603686254452
+        },
+        "02_solution1_short_window": {
+          "original_voiced_frames": 36,
+          "processed_voiced_frames": 41,
+          "shared_voiced_frames": 36,
+          "new_voiced_frames": 5,
+          "lost_voiced_frames": 0,
+          "original_mean_hz": 175.24502259869152,
+          "processed_mean_hz": 205.088740373798,
+          "shared_original_mean_hz": 175.24502259869152,
+          "shared_processed_mean_hz": 199.41353950561606,
+          "new_processed_mean_hz": 245.9501866247082,
+          "new_processed_mean_voicing_probability": 0.10550130914178488,
+          "shared_processed_mean_voicing_probability": 0.17198400018331697,
+          "shared_original_mean_voicing_probability": 0.14303259134764415,
+          "shared_shift_median_semitones": 2.3000000000000003,
+          "shared_shift_10th_90th_percentiles": [
+            2.1000000000000036,
+            2.4499999999999984
+          ],
+          "shared_shift_median_error_semitones": 0.012481623612927706,
+          "praat_autocorrelation_mean_hz": 235.38631749311082,
+          "listening_gain": 1.552997651737051,
+          "raw_peak": 0.07542505115270615,
+          "raw_rms": 0.00827994824186513
+        },
+        "03_solution1_native_rate": {
+          "original_voiced_frames": 36,
+          "processed_voiced_frames": 47,
+          "shared_voiced_frames": 36,
+          "new_voiced_frames": 11,
+          "lost_voiced_frames": 0,
+          "original_mean_hz": 175.24502259869152,
+          "processed_mean_hz": 210.99225015132825,
+          "shared_original_mean_hz": 175.24502259869152,
+          "shared_processed_mean_hz": 199.89833758924678,
+          "new_processed_mean_hz": 247.29960035450415,
+          "new_processed_mean_voicing_probability": 0.05836302979618246,
+          "shared_processed_mean_voicing_probability": 0.17305662716054376,
+          "shared_original_mean_voicing_probability": 0.14303259134764415,
+          "shared_shift_median_semitones": 2.299999999999998,
+          "shared_shift_10th_90th_percentiles": [
+            2.100000000000002,
+            2.45
+          ],
+          "shared_shift_median_error_semitones": 0.012481623612925707,
+          "praat_autocorrelation_mean_hz": 218.93787876912032,
+          "listening_gain": 1.5587145346865454,
+          "raw_peak": 0.07180371135473251,
+          "raw_rms": 0.008249652915950841
+        },
+        "04_rubberband_r3_formants_shifted": {
+          "original_voiced_frames": 36,
+          "processed_voiced_frames": 53,
+          "shared_voiced_frames": 36,
+          "new_voiced_frames": 17,
+          "lost_voiced_frames": 0,
+          "original_mean_hz": 175.24502259869152,
+          "processed_mean_hz": 316.7311269531065,
+          "shared_original_mean_hz": 175.24502259869152,
+          "shared_processed_mean_hz": 199.79772843939182,
+          "new_processed_mean_hz": 564.3547943939142,
+          "new_processed_mean_voicing_probability": 0.029787182938484494,
+          "shared_processed_mean_voicing_probability": 0.19545280123636985,
+          "shared_original_mean_voicing_probability": 0.14303259134764415,
+          "shared_shift_median_semitones": 2.3000000000000003,
+          "shared_shift_10th_90th_percentiles": [
+            2.1999999999999993,
+            2.3500000000000023
+          ],
+          "shared_shift_median_error_semitones": 0.012481623612927706,
+          "praat_autocorrelation_mean_hz": 210.29737644388436,
+          "listening_gain": 1.0291380266580379,
+          "raw_peak": 0.09934570640325546,
+          "raw_rms": 0.012494414699654649
+        },
+        "05_rubberband_r3_formants_preserved": {
+          "original_voiced_frames": 36,
+          "processed_voiced_frames": 47,
+          "shared_voiced_frames": 36,
+          "new_voiced_frames": 11,
+          "lost_voiced_frames": 0,
+          "original_mean_hz": 175.24502259869152,
+          "processed_mean_hz": 254.02335120934455,
+          "shared_original_mean_hz": 175.24502259869152,
+          "shared_processed_mean_hz": 199.44632536505142,
+          "new_processed_mean_hz": 432.6390721543041,
+          "new_processed_mean_voicing_probability": 0.02969066492079311,
+          "shared_processed_mean_voicing_probability": 0.2431824892942752,
+          "shared_original_mean_voicing_probability": 0.14303259134764415,
+          "shared_shift_median_semitones": 2.3000000000000003,
+          "shared_shift_10th_90th_percentiles": [
+            2.100000000000002,
+            2.3000000000000034
+          ],
+          "shared_shift_median_error_semitones": 0.012481623612927706,
+          "praat_autocorrelation_mean_hz": 195.49848039246675,
+          "listening_gain": 1.1167642776727513,
+          "raw_peak": 0.0909227803349495,
+          "raw_rms": 0.011514062985170007
+        },
+        "06_praat_psola": {
+          "original_voiced_frames": 36,
+          "processed_voiced_frames": 47,
+          "shared_voiced_frames": 36,
+          "new_voiced_frames": 11,
+          "lost_voiced_frames": 0,
+          "original_mean_hz": 175.24502259869152,
+          "processed_mean_hz": 209.16367586539502,
+          "shared_original_mean_hz": 175.24502259869152,
+          "shared_processed_mean_hz": 200.21742314734732,
+          "new_processed_mean_hz": 238.44232112446025,
+          "new_processed_mean_voicing_probability": 0.04642440438675228,
+          "shared_processed_mean_voicing_probability": 0.24769051305526477,
+          "shared_original_mean_voicing_probability": 0.14303259134764415,
+          "shared_shift_median_semitones": 2.3000000000000003,
+          "shared_shift_10th_90th_percentiles": [
+            2.200000000000003,
+            2.3500000000000023
+          ],
+          "shared_shift_median_error_semitones": 0.012481623612927706,
+          "praat_autocorrelation_mean_hz": 215.03516418603223,
+          "listening_gain": 1.1216275230503787,
+          "raw_peak": 0.09973027557134628,
+          "raw_rms": 0.011464408546309117
+        }
+      }
+    },
+    "02_shift_+5p0000_semitones": {
+      "requested_shift_semitones": 5.0,
+      "requested_frequency_ratio": 1.3348398541700344,
+      "original_pyin_mean_times_ratio_hz": 233.92404040966176,
+      "order": [
+        "01_original_unshifted",
+        "02_solution1_short_window",
+        "03_solution1_native_rate",
+        "04_rubberband_r3_formants_shifted",
+        "05_rubberband_r3_formants_preserved",
+        "06_praat_psola"
+      ],
+      "rubberband_runs": {
+        "04_rubberband_r3_formants_shifted": {
+          "command": [
+            "/private/tmp/rubberband-4.0.0-gpl-executable-macos/rubberband",
+            "-3",
+            "-q",
+            "-p",
+            "5.0",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/RAVDESS/Actor_03/03-01-03-01-01-01-03.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/analysis/pitch_validation/pitch_engine_comparison_03-01-03-01-01-01-03/02_shift_+5p0000_semitones/raw/04_rubberband_r3_formants_shifted_native.wav"
+          ],
+          "stdout": "",
+          "stderr": "Using time ratio 1 and frequency ratio 1.33484\n"
+        },
+        "05_rubberband_r3_formants_preserved": {
+          "command": [
+            "/private/tmp/rubberband-4.0.0-gpl-executable-macos/rubberband",
+            "-3",
+            "-q",
+            "-p",
+            "5.0",
+            "-F",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/RAVDESS/Actor_03/03-01-03-01-01-01-03.wav",
+            "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/analysis/pitch_validation/pitch_engine_comparison_03-01-03-01-01-01-03/02_shift_+5p0000_semitones/raw/05_rubberband_r3_formants_preserved_native.wav"
+          ],
+          "stdout": "",
+          "stderr": "Using time ratio 1 and frequency ratio 1.33484\n"
+        }
+      },
+      "native_sample_count_differences": {
+        "04_rubberband_r3_formants_shifted": 0,
+        "05_rubberband_r3_formants_preserved": 0,
+        "06_praat_psola": 0
+      },
+      "resampled_sample_count_differences_before_trim_or_pad": {
+        "01_original_unshifted": 0,
+        "02_solution1_short_window": 0,
+        "03_solution1_native_rate": 0,
+        "04_rubberband_r3_formants_shifted": 0,
+        "05_rubberband_r3_formants_preserved": 0,
+        "06_praat_psola": 0
+      },
+      "matching_method": "Same original-derived active 20-ms blocks, RMS matching rather than perceptual loudness matching",
+      "common_listening_peak_scale": 1.0,
+      "metrics": {
+        "01_original_unshifted": {
+          "original_voiced_frames": 36,
+          "processed_voiced_frames": 36,
+          "shared_voiced_frames": 36,
+          "new_voiced_frames": 0,
+          "lost_voiced_frames": 0,
+          "original_mean_hz": 175.24502259869152,
+          "processed_mean_hz": 175.24502259869152,
+          "shared_original_mean_hz": 175.24502259869152,
+          "shared_processed_mean_hz": 175.24502259869152,
+          "new_processed_mean_hz": null,
+          "new_processed_mean_voicing_probability": null,
+          "shared_processed_mean_voicing_probability": 0.14303259134764415,
+          "shared_original_mean_voicing_probability": 0.14303259134764415,
+          "shared_shift_median_semitones": 0.0,
+          "shared_shift_10th_90th_percentiles": [
+            0.0,
+            0.0
+          ],
+          "shared_shift_median_error_semitones": 0.0,
+          "praat_autocorrelation_mean_hz": 186.825888073776,
+          "listening_gain": 1.0,
+          "raw_peak": 0.09973829984664917,
+          "raw_rms": 0.012858603686254452
+        },
+        "02_solution1_short_window": {
+          "original_voiced_frames": 36,
+          "processed_voiced_frames": 48,
+          "shared_voiced_frames": 36,
+          "new_voiced_frames": 12,
+          "lost_voiced_frames": 0,
+          "original_mean_hz": 175.24502259869152,
+          "processed_mean_hz": 245.79006026208208,
+          "shared_original_mean_hz": 175.24502259869152,
+          "shared_processed_mean_hz": 233.95361466070153,
+          "new_processed_mean_hz": 281.2993970662238,
+          "new_processed_mean_voicing_probability": 0.038909151237769925,
+          "shared_processed_mean_voicing_probability": 0.1873393742287749,
+          "shared_original_mean_voicing_probability": 0.14303259134764415,
+          "shared_shift_median_semitones": 5.000000000000003,
+          "shared_shift_10th_90th_percentiles": [
+            4.899999999999999,
+            5.100000000000004
+          ],
+          "shared_shift_median_error_semitones": 2.6645352591003757e-15,
+          "praat_autocorrelation_mean_hz": 246.89147385092903,
+          "listening_gain": 1.3314475092212799,
+          "raw_peak": 0.08344097435474396,
+          "raw_rms": 0.009657558964193019
+        },
+        "03_solution1_native_rate": {
+          "original_voiced_frames": 36,
+          "processed_voiced_frames": 48,
+          "shared_voiced_frames": 36,
+          "new_voiced_frames": 12,
+          "lost_voiced_frames": 0,
+          "original_mean_hz": 175.24502259869152,
+          "processed_mean_hz": 246.65986117177576,
+          "shared_original_mean_hz": 175.24502259869152,
+          "shared_processed_mean_hz": 233.78445571852112,
+          "new_processed_mean_hz": 285.2860775315396,
+          "new_processed_mean_voicing_probability": 0.05022632581610307,
+          "shared_processed_mean_voicing_probability": 0.225583783846444,
+          "shared_original_mean_voicing_probability": 0.14303259134764415,
+          "shared_shift_median_semitones": 5.000000000000003,
+          "shared_shift_10th_90th_percentiles": [
+            4.900000000000001,
+            5.100000000000004
+          ],
+          "shared_shift_median_error_semitones": 2.6645352591003757e-15,
+          "praat_autocorrelation_mean_hz": 254.472392781635,
+          "listening_gain": 1.370522525594377,
+          "raw_peak": 0.08276166766881943,
+          "raw_rms": 0.009382220723952268
+        },
+        "04_rubberband_r3_formants_shifted": {
+          "original_voiced_frames": 36,
+          "processed_voiced_frames": 52,
+          "shared_voiced_frames": 36,
+          "new_voiced_frames": 16,
+          "lost_voiced_frames": 0,
+          "original_mean_hz": 175.24502259869152,
+          "processed_mean_hz": 281.34521014944335,
+          "shared_original_mean_hz": 175.24502259869152,
+          "shared_processed_mean_hz": 233.7376192540454,
+          "new_processed_mean_hz": 388.46228966408853,
+          "new_processed_mean_voicing_probability": 0.028152401085954085,
+          "shared_processed_mean_voicing_probability": 0.20919718195914894,
+          "shared_original_mean_voicing_probability": 0.14303259134764415,
+          "shared_shift_median_semitones": 5.000000000000002,
+          "shared_shift_10th_90th_percentiles": [
+            4.949999999999997,
+            5.050000000000005
+          ],
+          "shared_shift_median_error_semitones": 1.3322676295501878e-15,
+          "praat_autocorrelation_mean_hz": 242.36376307408048,
+          "listening_gain": 1.0336266574265718,
+          "raw_peak": 0.11647406965494156,
+          "raw_rms": 0.012440125511361703
+        },
+        "05_rubberband_r3_formants_preserved": {
+          "original_voiced_frames": 36,
+          "processed_voiced_frames": 49,
+          "shared_voiced_frames": 36,
+          "new_voiced_frames": 13,
+          "lost_voiced_frames": 0,
+          "original_mean_hz": 175.24502259869152,
+          "processed_mean_hz": 255.824585784796,
+          "shared_original_mean_hz": 175.24502259869152,
+          "shared_processed_mean_hz": 233.07593991145163,
+          "new_processed_mean_hz": 318.82083589559574,
+          "new_processed_mean_voicing_probability": 0.02416728177180324,
+          "shared_processed_mean_voicing_probability": 0.31171716330700405,
+          "shared_original_mean_voicing_probability": 0.14303259134764415,
+          "shared_shift_median_semitones": 5.0,
+          "shared_shift_10th_90th_percentiles": [
+            4.8000000000000025,
+            5.000000000000007
+          ],
+          "shared_shift_median_error_semitones": 0.0,
+          "praat_autocorrelation_mean_hz": 227.38962161542034,
+          "listening_gain": 1.2412295628779433,
+          "raw_peak": 0.0780644565820694,
+          "raw_rms": 0.010359463686412922
+        },
+        "06_praat_psola": {
+          "original_voiced_frames": 36,
+          "processed_voiced_frames": 45,
+          "shared_voiced_frames": 36,
+          "new_voiced_frames": 9,
+          "lost_voiced_frames": 0,
+          "original_mean_hz": 175.24502259869152,
+          "processed_mean_hz": 245.51192664689628,
+          "shared_original_mean_hz": 175.24502259869152,
+          "shared_processed_mean_hz": 233.86963384622155,
+          "new_processed_mean_hz": 292.08109784959515,
+          "new_processed_mean_voicing_probability": 0.06365852252020106,
+          "shared_processed_mean_voicing_probability": 0.297307518207152,
+          "shared_original_mean_voicing_probability": 0.14303259134764415,
+          "shared_shift_median_semitones": 5.0,
+          "shared_shift_10th_90th_percentiles": [
+            4.899999999999999,
+            5.100000000000004
+          ],
+          "shared_shift_median_error_semitones": 0.0,
+          "praat_autocorrelation_mean_hz": 256.6102254925431,
+          "listening_gain": 1.08742527867528,
+          "raw_peak": 0.09899735450744629,
+          "raw_rms": 0.011824942314449149
+        }
+      }
+    }
+  },
+  "zero_shift_controls": {
+    "rubberband_r3": {
+      "command": [
+        "/private/tmp/rubberband-4.0.0-gpl-executable-macos/rubberband",
+        "-3",
+        "-q",
+        "-p",
+        "0.0",
+        "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/RAVDESS/Actor_03/03-01-03-01-01-01-03.wav",
+        "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/analysis/pitch_validation/pitch_engine_comparison_03-01-03-01-01-01-03/zero_shift_controls/rubberband_r3_native.wav"
+      ],
+      "stdout": "",
+      "stderr": "Using time ratio 1 and frequency ratio 1\n",
+      "sample_count_difference": 0,
+      "max_absolute_difference": 6.103515625e-05
+    },
+    "rubberband_r3_formants": {
+      "command": [
+        "/private/tmp/rubberband-4.0.0-gpl-executable-macos/rubberband",
+        "-3",
+        "-q",
+        "-p",
+        "0.0",
+        "-F",
+        "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/data/RAVDESS/Actor_03/03-01-03-01-01-01-03.wav",
+        "/Users/kaansun/Documents/School/CISC473 DEEP LEARNING/Speech-Emotion-Recognition/analysis/pitch_validation/pitch_engine_comparison_03-01-03-01-01-01-03/zero_shift_controls/rubberband_r3_formants_native.wav"
+      ],
+      "stdout": "",
+      "stderr": "Using time ratio 1 and frequency ratio 1\n",
+      "sample_count_difference": 0,
+      "max_absolute_difference": 6.103515625e-05
+    },
+    "original": {
+      "sample_count_difference": 0,
+      "max_absolute_difference": 0.0
+    },
+    "praat_psola": {
+      "sample_count_difference": 0,
+      "max_absolute_difference": 0.1778398532131809
+    }
+  }
+}

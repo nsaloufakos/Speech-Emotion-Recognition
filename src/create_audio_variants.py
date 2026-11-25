@@ -1,4 +1,5 @@
 from pathlib import Path
+import argparse
 import numpy as np
 import pandas as pd
 import soundfile as sf
@@ -181,9 +182,9 @@ def augment_audio(audio, condition, noise_files, rng):
 
     return audio.astype(np.float32)
 
-def create_files(df, name, noise_files):
+def create_files(df, name, noise_files, output_root=OUTPUT_DIR):
     condition = SETTINGS[name]
-    output_dir = OUTPUT_DIR / name
+    output_dir = Path(output_root) / name
     rng = np.random.default_rng(CONFIG["seed"])
 
     output_dir.mkdir(parents = True)
@@ -242,16 +243,20 @@ def create_files(df, name, noise_files):
     index.to_csv(output_dir / "index.csv", index = False)
 
 def main():
+    parser = argparse.ArgumentParser(description="Reproduce legacy pYIN normalization and augmentation conditions.")
+    parser.add_argument("--conditions", nargs="+", choices=list(SETTINGS), default=ACTIVE_SETTINGS)
+    parser.add_argument("--output-root", type=Path, default=OUTPUT_DIR)
+    args = parser.parse_args()
     df = pd.read_csv(DATA_DIR / "index.csv")
     df = df.sort_values("file")
 
     noise_files = sorted(NOISE_DIR.rglob("*.wav"))
-    for name in ACTIVE_SETTINGS:
-        if (OUTPUT_DIR / name).exists():
+    for name in args.conditions:
+        if (args.output_root / name).exists():
             print(f"Skipping {name}: folder already exists")
             continue
 
-        create_files(df, name, noise_files)
+        create_files(df, name, noise_files, args.output_root)
 
 if __name__ == "__main__":
     main()

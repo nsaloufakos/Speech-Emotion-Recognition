@@ -1,0 +1,8 @@
+{
+  "input_recordings": 1440,
+  "included": 1440,
+  "excluded": 0,
+  "actor_count": 24,
+  "scope": "all_utterance_batch_speaker_normalization",
+  "elapsed_seconds_this_run": 323.23941095900955
+}

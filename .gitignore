@@ -221,3 +221,21 @@ __marimo__/
 473/
 
 .DS_Store
+
+# Generated training state stays local; retain small result tables/manifests.
+output/**/checkpoints/
+output/**/features/*.npy
+output/*.zip
+*.partial.*
+.latex-build/
+
+# Only the best current normalized WAV condition is versioned (through LFS).
+data/audio_variants/**/*.wav
+!data/audio_variants/normalized_psola_actor_praat_median_cap4/**/*.wav
+
+# Rebuild diagnostic tracks/listening clips when needed. Summaries and figures stay.
+analysis/**/*.wav
+analysis/**/*.npz
+analysis/pitch_validation/f0_audit/records/
+analysis/pitch_validation/f0_audit/existing_outputs/records/
+analysis/pitch_validation/praat_median_experiment/*/records/

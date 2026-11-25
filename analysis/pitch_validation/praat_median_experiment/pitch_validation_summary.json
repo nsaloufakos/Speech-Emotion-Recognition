@@ -1,0 +1,20 @@
+[
+  {
+    "condition": "normalized_psola_actor_praat_median",
+    "recordings": 1440,
+    "shared_frames": 52431,
+    "frames_over_1st": 2593,
+    "median_per_recording_absolute_shift_error_st": 0.01888349984731974,
+    "median_per_recording_frame_mae_st": 0.07747595307638111,
+    "max_actor_baseline_residual_st": 0.6523646314494453
+  },
+  {
+    "condition": "normalized_psola_actor_praat_median_cap4",
+    "recordings": 1440,
+    "shared_frames": 52881,
+    "frames_over_1st": 2651,
+    "median_per_recording_absolute_shift_error_st": 0.01903269710864322,
+    "median_per_recording_frame_mae_st": 0.07728573752590218,
+    "max_actor_baseline_residual_st": 0.733758211274337
+  }
+]

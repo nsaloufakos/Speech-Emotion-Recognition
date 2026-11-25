@@ -1,0 +1,30 @@
+{
+  "parameters": {
+    "sr": 16000,
+    "pyin_frame": 2048,
+    "pyin_hop": 512,
+    "floor": 50.0,
+    "top": 800.0,
+    "praat_step": 0.01,
+    "sensitivity_top": 1200.0,
+    "active_rms_db": -35.0,
+    "rms_frame": 512,
+    "pyin_probability": 0.5,
+    "praat_strength": 0.6,
+    "agreement_st": 0.5,
+    "minimum_utterance_frames": 10,
+    "target_hz": 200.0
+  },
+  "praat_version": "Praat 7.0.03 (November 8 2026)",
+  "praat_sha256": "fc0053d7cdba3681a48c38e64a8c7160141a26a850f9db845aca60d5ff03084b",
+  "python_code_sha256": "cb03cc4f246022ad4c561d3b2a72991e3e49c64ea999697824e68640017582c6",
+  "praat_script_sha256": "330b9ae23fd56a0ffb159733270df41696e7e291b84d01bb7b9cc23c174d8a7c",
+  "versions": {
+    "numpy": "2.4.6",
+    "scipy": "1.17.1",
+    "librosa": "0.11.0",
+    "soundfile": "0.14.0",
+    "pandas": "3.0.6",
+    "numba": "0.68.0"
+  }
+}

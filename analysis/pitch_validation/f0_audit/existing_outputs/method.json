@@ -1,0 +1,7 @@
+{
+  "audit_config_sha256": "8eb3d131afb0e893154f94a6aa712ceb8366dd50ae76130a12b39bae0b4c2a69",
+  "python_code_sha256": "33f6ad669ae6a0531b5f6badf722a81f9a102d530de871d9c0bb1c3053cbffb5",
+  "praat_sha256": "fc0053d7cdba3681a48c38e64a8c7160141a26a850f9db845aca60d5ff03084b",
+  "method": "Original-active nominally aligned frames, both Praat AC strengths >=0.6",
+  "limits": "Nine recordings / 18 existing outputs. Re-estimation errors and local PSOLA timing changes remain possible. Not ground truth or a full output audit."
+}

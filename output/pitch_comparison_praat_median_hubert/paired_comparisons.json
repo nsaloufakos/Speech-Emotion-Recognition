@@ -1,0 +1,42 @@
+[
+  {
+    "new": "normalized_psola_actor_praat_median",
+    "reference": "normalized_psola_actor_mean",
+    "mean_uar_difference_pp": 2.045190632355135,
+    "paired_seed_differences_pp": {
+      "42": 2.189583174545473,
+      "123": 2.3000799038820463,
+      "999": 1.6459088186378867
+    }
+  },
+  {
+    "new": "normalized_psola_actor_praat_median_cap4",
+    "reference": "normalized_psola_actor_mean_cap4",
+    "mean_uar_difference_pp": 2.1162997791790166,
+    "paired_seed_differences_pp": {
+      "42": 1.9024961787091343,
+      "123": 2.80880551040279,
+      "999": 1.6375976484251265
+    }
+  },
+  {
+    "new": "normalized_psola_actor_praat_median",
+    "reference": "original",
+    "mean_uar_difference_pp": -0.08309735014823498,
+    "paired_seed_differences_pp": {
+      "42": -0.3857625799069453,
+      "123": -0.1904754248918783,
+      "999": 0.32694595435411866
+    }
+  },
+  {
+    "new": "normalized_psola_actor_praat_median_cap4",
+    "reference": "original",
+    "mean_uar_difference_pp": 0.4353077249641217,
+    "paired_seed_differences_pp": {
+      "42": -0.2652759568067764,
+      "123": 1.4447328479799237,
+      "999": 0.12646628371921764
+    }
+  }
+]
