@@ -239,3 +239,6 @@ analysis/**/*.npz
 analysis/pitch_validation/f0_audit/records/
 analysis/pitch_validation/f0_audit/existing_outputs/records/
 analysis/pitch_validation/praat_median_experiment/*/records/
+
+#ai/codex contexts
+CODEX_CONTEXT/

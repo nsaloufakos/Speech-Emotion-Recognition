@@ -1,0 +1,199 @@
+\documentclass[11pt, letterpaper]{article}
+\usepackage{amsmath, amssymb}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{tcolorbox}
+\usepackage{parskip}
+\geometry{margin=1in}
+
+\definecolor{courseblue}{HTML}{002452}
+\definecolor{coursegold}{HTML}{FABD0F}
+\definecolor{coursered}{HTML}{B90E31}
+\definecolor{lightblue}{HTML}{E8EEF7}
+
+\hypersetup{colorlinks=true,linkcolor=courseblue,urlcolor=coursered}
+
+\tcbuselibrary{skins}
+\newtcolorbox{guidancebox}{enhanced,colback=lightblue,colframe=courseblue,
+  sharp corners,leftrule=4pt,left=6pt,right=6pt,top=4pt,bottom=4pt}
+
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\textcolor{courseblue}{\textbf{CISC 867 --- Deep Learning | Fall 2026}}}
+\fancyhead[R]{\small\textcolor{courseblue}{Project Proposal}}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\titleformat{\section}{\large\bfseries\color{courseblue}}{}{0em}{}[\titlerule]
+\titleformat{\subsection}{\normalsize\bfseries\color{courseblue}}{}{0em}{}
+
+%% ════════════════════════════════════════════════════════════════
+%% INSTRUCTIONS FOR STUDENTS
+%% Replace every [PLACEHOLDER] with your actual content.
+%% Delete all \guidancebox blocks before submitting.
+%% Submit as a compiled PDF + .tex source in a .zip archive.
+%% ════════════════════════════════════════════════════════════════
+
+\begin{document}
+
+{\centering
+  {\Large\textbf{CISC 867: Deep Learning --- Project Proposal}}\\[0.5em]
+  {\large\textit{[PROJECT ID AND TITLE, e.g., P08: Abstractive Summarization via LoRA]}}\\[0.4em]
+  \textbf{Group Members:}\\{}
+  [Student 1 Name] \quad [Student ID] \quad (Role: Project Lead)\\{}
+  [Student 2 Name] \quad [Student ID] \quad (Role: Research Lead)\\{}
+  [Student 3 Name] \quad [Student ID] \quad (Role: Engineering Lead)\\[0.3em]
+  \textbf{GitHub Repository:} \url{[https://github.com/your-org/your-repo]}\\[0.3em]
+  \textbf{Date:} \today\\[0.4em]
+  \rule{\linewidth}{0.4pt}
+}
+
+\section{Problem Statement and Motivation}
+
+\begin{guidancebox}
+\textbf{Guidance (delete before submitting).}
+Clearly define the problem you are solving. Explain \emph{why} it matters
+in a broader context. Reference 1--2 high-level papers or application areas.
+This section should answer: ``What problem are we addressing, and who cares?''
+Target: $\approx$300 words.
+\end{guidancebox}
+
+[WRITE YOUR PROBLEM STATEMENT HERE. Describe the task, why it is hard, and why
+it is important. Situate it within a research or application context.]
+
+\section{Literature Survey}
+
+\begin{guidancebox}
+\textbf{Guidance (delete before submitting).}
+Summarise at least \textbf{5 related papers}. For each paper:
+(1) state the core idea in one sentence, (2) describe what it achieves,
+and (3) explain how your project relates to or differs from it.
+Avoid copying abstracts verbatim. Identify at least one open problem
+that motivates your proposed approach.
+\end{guidancebox}
+
+\subsection{Related Works}
+
+\paragraph{[Paper 1: Authors, Year, Venue.]}
+[One-paragraph summary: what they proposed, what benchmark they evaluated on,
+what metric they achieved, and how this relates to your project.]
+
+\paragraph{[Paper 2: Authors, Year, Venue.]}
+[Summary\ldots]
+
+\paragraph{[Paper 3: Authors, Year, Venue.]}
+[Summary\ldots]
+
+\paragraph{[Paper 4: Authors, Year, Venue.]}
+[Summary\ldots]
+
+\paragraph{[Paper 5: Authors, Year, Venue.]}
+[Summary\ldots]
+
+\subsection{Open Problem}
+
+\begin{guidancebox}
+\textbf{Guidance.} Identify a specific gap, limitation, or unexplored direction
+in the related work that motivates your novel contribution. Be precise.
+\end{guidancebox}
+
+[DESCRIBE THE OPEN PROBLEM OR GAP YOUR PROJECT WILL ADDRESS.]
+
+\section{Proposed Methodology}
+
+\begin{guidancebox}
+\textbf{Guidance.}
+Describe your approach in enough detail that it could be reproduced:
+(1) baseline model and dataset you will start with,
+(2) your proposed modification or extension and \emph{why} you chose it,
+(3) how you will evaluate success (metrics, baselines).
+Include a diagram if helpful. Target: $\approx$400 words.
+\end{guidancebox}
+
+\subsection{Baseline}
+
+[DESCRIBE THE BASELINE MODEL AND DATASET. Which existing code/checkpoint will
+you start from? Which metric will you use to evaluate the baseline?]
+
+\subsection{Proposed Extension}
+
+[DESCRIBE YOUR PROPOSED MODIFICATION OR EXTENSION. Why do you expect it to
+help? What is the key hypothesis you are testing?]
+
+\subsection{Evaluation Plan}
+
+[DESCRIBE YOUR EVALUATION PLAN:
+\begin{itemize}[noitemsep]
+  \item Dataset(s) and split(s) you will use
+  \item Metrics (e.g., PSNR/SSIM, ROUGE-L, F1, AUROC)
+  \item Baselines you will compare against
+  \item Number of seeds / runs for statistical reliability
+\end{itemize}]
+
+\subsection{Early Novel Contribution (Optional Bonus)}
+
+\begin{guidancebox}
+\textbf{Guidance.} If you have already identified a specific novel contribution
+(a gap in existing evaluations, an untested configuration, a new domain),
+describe it here for the +2 bonus points. Be concrete and specific.
+\end{guidancebox}
+
+[DESCRIBE YOUR NOVEL CONTRIBUTION IDEA, OR LEAVE THIS SECTION EMPTY.]
+
+\section{Project Timeline and Roles}
+
+\begin{guidancebox}
+\textbf{Guidance.} Provide a week-by-week plan. Assign each task to a named
+group member. The plan must be specific enough to hold yourselves accountable.
+\end{guidancebox}
+
+\begin{center}
+\begin{tabular}{lp{7cm}l}
+\toprule
+\textbf{Week} & \textbf{Tasks} & \textbf{Responsible} \\
+\midrule
+1 & [Task, e.g., Finish reading all 4 core papers; repo setup] & [Name] \\
+2 & [Task] \textbf{(Proposal due)} & [Name] \\
+3 & [Task] & [Name] \\
+4 & [Task] & [Name] \\
+5 & [Task] & [Name] \\
+6 & [Task] \textbf{(Midterm due)} & [Name] \\
+7 & [Task] & [Name] \\
+8 & [Task] & [Name] \\
+9 & [Task] & [Name] \\
+10 & [Task] \textbf{(Final due)} & [Name] \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Contribution Declaration}
+
+\begin{tabular}{lcc}
+\toprule
+\textbf{Member} & \textbf{Primary Responsibilities} & \textbf{Estimated \%} \\
+\midrule
+{[Student 1]} & [e.g., Literature review, report writing] & \%  \\
+{[Student 2]}& [e.g., Model implementation, experiments] & \%  \\
+{[Student 3]} & [e.g., Data pipeline, evaluation code, README] & \%  \\
+\bottomrule
+\end{tabular}
+
+\section{References}
+
+\begin{guidancebox}
+\textbf{Guidance.} Use consistent citation formatting. Include at minimum the 5
+papers from Section~2, plus any other papers you reference.
+arXiv IDs and DOIs are preferred over URLs.
+\end{guidancebox}
+
+\begin{enumerate}[label={[\arabic*]},leftmargin=*]
+  \item [Author(s), Year. ``Title.'' \textit{Venue}. arXiv:XXXX.XXXXX or DOI.]
+  \item [Author(s), Year. ``Title.'' \textit{Venue}.]
+  \item [\ldots]
+\end{enumerate}
+
+\end{document}

@@ -17,10 +17,23 @@ ROOT = Path(__file__).resolve().parents[1]
 CONDITIONS = ["original", "normalized_psola_actor_praat_median", "normalized_psola_actor_praat_median_cap4"]
 LABELS = ["Original", "New full", "New cap 4"]
 EMOTIONS = ["neutral", "calm", "happy", "sad", "angry", "fearful", "disgust", "surprised"]
+LFS_HEADER = b"version https://git-lfs.github.com/spec/v1\n"
 
 
 def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def lfs_pointer_digest(path):
+    if path.stat().st_size >= 1024:
+        return None
+    contents = path.read_bytes()
+    if not contents.startswith(LFS_HEADER):
+        return None
+    for line in contents.splitlines():
+        if line.startswith(b"oid sha256:"):
+            return line.removeprefix(b"oid sha256:").decode("ascii")
+    raise ValueError(f"Missing SHA-256 in Git LFS pointer: {path}")
 
 
 def source_root(model, condition, mfcc_root=None):
@@ -43,7 +56,7 @@ def main():
     parser.add_argument("--mfcc-output-root", type=Path, help="Use a separate complete CUDA MFCC rerun")
     parser.add_argument("--output-dir", type=Path, default=ROOT / "analysis/model_comparison")
     parser.add_argument("--archived-audio", action="store_true",
-                        help="For deleted variants, check saved generation hashes against feature manifests; waveform bytes are not rechecked")
+                        help="Use saved generation hashes for missing variant WAVs and Git LFS pointers")
     args = parser.parse_args()
     out = args.output_dir.resolve()
     out.mkdir(parents=True, exist_ok=True)
@@ -79,7 +92,9 @@ def main():
             archived = None
             for record in test.itertuples():
                 audio = data / f"Actor_{record.actor_id:02d}" / f"{record.file}.wav"
-                if audio.exists():
+                exists = audio.exists()
+                pointer_digest = lfs_pointer_digest(audio) if exists else None
+                if exists and pointer_digest is None:
                     digest = sha(audio)
                 elif args.archived_audio and condition != "original":
                     if archived is None:
@@ -87,9 +102,11 @@ def main():
                         if archived.index.duplicated().any():
                             raise ValueError(f"Duplicate archived diagnostics: {data}")
                     digest = archived.loc[record.file, "output_sha256"]
+                    if pointer_digest is not None and pointer_digest != digest:
+                        raise ValueError(f"Git LFS pointer disagrees with archived waveform hash: {audio}")
                     archived_audio_records += 1
                 else:
-                    raise FileNotFoundError(f"Missing {audio}. Restore it or explicitly use --archived-audio.")
+                    raise FileNotFoundError(f"Missing waveform bytes for {audio}. Restore it or explicitly use --archived-audio.")
                 if digest != feature_manifest["recordings"].get(record.file):
                     raise ValueError(f"Changed evaluation audio: {model}/{condition}/{record.file}")
             local = []
@@ -212,7 +229,7 @@ def main():
         "held_out_membership_verified": True, "audio_hashes_verified": archived_audio_records == 0,
         "archived_audio_hashes_matched_to_generation_records": archived_audio_records,
         "provenance": provenance,
-        "interpretation": "Within-model comparisons control hardware, architecture and hyperparameters. MFCC uses verified equivalent dense BiLSTM execution on MPS; frozen encoder classifier heads train on CPU. Three-seed differences are descriptive, not significance tests."
+        "interpretation": "Within-model comparisons control hardware, architecture and hyperparameters. Frozen encoder classifier heads train on CPU. Three-seed differences are descriptive, not significance tests."
     }, indent=2) + "\n")
     lines = ["# Matched P20 model comparison", "", "All completed cells use the same 1,429 recordings, 24 LOSO folds and seeds 42, 123 and 999. Values below are mean +/- sample standard deviation in percent. Original audio uses no speaker calibration; normalized conditions use each speaker's available batch.", ""]
     if missing:

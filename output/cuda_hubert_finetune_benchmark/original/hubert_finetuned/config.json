@@ -1,0 +1,25 @@
+{
+  "validation_actors": 2,
+  "split_seed": 42,
+  "folds": [
+    1
+  ],
+  "seeds": [
+    42
+  ],
+  "checkpoint": "/home/kaan/DEV/Speech-Emotion-Recognition/.cache/huggingface/hub/models--facebook--hubert-base-ls960/snapshots/dba3bb02fda4248b6e082697eee756de8fe8aa8a",
+  "sample_rate": 16000,
+  "batch_size": 1,
+  "learning_rate": 1e-05,
+  "epochs": 1,
+  "frozen_backbone": false,
+  "pooling": "mean_over_time",
+  "apply_spec_augment": false,
+  "gradient_checkpointing": true,
+  "torch_version": "2.11.0+cu128",
+  "cuda_runtime": "12.8",
+  "gpu": "NVIDIA GeForce RTX 3060",
+  "splits_path": "output/splits.csv",
+  "data_dir": "/home/kaan/DEV/Speech-Emotion-Recognition/data/RAVDESS",
+  "recording_count": 1429
+}

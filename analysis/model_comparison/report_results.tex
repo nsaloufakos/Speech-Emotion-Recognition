@@ -1,0 +1,49 @@
+\subsection{Speaker-level pitch normalization}
+
+We evaluated frozen HuBERT and wav2vec2 classifiers on the same 1,429
+RAVDESS recordings and 24 leave-one-speaker-out folds under each audio
+condition. For each seed, we pooled the held-out predictions across folds
+before computing unweighted average recall (UAR) and weighted average recall
+(WAR, equivalent to accuracy). Table~\ref{tab:matched-pitch-results} reports
+the mean and sample standard deviation over seeds 42, 123, and 999.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Matched frozen-encoder classification on RAVDESS. Scores are in
+  percent. Both normalization conditions use a robust speaker-level Praat
+  pitch estimate.}
+  \label{tab:matched-pitch-results}
+  \begin{tabular}{llrr}
+    \hline
+    Encoder & Audio condition & UAR & WAR \\
+    \hline
+    HuBERT & Original & $58.63 \pm 0.79$ & $59.60 \pm 0.51$ \\
+           & Full shift & $58.54 \pm 0.62$ & $59.32 \pm 0.39$ \\
+           & Capped at $\pm 4$ semitones & $59.06 \pm 0.62$ & $59.79 \pm 0.63$ \\
+    wav2vec2 & Original & $43.62 \pm 0.37$ & $44.65 \pm 0.39$ \\
+             & Full shift & $44.05 \pm 1.06$ & $44.90 \pm 0.99$ \\
+             & Capped at $\pm 4$ semitones & $44.09 \pm 0.38$ & $45.18 \pm 0.32$ \\
+    \hline
+  \end{tabular}
+\end{table}
+
+Capping the shift increased mean UAR by 0.44 percentage points for HuBERT and
+0.46 percentage points for wav2vec2 relative to original audio. The paired
+speaker-resampling intervals were $[-1.54, 2.28]$ and $[-1.47, 2.55]$
+percentage points, respectively. Both include zero. These exploratory
+estimates are conditional on the fixed predictions and training seeds and
+do not account for model retraining or the overlap among LOSO training sets.
+The normalized conditions used an unlabeled batch from each speaker to
+estimate that speaker's baseline, including the held-out speaker. The
+comparison therefore evaluates batch speaker calibration.
+
+\subsection{Layer-wise HuBERT probing}
+
+On the separate 1,440-recording original-audio experiment, layer 7 had the
+highest mean validation UAR (71.34\%). Its pooled held-out UAR was
+$68.45 \pm 0.48$\%, and WAR was $69.10 \pm 0.43$\%. Layer 6 had the highest
+observed held-out UAR among the 12 probes ($69.38 \pm 0.31$\%), compared
+with $59.92 \pm 0.95$\% for the final Transformer layer. Layer 7 is the
+validation-selected result. Layer 6's held-out maximum describes the
+observed layer profile. The probe experiment used the full original-audio
+cohort, while Table~\ref{tab:matched-pitch-results} used the matched subset.

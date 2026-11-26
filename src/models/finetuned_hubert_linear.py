@@ -25,11 +25,11 @@ CONFIG = {
 }
 
 class HuBERTClassifier(nn.Module):
-    def __init__(self):
+    def __init__(self, checkpoint=None):
         super().__init__()
 
         self.backbone = HubertModel.from_pretrained(
-            CONFIG["checkpoint"],
+            checkpoint if checkpoint is not None else CONFIG["checkpoint"],
             apply_spec_augment = CONFIG["apply_spec_augment"]
         )
         self.backbone.requires_grad_(True)
@@ -52,12 +52,15 @@ class HuBERTClassifier(nn.Module):
 
         return self.classifier(torch.cat(representations, dim = 0))
 
-def extract_features(df):
+def extract_features(df, *, checkpoint=None, data_dir=None):
     features = {}
-    processor = AutoFeatureExtractor.from_pretrained(CONFIG["checkpoint"])
+    processor = AutoFeatureExtractor.from_pretrained(
+        checkpoint if checkpoint is not None else CONFIG["checkpoint"]
+    )
+    data_dir = DATA_DIR if data_dir is None else data_dir
 
     for row in df.itertuples():
-        path = (DATA_DIR / f"Actor_{row.actor_id:02d}" / f"{row.file}.wav")
+        path = data_dir / f"Actor_{row.actor_id:02d}" / f"{row.file}.wav"
 
         audio, sample_rate = librosa.load(
             path,

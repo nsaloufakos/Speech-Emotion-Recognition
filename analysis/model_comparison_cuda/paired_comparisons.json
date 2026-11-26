@@ -1,0 +1,68 @@
+[
+  {
+    "model": "hubert",
+    "condition": "normalized_psola_actor_praat_median",
+    "reference": "original",
+    "mean_delta_uar_pp": -0.08309735014823498,
+    "paired_seed_delta_uar_pp": {
+      "42": -0.3857625799069453,
+      "123": -0.1904754248918783,
+      "999": 0.32694595435411866
+    }
+  },
+  {
+    "model": "hubert",
+    "condition": "normalized_psola_actor_praat_median_cap4",
+    "reference": "original",
+    "mean_delta_uar_pp": 0.4353077249641217,
+    "paired_seed_delta_uar_pp": {
+      "42": -0.2652759568067764,
+      "123": 1.4447328479799237,
+      "999": 0.12646628371921764
+    }
+  },
+  {
+    "model": "mfcc",
+    "condition": "normalized_psola_actor_praat_median",
+    "reference": "original",
+    "mean_delta_uar_pp": 0.3658847067017264,
+    "paired_seed_delta_uar_pp": {
+      "42": 0.9471507137392032,
+      "123": 2.1121821861032783,
+      "999": -1.9616787797373025
+    }
+  },
+  {
+    "model": "mfcc",
+    "condition": "normalized_psola_actor_praat_median_cap4",
+    "reference": "original",
+    "mean_delta_uar_pp": 0.6534640212365347,
+    "paired_seed_delta_uar_pp": {
+      "42": 2.9605172312918593,
+      "123": -1.2702348405232433,
+      "999": 0.270109672940988
+    }
+  },
+  {
+    "model": "wav2vec",
+    "condition": "normalized_psola_actor_praat_median",
+    "reference": "original",
+    "mean_delta_uar_pp": 0.42914082699647876,
+    "paired_seed_delta_uar_pp": {
+      "42": 0.35318480805724417,
+      "123": -0.24901600386172396,
+      "999": 1.1832536767939161
+    }
+  },
+  {
+    "model": "wav2vec",
+    "condition": "normalized_psola_actor_praat_median_cap4",
+    "reference": "original",
+    "mean_delta_uar_pp": 0.46364736237897164,
+    "paired_seed_delta_uar_pp": {
+      "42": 0.9228080771474467,
+      "123": 0.20808736483489132,
+      "999": 0.26004664515457687
+    }
+  }
+]

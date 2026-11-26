@@ -1,0 +1,1106 @@
+SPEECH EMOTION RECOGNITION: COMPLETE PROJECT CONTEXT FOR RTX 3060 CONTINUATION
+=============================================================================
+Prepared: November 26, 2026. Time zone: America/Toronto.
+Repository: https://github.com/nsaloufakos/Speech-Emotion-Recognition
+Default branch: master (NOT main).
+Verified published implementation commit:
+52863624b96ec195470c7d261d3cb22faf991807
+
+DEADLINE: November 27, 2026, 11:59 p.m. Toronto time. The user reconfirmed
+this on November 26. Do not assume there are two full days remaining.
+
+Purpose: Give the next machine/assistant enough context to continue the actual
+project without repeating the investigation, losing results, or confusing
+proposed experiments with completed evidence. This file describes the local
+repository at the commit above. Recheck the RTX checkout for newer work.
+No new training was performed while preparing this document.
+
+CONTENTS
+1. Immediate situation and priorities
+2. Project question and dataset
+3. Evaluation protocol and metrics
+4. Models and training
+5. History of normalization experiments
+6. Pitch-estimation investigation
+7. Current normalization method and synthesis
+8. Completed quantitative results
+9. Interpretation and limits
+10. Available data, results, and cleanup
+11. Source-code map
+12. Linux/CUDA setup and first checks
+13. Existing commands and regeneration
+14. Code limitations the RTX continuation should address
+15. Softer shifts and other proposed investigations
+16. Experiment design and statistical discipline
+17. Report and presentation requirements
+18. Practical plan before the deadline
+19. Verification already performed
+20. Suggested continuation prompt and source-of-truth files
+
+
+1. IMMEDIATE SITUATION AND PRIORITIES
+-----------------------------------
+The user is a fourth-year student completing a CISC 473 deep-learning capstone.
+The project studies speaker-independent speech emotion recognition and whether
+speaker-level pitch normalization helps. The user wants a scientifically honest
+report and is interested in eventual publication, without overstating results.
+
+The previous development machine was a Mac. The next machine runs Linux and
+has an NVIDIA RTX 3060 with 12 GB VRAM. CUDA options have already been added
+to the matched evaluation runners. Actual RTX/CUDA execution has NOT yet been
+verified in this conversation. CPU smoke tests passed; Mac experiments used
+MPS feature extraction where specified.
+
+First priorities:
+  A. Verify the Linux environment and run small CUDA smoke tests.
+  B. Finish the missing matched MFCC-BiLSTM comparison, starting with original
+     versus the retained capped Praat condition.
+  C. Benchmark the required HuBERT backbone fine-tuning task and choose a
+     feasible, honestly documented protocol before launching a huge job.
+  D. Consolidate existing results into report-ready tables and finish writing.
+  E. Add one useful control/ablation if time allows; avoid a large exploratory
+     search at the expense of required deliverables.
+
+The complete new matched HuBERT and wav2vec2 original/full/capped comparisons
+already exist. Do not rerun them just because the hardware is different unless
+needed for a new controlled comparison, a regression check, or an ablation.
+Do not combine a Mac original condition with a CUDA normalized condition and
+attribute the difference solely to normalization.
+
+
+2. PROJECT QUESTION AND DATASET
+------------------------------
+Dataset: the RAVDESS speech recordings indexed in data/RAVDESS/index.csv.
+There are 1,440 original recordings, 24 actors, and 60 recordings per actor.
+Original files are organized as data/RAVDESS/Actor_XX/<recording_id>.wav.
+
+Classification uses eight emotions, in this exact model label order:
+  0 neutral
+  1 calm
+  2 happy
+  3 sad
+  4 angry
+  5 fearful
+  6 disgust
+  7 surprised
+
+Neutral has 96 recordings; each other emotion has 192. This class imbalance
+is one reason unweighted average recall is the primary metric.
+Index columns include file, emotion, intensity, actor_id, gender, statement,
+repetition, duration_seconds, class_count, and actor_count.
+
+The core extension question is whether removing some between-speaker pitch
+height variation while retaining within-speaker emotional prosody improves
+generalization to unseen speakers.
+
+Terminology matters. The current method is speaker/actor-level normalization
+using robust median log-F0 centres. Calling it simply "mean F0 normalization"
+would misdescribe the current baseline estimator. The broad initial idea was
+mean normalization, but the implementation evolved substantially.
+
+
+3. EVALUATION PROTOCOL AND METRICS
+---------------------------------
+The fixed split table is output/splits.csv. Preserve it.
+There are 24 leave-one-speaker-out folds:
+  21 actors for training;
+  2 actors for validation;
+  1 actor for testing.
+The validation selection uses the existing split-generation procedure and
+split seed 42. Do not silently regenerate different splits.
+
+The controlled normalization comparisons use a fixed matched cohort of
+1,429 recordings, stored in:
+  output/pitch_comparison_hubert/matched_recordings.csv
+
+Why 1,429 instead of 1,440? The historical Librosa-normalized data had 1,432
+included recordings, the newer utterance-PSOLA condition had 1,436, and their
+intersection with original audio was 1,429. The new robust actor conditions
+contain all 1,440 recordings, but the comparison intentionally keeps the old
+1,429-recording intersection. Otherwise the datasets would differ.
+
+Training seeds: 42, 123, 999.
+Each complete condition has 72 seed/fold pairs and 4,287 held-out predictions:
+one test prediction per matched recording per seed.
+
+Metrics:
+  UAR = arithmetic mean of the eight per-class recalls.
+  WAR = overall accuracy, also called weighted average recall here.
+  Additional stored outputs include macro/weighted F1, class recalls, and
+  raw/row-normalized confusion matrices.
+
+For each seed, pool predictions from all 24 test folds before computing the
+reported UAR/WAR. Report mean and SAMPLE standard deviation across the three
+seed-level pooled scores. Do not replace this with a mean/std over folds.
+Fold checkpoints are selected by highest validation UAR, not test performance.
+The current strict-improvement check keeps the earlier epoch when scores tie.
+
+The speaker-normalized conditions use an unlabeled batch from each speaker to
+estimate that speaker's baseline, including the held-out speaker's recordings.
+Emotion labels are not used for baseline fitting. This is batch speaker
+adaptation/calibration, not first-utterance deployment. Training speakers and
+test speakers remain disjoint for supervised learning, but the batch-calibration
+assumption must be disclosed explicitly.
+
+
+4. MODELS AND TRAINING
+----------------------
+MFCC-BiLSTM:
+  Librosa extraction at 16 kHz, 40 MFCCs per frame, time-by-coefficient layout.
+  One bidirectional LSTM layer, hidden size 64 per direction.
+  Concatenate final forward/backward hidden states: 128 dimensions.
+  Linear classification into eight emotions.
+  Packed sequences in the original implementation and on CUDA/CPU.
+  Adam, learning rate 0.001, batch size 32, 30 epochs.
+
+Frozen HuBERT:
+  facebook/hubert-base-ls960.
+  Frozen final Transformer layer, mean pooling over time, 768 dimensions.
+  Newly trained 768-to-8 linear head per fold/seed.
+  Adam, learning rate 0.001, batch size 32, 30 epochs.
+
+Frozen wav2vec2:
+  facebook/wav2vec2-base.
+  Frozen final-layer representations, mean pooling over time, 768 dimensions.
+  Same linear head and head-training hyperparameters as HuBERT.
+
+Frozen feature extraction batches ONLY exactly equal resampled sample lengths.
+This avoids padding-related changes to encoder normalization/pooling. Preserve
+this detail when optimizing. Padding arbitrary lengths and averaging padded
+hidden states would change the method.
+
+HuBERT layer probing:
+  Separate frozen mean-pooled representations and linear classifiers for
+  Transformer layers 1 through 12. Original-audio results exist for all layers.
+  Normalized layer probing is a proposal commitment but is not completed.
+
+Backbone fine-tuning implementations:
+  src/models/finetuned_hubert_linear.py
+  src/models/finetuned_wav2vec_linear.py
+  The code makes the backbone trainable, applies a linear head, uses batch
+  size 1, learning rate 1e-5, 30 epochs, gradient checkpointing, mean temporal
+  pooling, and disables SpecAugment.
+  These are IMPLEMENTATIONS, not completed fine-tuning experiments.
+  A frozen encoder plus a trained head is not backbone fine-tuning.
+
+The shared loss is cross-entropy. The current runner seeds PyTorch per fold.
+It is not a complete deterministic cross-platform reproducibility framework.
+Record actual GPU/software settings rather than promising bitwise-equivalent
+CPU/MPS/CUDA training.
+
+
+5. HISTORY OF NORMALIZATION EXPERIMENTS
+--------------------------------------
+Stage A: Historical utterance-level Librosa normalization.
+Each utterance's pYIN mean F0 was independently moved toward 200 Hz using the
+older Librosa pitch-shift pipeline. Recognition deteriorated substantially.
+The historical generation environment and exact per-file requested shifts
+were not fully recorded. Saved waveforms remain evidence of that pipeline,
+but an engine-only causal comparison cannot be inferred from them.
+
+Stage B: Investigate measured versus perceived pitch.
+The user noticed actors still sounded different despite normalization. We
+examined voiced-frame selection, detector errors, synthesis, quiet regions,
+and the distinction between speaker pitch height and perceived voice identity.
+For an Actor 3 example, original mean pYIN F0 was about 175.25 Hz and the saved
+normalized estimate was 272.55 Hz. On the 35 frames voiced in both versions,
+the means were about 175.97 and 205.41 Hz. Different accepted frames can change
+the summary dramatically. This did not establish ground-truth pitch.
+
+Stage C: Utterance-level PSOLA.
+Use native-rate Praat PSOLA synthesis, then resample to 16 kHz. The baseline
+was still the utterance pYIN arithmetic mean. Generation included 1,436 files;
+four originals had fewer than three accepted pYIN voiced frames. Performance
+recovered substantially relative to the saved historical Librosa pipeline,
+but remained below original audio. Engine and historical-estimation differences
+were not perfectly isolated.
+
+Stage D: Actor-level PSOLA using old pYIN means.
+Estimate one actor baseline as the arithmetic mean of valid utterance mean-F0
+values, then apply one constant semitone shift to every recording of that actor.
+Each utterance has equal weight; this is not a pooled voiced-frame mean.
+Test full shifts and clipping at +/-4 semitones. Both remained below original
+audio. Some baselines were severely contaminated by quiet high-F0 estimates.
+
+Stage E: Audit pYIN against current Praat filtered autocorrelation.
+Measure all originals, compare detectors and frame masks, inspect difficult
+examples, check sensitivity and synthetic signals, and use robust summaries.
+This yielded the current active, strong Praat median baseline candidate.
+
+Stage F: New robust actor-level full and capped conditions.
+Keep synthesis unchanged and replace baseline estimation. All 1,440 recordings
+were generated in each condition, with no exclusions. Fully align centres or
+cap shifts at +/-4 semitones. Re-evaluate using the same matched cohort.
+The capped condition had a small mean advantage over original for both completed
+frozen encoder families. The new matched MFCC comparison was interrupted.
+
+Stage G: Cleanup and publishing, November 24.
+Retain only the best capped generated WAV condition, preserve metadata/results,
+remove obsolete exploratory scripts and redundant files, fix Git/LFS tracking,
+verify, and publish to the existing default branch master. The verified commit
+is listed at the beginning of this file.
+
+
+6. PITCH-ESTIMATION INVESTIGATION
+--------------------------------
+Important distinction: Praat is software containing pitch detection algorithms.
+The new baseline detector was the separate official Praat 7.0.03 executable's
+filtered-autocorrelation method. The synthesis Python package is older
+Parselmouth 0.4.7, embedding Praat 6.1.38. They serve different roles.
+
+pYIN reference setup:
+  16 kHz, 50-800 Hz search range, 2,048-sample frame, 512-sample hop.
+  The old baseline accepts finite voiced estimates, including many estimates
+  in quiet regions, then averages in linear Hz.
+
+Current Praat audit:
+  10-ms pitch step, 50-Hz floor, 800-Hz top, 15 candidates.
+  Filtered-autocorrelation settings are recorded in src/audit_pitch.praat and
+  analysis/pitch_validation/f0_audit/config.json.
+  Additional passes compare native-rate audio and a 1,200-Hz top.
+  Actual Praat frame times are parsed; nearest-frame matching is allowed only
+  within 5 ms. No interpolation across unvoiced regions.
+
+Activity selection:
+  32-ms RMS window, centred on the measurement grid;
+  accept frames at least -35 dB relative to the recording's maximum RMS;
+  exclude digital silence through an absolute floor.
+  This is a pragmatic activity mask, not a validated speech/voicing labeler.
+
+Strong Praat selection:
+  Frame is active, voiced/finite, and selected-candidate autocorrelation
+  strength is at least 0.6. Strength is not a probability of correct F0.
+
+Robust speaker baseline:
+  z = 12 * log2(F0 / 100 Hz).
+  Take the median z over accepted frames in each utterance.
+  Require at least ten accepted frames per utterance.
+  Take the median of these utterance medians across an actor's recordings.
+  Convert back: baseline_Hz = 100 * 2**(actor_median_z / 12).
+  All 60 utterances qualify for every actor under the current candidate.
+
+Examples of the correction:
+  Actor 3: old baseline 232.54 Hz; robust candidate 159.71 Hz.
+           Old shift -2.61 ST; robust shift +3.90 ST.
+  Actor 5: old 443.46 Hz; robust 146.59 Hz.
+           Old shift -13.79 ST; robust shift +5.38 ST.
+  Actor 13: old 370.42 Hz; robust 131.98 Hz.
+            Old shift -10.67 ST; robust shift +7.20 ST.
+  Actor 21: old 101.44 Hz; robust 115.19 Hz.
+            Old shift +11.75 ST; robust shift +9.55 ST.
+
+For Actor 5, removing quiet frames alone changes the old mean-Hz shift from
+-13.79 to +1.11 ST; active pYIN median gives +3.70 ST; active Praat median gives
++5.38 ST. Detector, activity mask, and statistic all matter. Do not attribute
+the whole improvement simply to replacing pYIN with Praat.
+
+Audit findings:
+  - 28,813 of 91,653 pYIN voiced frames were outside the activity mask (31.4%).
+    Outside the mask does not automatically mean every frame was invalid.
+  - On 48,766 shared active frames, 23.4% differed by more than 1 ST.
+    These are detector disagreements, not labeled errors.
+  - A high pYIN probability threshold loses too much coverage for some actors;
+    it was not adopted as a universal baseline gate.
+  - Native-rate versus 16-kHz Praat centres differed very little in this audit;
+    no evidence identified resampling as the main baseline problem.
+  - Increasing the search top can change filtering/voicing selection, not just
+    permit higher numerical pitches. Actor-centre sensitivity reached 0.873 ST.
+  - Quality flags were retained, not used for per-test-actor tuning or removal.
+  - Whole-utterance bootstrap intervals quantify sampling stability, not true
+    physical F0 accuracy. Frames are overlapping observations, not independent.
+
+Validation included 57 engine/signal combinations: tones, harmonic signals,
+noisy harmonic signals, and silence. Clean controls passed the recorded error
+and voiced-coverage criteria. One noisy 700-Hz Praat/top-800 stress case missed
+the criterion (about 0.248-ST median error); it was reported, not discarded.
+Thirty-six difficult real-speech review figures were generated. Only selected
+windows were directly inspected; not every frame was manually adjudicated.
+At least one local Praat subharmonic error remained despite high strength.
+
+Conclusion: baseline estimation became better controlled, more robust, and
+more defensible. We did NOT obtain hand-labeled ground-truth F0 or prove every
+new frame estimate more accurate. "Spot on" is too strong a claim.
+
+
+7. CURRENT NORMALIZATION AND SYNTHESIS
+--------------------------------------
+Let b_s be speaker s's robust baseline in semitones relative to 100 Hz.
+The historical fixed target is 200 Hz, so target t = 12 ST.
+Full requested shift: d_s = t - b_s = 12 * log2(200 / baseline_Hz_s).
+Capped shift: applied_s = clip(d_s, -4, +4).
+Apply this SAME shift to all utterances of speaker s.
+
+Synthesis:
+  Read original native-rate mono waveform.
+  Parselmouth/Praat To Manipulation with 10-ms time step and 50-800-Hz limits.
+  Extract pitch tier; multiply frequencies by 2**(applied_s / 12).
+  Replace pitch tier; resynthesize with overlap-add PSOLA.
+  Resample to 16 kHz and save FLOAT WAV.
+  Verify finite samples, duration/sample count, sample rate, and hashes.
+
+No gain matching is applied to training audio. Listening exports separately
+match RMS and limit playback peaks; those gains are not part of the model data.
+Some FLOAT WAV peaks exceed 1 without integer clipping. Historical measurements
+found four full-shift and three capped files above 1, maximum about 1.0358.
+Do not silently clip or normalize these data and reuse old manifests.
+
+An ideal constant frequency multiplier preserves pitch ratios and adds a
+constant in semitone space. It preserves within-speaker semitone variance and
+relative pitch differences between utterances. Linear-Hz variance scales by
+the SQUARE of the multiplier. Do not claim all kinds of pitch variance remain
+unchanged. Real synthesis/voicing estimates can introduce deviations.
+
+Actor-level normalization does not force each utterance to 200 Hz. An actor
+with a 160-Hz baseline and utterance means 120/240 Hz would ideally become
+150/300 Hz after multiplying by 1.25. The emotional difference remains.
+
+Acoustic checks of the new conditions:
+  All 2,880 generated outputs were remeasured with current Praat.
+  Original robust actor centres: 98.89-294.05 Hz.
+  Full-shift measured centres: 196.51-207.68 Hz.
+  Full maximum target residual: about 0.652 ST.
+  Capped measured centres: 125.05-237.74 Hz; this is partial normalization.
+  Median per-recording absolute discrepancy between requested and measured
+  median shift: about 0.0189 ST full / 0.0190 ST capped.
+  About 5% of selected shared frames differ from the requested shift by >1 ST.
+  Detector ambiguity, transitions, alignment and synthesis errors are not
+  separately identified by that last number.
+
+Fourteen actors request shifts beyond 4 ST. Ten actors are unaffected by the
+cap: their 600 full/capped output recordings had identical decoded samples.
+
+Matching an F0 centre does not match formants, spectral envelope, voice quality,
+pitch spread, articulation, or identity. Actors can still sound unlike each
+other even if this pitch-height statistic is closely aligned.
+
+
+8. COMPLETED QUANTITATIVE RESULTS
+---------------------------------
+All values below are percentages, mean +/- SAMPLE SD over three seeds.
+
+MATCHED HuBERT NORMALIZATION HISTORY: 1,429 recordings, 24 LOSO folds.
+Condition                                 UAR              WAR
+Original                                  58.63 +/- 0.79    59.60 +/- 0.51
+Historical Librosa utterance normalization 42.81 +/- 1.52    43.92 +/- 1.33
+pYIN utterance PSOLA                       55.85 +/- 1.08    56.68 +/- 0.87
+Old pYIN actor mean, full                  56.50 +/- 0.77    57.27 +/- 0.45
+Old pYIN actor mean, cap 4                 56.95 +/- 0.37    58.01 +/- 0.19
+New active Praat actor median, full        58.54 +/- 0.62    59.32 +/- 0.39
+New active Praat actor median, cap 4       59.06 +/- 0.62    59.79 +/- 0.63
+
+MATCHED wav2vec2: same 1,429 recordings, folds, and seeds.
+Original                                  43.62 +/- 0.37    44.65 +/- 0.39
+New active Praat actor median, full        44.05 +/- 1.06    44.90 +/- 0.99
+New active Praat actor median, cap 4       44.09 +/- 0.38    45.18 +/- 0.32
+
+Capped versus original mean UAR differences:
+  HuBERT: +0.4353 percentage points; positive in 2 of 3 seeds.
+    Seed 42: -0.2653; seed 123: +1.4447; seed 999: +0.1265 pp.
+  wav2vec2: +0.4636 percentage points; positive in all 3 seeds.
+    Seed 42: +0.9228; seed 123: +0.2081; seed 999: +0.2600 pp.
+
+Conditional paired held-out-actor resampling intervals for capped minus
+original UAR (10,000 draws, averaging the fixed three-seed predictions):
+  HuBERT: approximately [-1.544, +2.276] pp.
+  wav2vec2: approximately [-1.466, +2.549] pp.
+Both cross zero. These are conditional uncertainty summaries, not proof of
+significance. They do not retrain models or eliminate overlapping LOSO
+training sets, exploratory condition selection, or multiple comparisons.
+
+NEW MATCHED MFCC COMPARISON: INCOMPLETE, not a final result.
+Stopped on the Mac for a fresh CUDA rerun. Of 72 seed/fold pairs per condition:
+  Original: 19 completed, all seed 42.
+  Full robust Praat: 18 completed, all seed 42.
+  Capped robust Praat: 28 completed, seed 42 all 24 plus seed 123 first four.
+See output/pitch_comparison_praat_median_mfcc/INTERRUPTED.json.
+Do not report these as a complete three-seed model comparison. Do not splice
+the partial Mac predictions together with CUDA predictions.
+
+OLDER UNMATCHED ORIGINAL BASELINES, using all 1,440 recordings:
+  MFCC: UAR 35.07 +/- 1.14; WAR 37.31 +/- 1.25.
+  HuBERT final layer: UAR 59.92 +/- 0.95; WAR 60.81 +/- 0.91.
+  wav2vec2: UAR 44.10 +/- 0.14; WAR 45.23 +/- 0.04.
+Use evaluation.json for exact stored values. Do NOT substitute these scores
+for matched originals in the new normalization table.
+
+Original HuBERT layer probing, all 1,440 recordings:
+  Layer 6 had the highest observed mean TEST UAR: 69.38 +/- 0.31;
+  WAR about 70.14 +/- 0.24.
+  Layer 7 had the highest mean VALIDATION UAR, about 71.34%.
+  Final layer 12: UAR about 59.92%.
+The test-best layer is a descriptive observation. Do not select layer 6 using
+test scores and portray the result as an unbiased, preselected improvement.
+Any layer selection for a new experiment must use training/validation only.
+
+
+9. REALISTIC SCIENTIFIC INTERPRETATION
+-------------------------------------
+What we achieved:
+  A reproducible investigation of a failing normalization pipeline;
+  identification of consequential unreliable baseline estimates;
+  a robust speaker-centre estimation procedure with explicit assumptions;
+  synthesis and acoustic validation;
+  controlled matched comparisons on two frozen encoder families;
+  a small consistent-direction mean gain for the capped procedure;
+  evidence that complete pitch-centre alignment is not automatically optimal.
+
+This is a worthwhile fourth-year project contribution and a useful basis for
+further work. It does not yet establish a novel publishable discovery, a
+statistically reliable SER improvement, or generalization beyond this corpus.
+Speaker-relative pitch normalization itself is not a newly invented concept.
+A publication claim needs a careful literature review and stronger controls.
+
+The large recovery over the poor historical normalized baseline is useful,
+but an increase relative to a flawed baseline is not the same as outperforming
+original audio. The small original-audio gains need a cautious interpretation.
+
+Why might the cap help? Hypotheses, NOT established mechanisms:
+  - Large shifts cause more synthesis distortion or encoder-domain mismatch.
+  - Full normalization removes absolute pitch information useful for emotions.
+  - The baseline is uncertain, and capping limits damage from estimation error.
+  - The 200-Hz target is not optimal.
+  - Small observed differences partly reflect training/data variation.
+We need controls to distinguish these explanations.
+
+
+10. AVAILABLE DATA, RESULTS, AND CLEANUP
+---------------------------------------
+Retained generated audio:
+  data/audio_variants/normalized_psola_actor_praat_median_cap4
+  1,440 WAVs; approximately 325 MiB / 341 MB of LFS objects.
+Original RAVDESS recordings remain in ordinary Git.
+
+Removed redundant WAV variants:
+  normalized_only
+  normalized_psola
+  normalized_psola_actor_mean
+  normalized_psola_actor_mean_cap4
+  normalized_psola_actor_praat_median
+Their small indices, generation metadata, diagnostic tables, shifts, and
+recognition results remain where available. A directory existing does not mean
+its old WAVs still exist. Rebuild into a new output root.
+
+Cleanup removed about 2.65 GB of redundant files, including a handoff ZIP,
+completed feature arrays, listening WAVs, and LaTeX scratch files. This is the
+amount removed, not a precise net disk-space reduction after Git/LFS caching.
+Local unfinished MFCC feature caches and local checkpoint files were preserved.
+They are ignored and will NOT appear automatically on the RTX clone.
+Historical checkpoint files in the checkout were often Git LFS POINTER STUBS,
+not loadable trained model weights. Do not assume a .pt filename is sufficient.
+
+Git attributes now use LFS only for the retained capped WAV path. CSV, JSON,
+and JSONL are ordinary Git with bytes preserved for hash reproducibility.
+Checkpoints, embedding arrays, audit tracks, listening WAVs, ZIPs and caches
+are ignored. Do not add all future variants/checkpoints through broad LFS rules.
+
+The cleanup push succeeded on master. All 1,445 required new LFS objects were
+uploaded (the WAVs plus five small objects from preceding unpublished history).
+A fresh remote sample WAV download was hash-verified. Account-wide remaining
+LFS allowance could not be read through the owner's billing API; do not claim
+we measured its remaining balance. Deleting tip files does not erase remote
+history or reclaim all previously stored LFS versions.
+
+Main evidence locations:
+  output/pitch_comparison_hubert/
+  output/pitch_comparison_actor_hubert/
+  output/pitch_comparison_praat_median_hubert/
+  output/pitch_comparison_praat_median_wav2vec/
+  output/pitch_comparison_praat_median_mfcc/
+  output/original/ and output/normalized_only/ for historical results
+  analysis/model_comparison/ for tables, uncertainty, confusion figures,
+    per-class/per-actor scores, examples, and provenance
+  analysis/pitch_validation/ for study reports and acoustic diagnostics
+  analysis/project_requirements/STATUS.md for the earlier course audit
+
+Per-recording audit JSON caches and NPZ tracks stay local/ignored. The clone
+contains summary evidence, not all expensive diagnostic caches. Generation
+from saved shifts does not require refitting all pitch tracks.
+
+
+11. SOURCE-CODE MAP
+-------------------
+src/run_experiments.py
+  Shared LOSO splits, loaders, model training, validation checkpoint selection,
+  held-out predictions, metrics, histories and evaluation.json.
+  Accepts data_dir, dataset, experiment_root, recording_files programmatically.
+  SER_DATA_DIR controls the legacy entry-point default dataset. Default is now
+  the retained capped condition, not normalized_only.
+
+src/training_execution.py
+  Equivalent epoch loop deferring metric transfers until the end of an epoch,
+  reducing synchronization overhead. Used by evaluate_other_models.py.
+
+src/mfcc_execution.py
+  DenseBiLSTM execution equivalent to packed sequences for the existing
+  one-layer model. Uses right/left padded copies to select the correct forward
+  and backward states on MPS. Verified against packed outputs/gradients.
+  CUDA/CPU use the original packed model; do not replace it unnecessarily.
+
+src/evaluate_other_models.py
+  Matched MFCC and frozen wav2vec2 runner. --device cpu/mps/cuda.
+  Has --conditions, --matched-recordings, --output-root, --variant-root,
+  --seeds, --folds, --epochs, --training-workers, --threads,
+  --feature-batch-size. Defaults to original + retained capped condition.
+  MFCC trains on requested device. Frozen wav2vec2 extracts on that device,
+  but its small head trains on CPU. CUDA availability is checked.
+
+src/evaluate_pitch_conditions.py
+  Matched frozen HuBERT runner; same default two conditions and fixed cohort.
+  CUDA feature extraction is supported; heads train on CPU.
+  Has --features-only, --benchmark, --snapshot and --feature-batch-size.
+  It does NOT currently expose an --epochs flag; head default is 30.
+
+src/cache_pretrained_model.py
+  Download pinned official model weights/configs to ignored repository cache.
+  Writes a pointer and manifest recording revision and weight hash.
+
+src/models/baseline_mfcc_bilstm.py
+src/models/baseline_hubert_linear.py
+src/models/baseline_wav2vec_linear.py
+  Model definitions and older standalone full-index entry points.
+
+src/models/finetuned_hubert_linear.py
+src/models/finetuned_wav2vec_linear.py
+  Trainable-backbone implementations; no completed fine-tuning results.
+
+src/hurbert_layerwise_probing.py
+  Existing filename is misspelled "hurbert"; preserve/find the actual name.
+  Extracts all 12 layers and trains linear probes. See output-path issue below.
+
+src/create_ravdess_index.py
+  Builds the original index. Do not run blindly over established artifacts.
+
+src/create_audio_variants.py
+  Legacy Librosa normalization and pitch/stretch/noise augmentation generator.
+  --conditions and --output-root allow separate regeneration.
+  Retained for reproducing old methods and the proposed augmentation work.
+
+src/pitch_processing.py
+  Current shared native-rate PSOLA pitch-shift implementation.
+
+src/create_psola_variants.py
+  Older utterance-pYIN PSOLA generation; also exports shared config/estimation.
+
+src/create_actor_psola_variants.py
+  Older actor-mean generator; its generate() helper is reused by the current
+  robust generator. Retained because it is not dead code.
+
+src/create_praat_median_variants.py
+  Fit/recompute current baselines from audited original tracks and generate
+  requested conditions. Default generation is now capped only; full is optional.
+  Requires complete audited records/tracks, unlike saved-shift restoration.
+
+src/restore_audio_variant.py
+  Regenerate a saved PSOLA condition directly from diagnostics.csv shifts.
+  Verifies original source hashes and saves new diagnostics/config in a fresh
+  root. Requires Parselmouth 0.4.7 / synthesis Praat 6.1.38.
+
+src/audit_pitch.py and src/audit_pitch.praat
+  Original pYIN/current-Praat comparisons, signal controls, raw measurements,
+  source hashes, sensitivity inputs, and review plots.
+
+src/summarize_pitch_audit.py
+  Baseline sensitivity/coverage/quality summaries and actor review flags.
+
+src/validate_praat_median_variants.py and src/measure_praat_pitch.praat
+  Independent remeasurement of generated outputs. Requires a current Praat
+  executable and original tracks. Defaults to retained capped condition.
+
+src/summarize_model_comparison.py
+  Independently verify metrics, held-out membership and provenance; export
+  matched results, confusion matrices, examples, paired deltas and intervals.
+  Its current path/condition assumptions need extension for new CUDA/soft runs.
+
+src/preview_actor_normalization.py
+  Recreate listening sequences; defaults to original versus retained capped.
+  RMS matching is for listening only, not training preprocessing.
+
+Seven obsolete scripts removed:
+  investigate_pitch.py; compare_shift_quality.py; compare_pitch_engines.py;
+  audit_pitch_outputs.py; build_gpu_handoff.py;
+  summarize_praat_median_experiment.py; project_requirements_audit.py.
+Old study documents may mention these historical commands. Use current code
+and README for execution, not every archived command literally.
+
+analysis/model_comparison/mac_execution_sources/ contains three small source
+snapshots recording the completed Mac execution versions. They are provenance,
+not alternative current entry points.
+
+
+12. LINUX/CUDA SETUP AND FIRST CHECKS
+------------------------------------
+Run all project commands from the repository root.
+
+  git lfs install
+  git clone --depth 1 --branch master https://github.com/nsaloufakos/Speech-Emotion-Recognition.git
+  cd Speech-Emotion-Recognition
+  git lfs pull
+  python3.11 -m venv .venv
+  source .venv/bin/activate
+
+Install an appropriate CUDA-enabled PyTorch wheel using the official selector:
+  https://pytorch.org/get-started/locally/
+Choose Linux/Pip/Python and a CUDA build compatible with the actual driver.
+Do not guess a wheel command based only on this old Mac environment.
+
+Then:
+  python -m pip install -r requirements.txt -r requirements-mfcc-evaluation.txt -r requirements-pitch.txt
+  nvidia-smi
+  python -c "import torch; print(torch.__version__, torch.version.cuda, torch.cuda.is_available()); print(torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'NO CUDA')"
+  python -m pip check
+
+The recorded Mac environment used Python 3.11.17, PyTorch 2.14.1,
+Transformers 5.20.1, NumPy 2.4.6, pandas 3.0.6, SciPy 1.17.1,
+scikit-learn 1.9.1, Librosa 0.11.0, SoundFile 0.14.0, Matplotlib 3.11.2,
+and Parselmouth 0.4.7. These are recorded provenance, not a guarantee every
+listed version has a compatible wheel on the RTX installation. Inspect the
+actual package availability and record any differences. requirements.txt is
+not a complete lockfile; the additional evaluation file pins several packages.
+
+Cache model weights before offline evaluation:
+  python src/cache_pretrained_model.py --repo facebook/hubert-base-ls960 --revision dba3bb02fda4248b6e082697eee756de8fe8aa8a --output .cache/hubert_model_path.txt
+  python src/cache_pretrained_model.py --repo facebook/wav2vec2-base --revision 0b5b8e868dd84f03fd87d01f9c4ff0f080fecfe8 --output .cache/wav2vec_model_path.txt
+
+The evaluation modules set offline Hugging Face mode. A clone does not contain
+the ignored model cache; a missing snapshot is not automatically a CUDA bug.
+The fine-tuning/older entry points use model IDs/default cache lookup unless
+adapted; do not assume the custom snapshot pointer is automatically used there.
+
+Before a long run, check WAV counts, source/index consistency, that LFS files
+are actual RIFF audio rather than text pointers, cohort size 1,429, and split
+actor disjointness. Save package versions, driver/device, git commit, parameters,
+and wall-clock timing in a run manifest.
+
+CUDA smoke test example, using a NEW output directory:
+  python src/evaluate_other_models.py --model mfcc --device cuda --seeds 42 --folds 1 --epochs 1 --output-root output/cuda_smoke_mfcc
+
+This still extracts the requested full cohort's features; it reduces training,
+not necessarily extraction. For a genuinely tiny smoke test, create a separate
+small matched-recordings CSV covering nonempty train/validation/test groups in
+the chosen fold, as the clean-checkout CPU verification did. Never replace the
+canonical matched cohort with this smoke CSV.
+
+Use --training-workers 1 initially: multiple workers can contend for one GPU.
+Start frozen feature batches conservatively (e.g. 2), benchmark, then increase.
+If out of memory, reduce feature batch size before altering waveform length,
+padding/pooling, model precision, or scientific settings.
+
+Establish an FP32/eager baseline first. Mixed precision, TF32, attention-backend
+changes, batching changes and deterministic settings should be explicit changes
+with regression checks, not invisible "speed fixes." PyTorch notes that exact
+reproducibility across platforms/releases is not guaranteed:
+  https://docs.pytorch.org/docs/stable/notes/randomness.html
+
+The RTX does not automatically accelerate Librosa/pYIN, Praat, or PSOLA.
+Those portions remain CPU work unless deliberately replaced with new methods.
+
+
+13. EXISTING RUN COMMANDS AND REGENERATION
+-----------------------------------------
+Full matched original-versus-retained-capped comparisons:
+  python src/evaluate_other_models.py --model mfcc --device cuda --output-root output/cuda_mfcc
+  python src/evaluate_other_models.py --model wav2vec --device cuda --output-root output/cuda_wav2vec
+  python src/evaluate_pitch_conditions.py --device cuda --output-root output/cuda_hubert
+
+These defaults use three seeds and 24 folds. Frozen head training remains CPU;
+that is intentional, not evidence CUDA was ignored. MFCC classifier training
+uses CUDA. Use distinct smoke/full directories and distinct configurations.
+
+Regenerate the deleted full robust condition from saved shifts:
+  python src/restore_audio_variant.py --condition normalized_psola_actor_praat_median --output-root .cache/regenerated_variants
+  python src/evaluate_other_models.py --model mfcc --device cuda --conditions normalized_psola_actor_praat_median --variant-root .cache/regenerated_variants --output-root output/cuda_mfcc_full
+
+Important: --variant-root redirects ALL requested normalized condition paths
+to that root. If only full was regenerated there, requesting capped as well
+will fail because that second dataset does not exist at that root.
+For one consistent original/full/capped CUDA block, regenerate both full and
+capped into the same fresh root, then request all three explicitly with one
+output root and that --variant-root. Original still reads data/RAVDESS.
+Document the regenerated manifests and do not overwrite historical metadata.
+
+FLOAT WAV exports contain a PEAK-chunk timestamp. A regenerated WAV can have
+a different whole-file hash despite bit-identical decoded samples. This was
+directly verified: the differing bytes were timestamp bytes; three retained
+actor examples regenerated with identical samples. Cross-platform sample
+identity still needs verification. The restoration script records fresh hashes
+and archived hashes separately. Do not edit old hashes just to bypass checks.
+
+If LFS downloads are unavailable, clone with GIT_LFS_SKIP_SMUDGE=1, regenerate
+the capped condition locally into a new root, and pass --variant-root. This
+recomputes audio from originals rather than downloading generated LFS data.
+
+Legacy normalization can be reproduced separately:
+  python src/create_audio_variants.py --conditions normalized_only --output-root .cache/legacy_variants
+
+Refitting pitch baselines is different from restoring saved shifts. To refit,
+install the appropriate current Praat binary on Linux and use a fresh audit
+directory, since the Mac binary hash/environment differs:
+  python src/audit_pitch.py --praat /absolute/path/to/praat --output-dir .cache/linux_f0_audit
+  python src/summarize_pitch_audit.py --audit-dir .cache/linux_f0_audit
+
+Then use create_praat_median_variants.py with that audit directory and a fresh
+output root. Output-validation paths are currently partly hardcoded to the
+canonical data/audio_variants tree; adapt carefully for arbitrary new roots.
+Do not copy Mac /private/tmp executable paths into Linux commands.
+
+Historical result reproduction without missing full WAV bytes:
+  python src/summarize_model_comparison.py --allow-incomplete --archived-audio --output-dir analysis/historical_recheck
+
+This recomputes scores/membership and compares missing waveform hashes to saved
+generation diagnostics. It explicitly does not claim to reread deleted WAV
+bytes. Without --archived-audio, missing waveforms fail strict verification.
+
+
+14. IMPLEMENTATION LIMITATIONS TO ADDRESS ON RTX
+-----------------------------------------------
+These are observations from reading the current source, not completed fixes.
+
+A. No true interrupted-fold training resume.
+   Feature caches can be reused and completed evaluation cells can be skipped,
+   but run_experiment initializes fold loops and output accumulators again.
+   It does not resume Adam/epoch state or automatically skip each completed
+   seed/fold from partial predictions. Rerunning an interrupted root can
+   retrain/overwrite partial work. Add robust validated fold/epoch resume if
+   needed, or use new roots and treat partial runs as separate evidence.
+
+B. Summary paths are hardcoded.
+   summarize_model_comparison.py knows historical HuBERT/wav2vec roots and has
+   only a specific --mfcc-output-root override. It assumes original/full/capped
+   conditions and the fixed 1,429 cohort. Extend it with explicit per-model or
+   per-cell root mapping before summarizing new CUDA/soft-condition runs.
+   Do not let a new table silently read old Mac results for one condition.
+   Original+cap MFCC results alone do not complete the original/full/cap matrix.
+
+C. New soft conditions are not registered.
+   Existing CLI condition choices cover the named historical/current datasets.
+   There is no implemented --alpha, --target-median, or --soft-cap option yet.
+   Add a generator/registry and summary support rather than pretending the
+   proposed commands already exist. Record conditions and policies explicitly.
+
+D. Fine-tuning needs a controlled runner.
+   Existing standalone scripts use the full dataset index by default, not the
+   matched 1,429 cohort, and do not expose the evaluation runner's CLI controls.
+   Add explicit model/data/output/cohort/seed/fold/epoch controls or a wrapper.
+   Ensure the optimizer really updates backbone parameters and checkpoint
+   reload includes the intended trainable state. Log parameter counts.
+
+E. Layer-probing output-path mismatch.
+   run_experiment uses output_dir.name, so a passed nested probing path can be
+   flattened into output/<dataset>/layer_XX rather than the historical nested
+   hubert_layerwise_probing/layer_XX layout. The layer_results.csv writer also
+   uses a separate path. Fix/test this before a long normalized probe run.
+   Preserve historical original-audio layer files.
+
+F. Regeneration is not general resume.
+   restore_audio_variant.py requires a fresh output directory and does not
+   resume a partially generated destination. A --limit run is a smoke dataset,
+   not a full condition. Use separate roots and verify selected file lists.
+
+G. Absolute path and manifest portability.
+   Some configurations contain absolute snapshot/variant paths and environment
+   signatures. Moving roots/hardware can intentionally invalidate reuse.
+   Resolve actual paths, keep provenance, and use fresh run roots. Do not weaken
+   checks or mix stale embeddings simply to make a command run.
+
+H. Full backbone fine-tuning can be much larger than expected.
+   One condition at 3 seeds x 24 folds x 30 epochs is 2,160 training epochs
+   across models/folds, with most of the dataset revisited each time. The
+   current batch size is 1. Benchmark a training/validation epoch before
+   assuming the entire schedule fits before tomorrow's deadline.
+
+
+15. SOFTER SHIFTS AND OTHER PROPOSED INVESTIGATIONS
+--------------------------------------------------
+EVERYTHING IN THIS SECTION IS PROPOSED, NOT A COMPLETED RESULT.
+"Tonal median" is interpreted here as an estimated speaker pitch centre in
+log-frequency space, not a linguistic-tone label or a validated habitual F0.
+
+15.1 Partial movement toward a target
+Let d_s = t - b_s. Apply alpha*d_s, with alpha between 0 and 1.
+  alpha=0: no pitch movement.
+  alpha=1: full centre alignment.
+  intermediate alpha: retain some between-speaker pitch variation.
+Small exploratory candidates could be alpha=0.25 and 0.5, alongside existing
+original/full/cap references. Select alpha by validation, not repeated test
+inspection. Do not run a large grid just because frozen heads are inexpensive;
+each waveform condition needs synthesis/extraction and creates selection bias.
+
+An alpha=0 PSOLA export is a zero-shift RESYNTHESIS control, not necessarily
+identical to original audio. Keep original and zero-shift PSOLA distinct.
+
+15.2 Smooth bounded shifts
+Instead of hard clipping, consider applied_s = C*tanh(d_s/C).
+Small shifts are approximately unchanged; large requests saturate smoothly.
+This is not the same transformation as clip(d_s,-C,C), and it is not yet tested.
+Hard clipping is continuous; the distinction is its change in slope at the
+boundary, not a discontinuity in the applied shift value.
+
+15.3 Combining soft movement and a cap
+alpha*clip(d_s,-C,C) differs from clip(alpha*d_s,-C,C).
+For d_s=8, C=4, alpha=0.5, the former gives 2 ST and the latter 4 ST.
+Choose the definition explicitly and save the actual per-speaker shifts.
+
+15.4 Target a training-speaker median instead of arbitrary 200 Hz
+For each LOSO fold, compute t_fold from the baseline centres of TRAINING actors
+only, for example their median in semitone space with equal speaker weights.
+Use that target for the corresponding train/validation/test condition.
+Do not compute a supposedly training-only target from all 24 speakers.
+Fold-specific targets mean one actor can need different transformed versions
+across folds: architecture/data caching must represent fold-specific artifacts
+or apply transformations during the appropriate fold. One global actor WAV
+folder cannot encode every fold-specific target simultaneously.
+
+The existing method's access to an unlabeled test-speaker calibration batch is
+already an explicit protocol assumption. A train-derived target does not turn
+the procedure into first-utterance inference.
+
+15.5 Move toward an acceptable target range
+Choose a training/validation-defined interval [L,U] in semitones and apply
+clip(b_s,L,U)-b_s. Speakers inside the interval are not moved; speakers outside
+are moved toward the nearest boundary. This tests whether reducing extremes
+is preferable to forcing all voices to one pitch centre.
+
+15.6 Deadband near the target
+An alternative is sign(d_s)*max(abs(d_s)-delta,0), optionally bounded afterward.
+This leaves sufficiently close speakers alone and avoids full convergence.
+Define delta through a fixed rationale/validation protocol, not test tuning.
+
+15.7 Confidence-weighted movement
+Reduce movement when the baseline is unstable or coverage is poor; define
+alpha_s using prespecified uncertainty/coverage summaries. High AC strength
+alone is insufficient. Bootstrap widths describe sampling stability, not a
+calibrated probability of correctness. Shrinking a baseline toward the target
+before shifting can be algebraically equivalent to scaling d_s; do not count
+equivalent parameterizations as separate discoveries.
+
+15.8 Component ablations for stronger causal claims
+Keep detector/frame selection fixed while comparing mean versus median in
+semitones. Keep the statistic fixed while changing activity selection. Keep
+mask/statistic fixed where meaningful while comparing pYIN and Praat, and
+report differences in coverage rather than silently dropping difficult actors.
+The current old-to-new comparison changes detector, mask and statistic together.
+
+15.9 Zero-shift resynthesis and related controls
+Zero-shift PSOLA helps isolate synthesis/resampling effects. A stronger
+alignment-specific control could randomly reassign the same actor-shift
+distribution across speakers with fixed seeds, but this adds work and needs
+careful interpretation. Do not confuse a control's randomization seed with
+training seeds or tune its assignment using test scores.
+
+15.10 Other extensions, mostly after the deadline
+  - A small separate unlabeled calibration subset per test speaker, with
+    disjoint evaluation utterances and a revised matched protocol.
+  - Baseline stability versus calibration-set size.
+  - Cross-corpus evaluation and broader speaker/language coverage.
+  - Robust handling of short/unvoiced utterances and detector octave glitches.
+  - Acoustic-quality/listening assessment under controlled gains.
+  - Representation-level speaker-pitch normalization as a different method.
+
+Do not normalize every utterance independently in a new "soft speaker" test;
+that would again risk removing between-utterance emotional pitch differences.
+
+
+16. EXPERIMENT DESIGN AND STATISTICAL DISCIPLINE
+------------------------------------------------
+Before each new experiment, write down:
+  question; condition formula; actor calibration scope; target source;
+  selected cohort and split hashes; model/layer; versions and precision;
+  seeds/folds/epochs; validation selection; required controls; output paths.
+
+Generate from ORIGINAL recordings, not an already shifted waveform. Repeated
+resynthesis compounds processing and makes shift comparisons harder to interpret.
+Keep each new condition separate and export applied shifts, source hashes,
+sample rates/counts, finite/peak checks, exclusions, versions, and provenance.
+
+Use the same samples, splits and training settings within a comparison. Do not
+allow a different exclusion set or hardware/precision change to masquerade as
+an alpha/cap improvement. New fold-specific policies need their own careful
+data handling and cannot simply reuse the historical fixed global folders.
+
+Validation chooses settings; final held-out tests assess them. Since historical
+test scores have already influenced interest in capped normalization, describe
+the development as exploratory. A new sweep over the same tests is not fresh
+confirmation. Avoid optimizing each held-out actor's shift to its emotion score.
+
+Report paired deltas as percentage POINTS, not percent relative improvement.
+For uncertainty, use paired speaker-level summaries where appropriate; do not
+bootstrap individual frames as independent speakers. Three seed scores alone
+do not justify a confident significance claim. Disclose limitations of actor
+resampling and overlapping LOSO training sets.
+
+
+17. REPORT AND PRESENTATION REQUIREMENTS
+-----------------------------------------
+Primary course evidence is the supplied capstone guide/templates/handout.
+The earlier audit is analysis/project_requirements/STATUS.md and status.json.
+Those are a November 24 snapshot, not a live checklist. For example, its claim
+that README contains only a heading is now stale: setup/regeneration docs were
+subsequently written and master was successfully pushed. Fine-tuning and other
+missing-result statuses remain missing unless new RTX evidence changes them.
+
+Core project requirements identified by that audit:
+  - Fine-tune HuBERT-base backbone with a classification head; report UAR/WAR.
+  - Compare MFCC-BiLSTM, wav2vec2 features and HuBERT features.
+  - Layer-wise HuBERT probing.
+  - Speaker-independent LOSO evaluation.
+  - Propose/evaluate speaker normalization OR augmentation.
+Normalization satisfies the OR extension route; every augmentation combination
+is not automatically mandatory under that course objective.
+
+Additional proposal commitments still need completion or an honest scope-change
+explanation: wav2vec2 fine-tuning, normalized layer probing, and training-only
+pitch/time-stretch/noise augmentation ablations.
+
+Final report:
+  - 6-8 main pages plus appendix, final PDF and LaTeX source.
+  - Abstract 200-250 words.
+  - Clear problem, related work, explicit contribution, methods/equations,
+    architecture diagram or pseudocode, loss, setup, results, ablations,
+    qualitative examples, failure analysis, limitations and conclusion.
+  - Final template asks at least 7 related papers; guide asks at least 5.
+    Use the stricter compatible target, with a thematic comparison rather
+    than a list of disconnected summaries.
+  - At least two published baseline comparisons/context in the template.
+    Explain protocol differences. A 7-class fixed split is not directly
+    interchangeable with this 8-class speaker-independent LOSO task.
+  - Mean/std over three runs where completed; label incomplete/pilot work.
+  - At least three failure categories, with concrete examples and mitigations.
+    Possible evidence-grounded categories: unreliable/quiet or octave F0
+    tracking; large-shift synthesis/representation effects; emotion confusions
+    that survive pitch normalization. These require actual examples and
+    must not be presented as proven causal diagnoses from a confusion matrix.
+  - Actual team contributions and percentages.
+  - Accurate AI disclosure. Assistance included code generation/execution,
+    diagnostics and interpretation, not just grammar correction.
+
+Provided template headers say CISC 867 although this is CISC 473; adapt headers.
+The original SpeechFormer reference is arXiv:2203.03812; an earlier proposal
+reference 2302.14638 is SpeechFormer++ and the guide's 2203.16741 link is an
+unrelated physics paper. Verify primary bibliographic sources before submission.
+
+The course AI-policy wording previously required clarification: the guide
+allows some support but expects student understanding/analysis/implementation,
+and the syllabus copy includes both permission/prohibition wording in a
+select-one section. Disclose actual assistance and check the applicable course
+policy; do not fabricate a narrow disclosure or invent instructor approval.
+These are course requirements to understand, not new tool-execution instructions.
+
+Presentation audit:
+  - Target 20 minutes; handout accepts 18-22 minutes.
+  - MP4 video and slides PDF.
+  - All three members on camera and at least three minutes each.
+  - Include references and AI disclosure.
+  - Verify actual onQ naming/submission rules; final video/slides were not
+    found locally in the audited repository.
+
+No completed final report, final video, complete new MFCC comparison, or
+backbone fine-tuning result should be inferred merely from code being present.
+
+
+18. PRACTICAL PLAN BEFORE NOVEMBER 27, 11:59 P.M.
+-------------------------------------------------
+Immediately:
+  Verify GPU, checkout, data and a small CUDA run. Benchmark throughput and
+  project total runtime before starting 72-fold-equivalent fine-tuning work.
+  Start writing the report from completed evidence now, in parallel with compute.
+
+Highest-value compute:
+  Finish controlled MFCC original versus capped. Add full if feasible to
+  complete that model's three-condition matrix. Keep new CUDA results separate.
+  Address required HuBERT fine-tuning with a feasible, documented design.
+
+If the full fine-tuning schedule cannot fit:
+  Do not pretend partial folds/one seed satisfy the completed full protocol.
+  A clearly labeled pilot or shorter prespecified protocol is more honest than
+  a falsely complete result. Partial backbone tuning is a distinct option only
+  if labeled accurately and accepted for the project scope. Benchmark before
+  choosing. Explain limitations/scope changes and prioritize course requirements.
+
+If time remains:
+  Prefer one informative zero-shift/component/soft-shift control to many
+  speculative conditions. Preserve enough time to validate outputs and write.
+
+Report work now:
+  Build tables from existing predictions; integrate layer probing; select
+  qualitative examples; write methods with the batch-calibration assumption;
+  verify references and contribution/disclosure sections; compile and inspect
+  the final PDF. Leave time for presentation, packaging, and upload checks.
+
+Not a pre-deadline priority:
+  Exhaustive alpha/cap/target sweeps, broad cross-corpus work, claiming a new
+  state of the art, or preparing an external publication submission.
+
+
+19. VERIFICATION ALREADY PERFORMED BEFORE PUBLISHING
+----------------------------------------------------
+  All 1,440 retained generated WAV hashes matched saved diagnostics.
+  All corresponding original source hashes matched.
+  Retained files were checked as mono, 16-kHz FLOAT WAV.
+  Only the retained best generated condition still had WAV files.
+  Three speaker examples (3, 5, 21) regenerated sample-identically on the Mac.
+  A fresh uncapped restoration CLI smoke test verified metadata/output hashes.
+  Python syntax and removed-module dependencies were checked.
+  Ten supported CLI entry points passed --help checks.
+  Completed HuBERT/wav2vec scores were independently reproduced from predictions.
+  A temporary clean checkout with eight recordings ran end-to-end CPU tests
+  for MFCC, frozen wav2vec2 and frozen HuBERT, each on original and capped audio.
+  These exercised extraction, training, checkpoint save/reload, held-out
+  prediction and output writing. One seed/fold was used; MFCC/wav2vec used
+  one epoch and the HuBERT head used its 30-epoch default.
+  These were smoke tests, NOT replacement full scientific experiments.
+  A normal fast-forward push updated master; no shared history was rewritten.
+  Remote master SHA matched the published commit, and a fresh LFS sample
+  download matched its expected hash. Working tree was clean at publication.
+
+CUDA itself and the full backbone fine-tuning jobs were not verified on RTX.
+
+
+20. CONTINUATION PROMPT AND SOURCES OF TRUTH
+--------------------------------------------
+Suggested request to the next assistant:
+
+"Read RTX3060_PROJECT_CONTEXT.txt and inspect the current checkout. We are on
+Linux with an RTX 3060 12 GB. Deadline is November 27, 2026 at 11:59 p.m.
+Toronto time. First make CUDA work and verify a small end-to-end run without
+overwriting historical results. Benchmark before launching long jobs. Prioritize
+the missing matched MFCC comparison and required HuBERT backbone fine-tuning,
+then a small justified control/soft-shift investigation if time permits.
+Preserve the fixed cohort and splits; use new output roots; repair summary
+root handling and any needed resume support. Report exactly what is complete
+versus pilot/incomplete, and keep report writing moving. Do not claim proposed
+soft normalization methods already have results or that small gains establish
+significance. Preserve current progress and avoid uploading redundant data."
+
+Read these actual files before interpreting a discrepancy:
+  README.md
+  output/splits.csv
+  output/pitch_comparison_hubert/matched_recordings.csv
+  analysis/model_comparison/RESULTS.md
+  analysis/model_comparison/main_results.csv
+  analysis/model_comparison/seed_scores.csv
+  analysis/model_comparison/paired_comparisons.json
+  analysis/model_comparison/actor_resampling_intervals.json
+  analysis/model_comparison/results_validation.json
+  analysis/model_comparison/prediction_examples.csv
+  analysis/pitch_validation/F0_AUDIT.md
+  analysis/pitch_validation/PRAAT_MEDIAN_EXPERIMENT.md
+  analysis/pitch_validation/ACTOR_PSOLA_EXPERIMENT.md
+  analysis/pitch_validation/PSOLA_EXPERIMENT.md
+  analysis/pitch_validation/f0_audit/actor_quality.csv
+  analysis/pitch_validation/praat_median_experiment/pitch_validation_summary.json
+  output/pitch_comparison_praat_median_mfcc/INTERRUPTED.json
+  analysis/project_requirements/STATUS.md and status.json
+  analysis/cleanup.json
+
+The supplied course documents are in the parent school directory on the Mac,
+not necessarily on the RTX clone: capstone-guide.pdf, final-template.tex,
+presentation_handout_compact.pdf, proposal.tex and the supplied course syllabus.
+Repository proposal(1).tex and midterm(1).tex contain project narrative; the
+parent-directory midterm.tex was largely a template. Local files do not prove
+that any assignment was submitted.
+
+When facts conflict, prefer actual completed prediction/evaluation/config files
+and verified course deadlines over old narrative summaries. Preserve older
+reports as historical records, but do not repeat stale execution instructions.
+
+END OF CONTEXT

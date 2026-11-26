@@ -1,0 +1,22 @@
+[
+  {
+    "phase": "train",
+    "seconds": 98.13,
+    "recordings": 1249,
+    "peak_allocated_gib": 1.79,
+    "backbone_parameter_updated": true,
+    "trainable_backbone_parameters": 94371712
+  },
+  {
+    "phase": "validation",
+    "seconds": 1.64,
+    "recordings": 120,
+    "peak_allocated_gib": 1.79
+  },
+  {
+    "phase": "test",
+    "seconds": 0.86,
+    "recordings": 60,
+    "peak_allocated_gib": 1.79
+  }
+]

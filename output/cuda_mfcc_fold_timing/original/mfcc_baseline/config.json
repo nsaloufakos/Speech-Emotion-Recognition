@@ -1,0 +1,19 @@
+{
+  "validation_actors": 2,
+  "split_seed": 42,
+  "folds": [
+    1
+  ],
+  "seeds": [
+    42
+  ],
+  "sample_rate": 16000,
+  "n_mfcc": 40,
+  "hidden_size": 64,
+  "batch_size": 32,
+  "learning_rate": 0.001,
+  "epochs": 30,
+  "splits_path": "output/splits.csv",
+  "data_dir": "/home/kaan/DEV/Speech-Emotion-Recognition/data/RAVDESS",
+  "recording_count": 1429
+}

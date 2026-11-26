@@ -1,0 +1,62 @@
+[
+  {
+    "model": "mfcc",
+    "condition": "normalized_psola_actor_praat_median",
+    "reference": "original",
+    "actor_resampling_interval_low_pp": -1.558277069280465,
+    "actor_resampling_interval_high_pp": 2.3297568223629455,
+    "bootstrap_draws": 10000,
+    "actors": 24,
+    "scope": "paired held-out actor resampling, average over fixed seed predictions; conditional on fitted models; overlapping LOSO training sets and exploratory selection remain"
+  },
+  {
+    "model": "mfcc",
+    "condition": "normalized_psola_actor_praat_median_cap4",
+    "reference": "original",
+    "actor_resampling_interval_low_pp": -1.2974885929917839,
+    "actor_resampling_interval_high_pp": 2.6762414066185505,
+    "bootstrap_draws": 10000,
+    "actors": 24,
+    "scope": "paired held-out actor resampling, average over fixed seed predictions; conditional on fitted models; overlapping LOSO training sets and exploratory selection remain"
+  },
+  {
+    "model": "wav2vec",
+    "condition": "normalized_psola_actor_praat_median",
+    "reference": "original",
+    "actor_resampling_interval_low_pp": -1.7296831584653571,
+    "actor_resampling_interval_high_pp": 2.655978484396536,
+    "bootstrap_draws": 10000,
+    "actors": 24,
+    "scope": "paired held-out actor resampling, average over fixed seed predictions; conditional on fitted models; overlapping LOSO training sets and exploratory selection remain"
+  },
+  {
+    "model": "wav2vec",
+    "condition": "normalized_psola_actor_praat_median_cap4",
+    "reference": "original",
+    "actor_resampling_interval_low_pp": -1.4664414919409239,
+    "actor_resampling_interval_high_pp": 2.548691599816525,
+    "bootstrap_draws": 10000,
+    "actors": 24,
+    "scope": "paired held-out actor resampling, average over fixed seed predictions; conditional on fitted models; overlapping LOSO training sets and exploratory selection remain"
+  },
+  {
+    "model": "hubert",
+    "condition": "normalized_psola_actor_praat_median",
+    "reference": "original",
+    "actor_resampling_interval_low_pp": -2.1605689294020034,
+    "actor_resampling_interval_high_pp": 1.9211881288025854,
+    "bootstrap_draws": 10000,
+    "actors": 24,
+    "scope": "paired held-out actor resampling, average over fixed seed predictions; conditional on fitted models; overlapping LOSO training sets and exploratory selection remain"
+  },
+  {
+    "model": "hubert",
+    "condition": "normalized_psola_actor_praat_median_cap4",
+    "reference": "original",
+    "actor_resampling_interval_low_pp": -1.5443190723340552,
+    "actor_resampling_interval_high_pp": 2.276377986518594,
+    "bootstrap_draws": 10000,
+    "actors": 24,
+    "scope": "paired held-out actor resampling, average over fixed seed predictions; conditional on fitted models; overlapping LOSO training sets and exploratory selection remain"
+  }
+]

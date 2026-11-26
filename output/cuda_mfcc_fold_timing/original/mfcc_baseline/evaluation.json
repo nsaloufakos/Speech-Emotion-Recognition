@@ -1,0 +1,268 @@
+{
+  "seeds_completed": 1,
+  "folds_per_seed": 1,
+  "emotion_order": [
+    "neutral",
+    "calm",
+    "happy",
+    "sad",
+    "angry",
+    "fearful",
+    "disgust",
+    "surprised"
+  ],
+  "fold_results": [
+    {
+      "seed": 42,
+      "fold": 1,
+      "best_epoch": 20,
+      "train_recordings": 1249,
+      "val_recordings": 120,
+      "test_recordings": 60,
+      "val_uar": 0.34375,
+      "val_loss": 1.7365701039632162,
+      "uar": 0.3125,
+      "war": 0.3333333333333333,
+      "loss": 1.7092638651529948,
+      "seconds": 6.0
+    }
+  ],
+  "seed_results": [
+    {
+      "seed": 42,
+      "folds_completed": 1,
+      "val_uar": 0.34375,
+      "uar": 0.3125,
+      "war": 0.3333333333333333,
+      "macro_f1": 0.2494949494949495,
+      "weighted_f1": 0.2661279461279461,
+      "recordings_evaluated": 60,
+      "per_emotion": {
+        "neutral": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 4
+        },
+        "calm": {
+          "precision": 0.32,
+          "recall": 1.0,
+          "f1": 0.48484848484848486,
+          "support": 8
+        },
+        "happy": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 8
+        },
+        "sad": {
+          "precision": 0.5,
+          "recall": 0.25,
+          "f1": 0.3333333333333333,
+          "support": 8
+        },
+        "angry": {
+          "precision": 0.7,
+          "recall": 0.875,
+          "f1": 0.7777777777777778,
+          "support": 8
+        },
+        "fearful": {
+          "precision": 0.42857142857142855,
+          "recall": 0.375,
+          "f1": 0.4,
+          "support": 8
+        },
+        "disgust": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 8
+        },
+        "surprised": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 8
+        }
+      },
+      "confusion_matrix": [
+        [
+          0,
+          4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          8,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          2,
+          0,
+          0,
+          2,
+          2,
+          1,
+          1
+        ],
+        [
+          0,
+          4,
+          0,
+          2,
+          0,
+          0,
+          2,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          7,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          1,
+          2,
+          0,
+          3,
+          0,
+          1
+        ],
+        [
+          0,
+          4,
+          2,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          2,
+          2,
+          0,
+          0,
+          1,
+          3,
+          0
+        ]
+      ],
+      "confusion_matrix_normalized": [
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.25,
+          0.0,
+          0.0,
+          0.25,
+          0.25,
+          0.125,
+          0.125
+        ],
+        [
+          0.0,
+          0.5,
+          0.0,
+          0.25,
+          0.0,
+          0.0,
+          0.25,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.875,
+          0.125,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.125,
+          0.125,
+          0.25,
+          0.0,
+          0.375,
+          0.0,
+          0.125
+        ],
+        [
+          0.0,
+          0.5,
+          0.25,
+          0.0,
+          0.125,
+          0.0,
+          0.0,
+          0.125
+        ],
+        [
+          0.0,
+          0.25,
+          0.25,
+          0.0,
+          0.0,
+          0.125,
+          0.375,
+          0.0
+        ]
+      ]
+    }
+  ],
+  "summary": {
+    "val_uar_mean": 0.34375,
+    "val_uar_std": null,
+    "uar_mean": 0.3125,
+    "uar_std": null,
+    "war_mean": 0.3333333333333333,
+    "war_std": null,
+    "macro_f1_mean": 0.2494949494949495,
+    "macro_f1_std": null,
+    "weighted_f1_mean": 0.2661279461279461,
+    "weighted_f1_std": null
+  }
+}

@@ -1,0 +1,233 @@
+\documentclass[11pt, letterpaper]{article}
+\usepackage{amsmath, amssymb}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{tcolorbox}
+\usepackage{graphicx}
+\usepackage{parskip}
+\usepackage{caption}
+\geometry{margin=1in}
+
+\definecolor{courseblue}{HTML}{002452}
+\definecolor{coursegold}{HTML}{FABD0F}
+\definecolor{coursered}{HTML}{B90E31}
+\definecolor{lightblue}{HTML}{E8EEF7}
+\definecolor{lightgold}{HTML}{FEF8E3}
+
+\hypersetup{colorlinks=true,linkcolor=courseblue,urlcolor=coursered}
+\tcbuselibrary{skins}
+\newtcolorbox{guidancebox}{enhanced,colback=lightblue,colframe=courseblue,
+  sharp corners,leftrule=4pt,left=6pt,right=6pt,top=4pt,bottom=4pt}
+\newtcolorbox{notebox}{enhanced,colback=lightgold,colframe=coursegold,
+  sharp corners,leftrule=4pt,left=6pt,right=6pt,top=4pt,bottom=4pt}
+
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\textcolor{courseblue}{\textbf{CISC 867 --- Deep Learning | Fall 2026}}}
+\fancyhead[R]{\small\textcolor{courseblue}{Midterm Report}}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\titleformat{\section}{\large\bfseries\color{courseblue}}{}{0em}{}[\titlerule]
+\titleformat{\subsection}{\normalsize\bfseries\color{courseblue}}{}{0em}{}
+
+\begin{document}
+
+{\centering
+  {\Large\textbf{CISC 867: Deep Learning --- Midterm Report}}\\[0.5em]
+  {\large\textit{[PROJECT ID AND TITLE]}}\\[0.4em]
+  \textbf{Group Members:}\\
+  {[Student 1 Name]} (Project Lead) \quad
+  {[Student 2 Name]} (Research Lead) \quad
+  {[Student 3 Name]} (Engineering Lead)\\[0.3em]
+  \textbf{GitHub:} \url{[link]} \quad \textbf{Date:} \today\\[0.4em]
+  \rule{\linewidth}{0.4pt}
+}
+
+\section{Abstract}
+
+\begin{guidancebox}
+\textbf{Guidance.} 150--200 word summary of: (1) the problem, (2) what you have
+implemented so far, (3) your key preliminary result, and (4) your planned next steps.
+\end{guidancebox}
+
+[WRITE YOUR ABSTRACT HERE.]
+
+\section{Introduction and Problem Statement}
+
+\begin{guidancebox}
+\textbf{Guidance.} Brief recap of the problem and why it matters (1/2 page max).
+Focus on what has changed since the proposal---have you refined the scope or identified
+a clearer novel angle? Include the \textbf{research question} you are now testing.
+\end{guidancebox}
+
+[CONCISE PROBLEM DESCRIPTION AND RESEARCH QUESTION. NOTE ANY SCOPE CHANGES.]
+
+\section{Related Work (Updated)}
+
+\begin{guidancebox}
+\textbf{Guidance.} An extended version of your proposal survey. Add papers you
+discovered since the proposal. Include a comparative table or taxonomy where possible.
+Make explicit connections to your own approach. Add at least 2 new papers beyond
+the proposal. Target: $\approx$400--600 words.
+\end{guidancebox}
+
+[UPDATED LITERATURE REVIEW.]
+
+\begin{center}
+\begin{tabular}{llp{4cm}p{4cm}}
+\toprule
+\textbf{Method} & \textbf{Year} & \textbf{Key idea} & \textbf{Relation to our work} \\
+\midrule
+{[Method 1]} & [Year] & [Key idea] & [Relation] \\
+{[Method 2]} & [Year] & [Key idea] & [Relation] \\
+{[Method 3] }& [Year] & [Key idea] & [Relation] \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Methodology}
+
+\begin{guidancebox}
+\textbf{Guidance.} Describe what you have implemented in detail. Include:
+(1) architecture / model description with any modifications,
+(2) training procedure, hyperparameters, and optimiser,
+(3) data preprocessing pipeline,
+(4) evaluation protocol (metric definitions and dataset splits).
+Use equations where appropriate.
+\end{guidancebox}
+
+\subsection{Model Architecture}
+
+[DESCRIBE YOUR MODEL. If you are using a pre-trained backbone, state clearly
+which weights you use and what you add/modify on top.]
+
+\subsection{Training Setup}
+
+\begin{tabular}{ll}
+\toprule
+\textbf{Hyperparameter} & \textbf{Value} \\
+\midrule
+Optimiser & [e.g., AdamW] \\
+Learning rate & [e.g., $1\times10^{-4}$] \\
+Batch size & [e.g., 32] \\
+Epochs / iterations & [e.g., 50 epochs] \\
+Loss function & [e.g., Cross-entropy + Dice] \\
+Data augmentation & [e.g., Random flip, colour jitter] \\
+Random seeds used & [e.g., 42, 123, 999] \\
+\bottomrule
+\end{tabular}
+
+\subsection{Dataset and Preprocessing}
+
+[DESCRIBE THE DATASET SPLIT (train/val/test sizes), ANY PREPROCESSING STEPS
+(resizing, normalisation, augmentation), AND HOW YOU HANDLE CLASS IMBALANCE
+IF APPLICABLE.]
+
+\section{Preliminary Results}
+
+\begin{guidancebox}
+\textbf{Guidance.} Present quantitative results for your baseline (and, if
+available, early results for your proposed method). Report mean $\pm$ std over
+at least 3 seeds. Compare to at least one published baseline. Include at least
+one qualitative example (figure or table). Discuss what the numbers tell you.
+\end{guidancebox}
+
+\subsection{Baseline Reproduction}
+
+\begin{notebox}
+\textbf{Target:} Match the published number within 1--2\% before proceeding
+to your proposed modification.
+\end{notebox}
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Model} & \textbf{Metric 1 (Mean $\pm$ Std)} & \textbf{Metric 2 (Mean $\pm$ Std)} \\
+\midrule
+Published baseline & [Value from paper] & [Value from paper] \\
+Our reproduction & [Your value] $\pm$ [Std] & [Your value] $\pm$ [Std] \\
+Our proposed (early) & [Your value] $\pm$ [Std] & [Your value] $\pm$ [Std] \\
+\bottomrule
+\end{tabular}
+\captionof{table}{Preliminary results on [DATASET], [SPLIT]. All results are mean $\pm$ std over 3 seeds.}
+\end{center}
+
+\subsection{Qualitative Analysis}
+
+[INSERT A REPRESENTATIVE FIGURE: e.g., a before/after image pair, a learning
+curve, a confusion matrix, or a prediction example. Caption should fully
+describe what is being shown.]
+
+\begin{figure}[h]
+  \centering
+  % \includegraphics[width=0.8\linewidth]{figures/qualitative.png}
+  \caption{[FIGURE CAPTION: describe the figure and what it shows.]}
+  \label{fig:qual}
+\end{figure}
+
+\subsection{Discussion}
+
+[INTERPRET YOUR RESULTS. What works? What does not? What surprised you?
+Where are the biggest failure cases? What do you conclude so far?]
+
+\section{Challenges and Adaptations}
+
+\begin{guidancebox}
+\textbf{Guidance.} Describe any obstacles you encountered and how you
+addressed or plan to address them. Did you deviate from your proposal timeline?
+If so, explain why and provide an updated plan.
+\end{guidancebox}
+
+[DESCRIBE: (1) Technical obstacles (bugs, slow training, dataset issues),
+(2) Conceptual challenges (method harder than expected, results not matching),
+(3) How you resolved or plan to resolve each issue,
+(4) Updated timeline for Weeks 7--10.]
+
+\subsection{Updated Week 7--10 Plan}
+
+\begin{tabular}{lp{8cm}l}
+\toprule
+\textbf{Week} & \textbf{Tasks} & \textbf{Responsible} \\
+\midrule
+7 & [Updated tasks] & [Name] \\
+8 & [Updated tasks] & [Name] \\
+9 & [Updated tasks] & [Name] \\
+10 & [Final report + presentation] \textbf{(Final due)} & All \\
+\bottomrule
+\end{tabular}
+
+\section{Preliminary Novel Contribution (Optional Bonus)}
+
+\begin{guidancebox}
+\textbf{Guidance.} If you have a preliminary finding that goes beyond
+reproducing the baseline---an unexpected result, an improved ablation,
+an insight about the method---describe it here for the +2 bonus.
+Provide quantitative evidence.
+\end{guidancebox}
+
+[DESCRIBE YOUR PRELIMINARY NOVEL FINDING, WITH EVIDENCE. OR LEAVE EMPTY.]
+
+\section{Contribution Declaration}
+
+\begin{tabular}{lcc}
+\toprule
+\textbf{Member} & \textbf{Contributions (this period)} & \textbf{\%} \\
+\midrule
+{[Student 1]} & [e.g., Lit review, updated proposal section] & \% \\
+{[Student 2]} & [e.g., Model implementation, training runs] & \% \\
+{[Student 3] }& [e.g., Data pipeline, evaluation code] & \% \\
+\bottomrule
+\end{tabular}
+
+\section{References}
+
+\begin{enumerate}[label={[\arabic*]},leftmargin=*]
+  \item [Author(s), Year. ``Title.'' \textit{Venue}. arXiv:XXXX.XXXXX]
+  \item [\ldots]
+\end{enumerate}
+
+\end{document}
