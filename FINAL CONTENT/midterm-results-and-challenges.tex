@@ -27,7 +27,7 @@ wav2vec 2.0 + linear & F0-normalized & $35.47 \pm 0.52$ & $36.41 \pm 0.35$ \\
 \label{tab:midterm-baselines}
 \end{center}
 
-HuBERT achieved the highest UAR and WAR among the three original-audio baselines. Normalization reduced mean UAR by 16.93 percentage points for HuBERT and 8.63 points for wav2vec~2.0. The MFCC--BiLSTM decrease was much smaller, at 0.56 points, relative to its variation across seeds. These results do not support an improvement from the current normalization procedure.
+HuBERT achieved the highest UAR and WAR asdamong the three original-audio baselines. Normalization reduced mean UAR by 16.93 percentage points for HuBERT and 8.63 points for wav2vec~2.0. The MFCC--BiLSTM decrease was much smaller, at 0.56 points, relative to its variation across seeds. These results do not support an improvement from the current normalization procedure.
 
 For published context, Pepino et al.\ (2021) reported $84.3 \pm 1.7\%$ average recall on RAVDESS using combined wav2vec~2.0 layers, a dense classifier, and per-speaker feature normalization.\footnote{L. Pepino, P. Riera, and L. Ferrer, ``Emotion Recognition from Speech Using Wav2vec 2.0 Embeddings,'' Interspeech, 2021. \url{https://arxiv.org/abs/2104.03502}.} Their experiment merged neutral and calm into seven classes and used a fixed actor split, whereas ours retains eight classes and uses LOSO. Their model and normalization also differ from ours. The published score therefore provides context rather than a matched reproduction target. A matched reproduction remains outstanding.
 
